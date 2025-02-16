@@ -20,13 +20,16 @@ class AuthButton extends StatelessWidget {
     return SizedBox(
         width: double.maxFinite,
         child: BlocConsumer<AuthBloc, AuthState>(
-          listener: (context, state) => state.whenOrNull(
+          listener: (context, state) => state.maybeWhen(
               loaded: (data) {
                 AppToast.success(context, data);
-                return context.goNamed(AppRouteName.navbar);
+                context.goNamed(AppRouteName.navbar);
+                return null;
               },
-              failure: (failure) =>
-                  AppToast.error(context, failure.toString())),
+              failure: (failure) => AppToast.error(context, failure.toString()),
+              orElse: () {
+                return null;
+              }),
           builder: (context, state) {
             return FilledButton(
                 onPressed: onPressed,

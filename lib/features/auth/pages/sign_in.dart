@@ -73,6 +73,7 @@ class _SignInPageState extends State<SignInPage> {
                 AppTextField(
                   controller: _passwordController,
                   hintText: "Enter your password",
+                  obscureText: true,
                   validator: Validators.validatePassword,
                 ),
                 Gap(1),
