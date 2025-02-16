@@ -1,6 +1,7 @@
 import 'package:flutter_ecommerce/common/extension.dart';
 import 'package:flutter_ecommerce/features/auth/pages/sign_in.dart';
 import 'package:flutter_ecommerce/features/auth/pages/sign_up.dart';
+import 'package:flutter_ecommerce/features/navbar/navbar.dart';
 import 'package:go_router/go_router.dart';
 
 class AppRouteName {
@@ -17,17 +18,15 @@ class AppRoute {
       name: AppRouteName.signUp,
       builder: (context, state) => SignUpPage(),
     ),
-
     GoRoute(
       path: AppRouteName.signIn.path,
       name: AppRouteName.signIn,
       builder: (context, state) => SignInPage(),
     ),
-
-    //  GoRoute(
-    //   path: AppRouteName.navbar.rootPath,
-    //   name: AppRouteName.navbar,
-    //   builder: (context, state) => NavBarPage(),
-    // ),
+    GoRoute(
+      path: AppRouteName.navbar.rootPath,
+      name: AppRouteName.navbar,
+      builder: (context, state) => NavBarPage(),
+    ),
   ]);
 }
