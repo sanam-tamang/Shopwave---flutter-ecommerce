@@ -12,7 +12,7 @@ class AppRouteName {
 
 class AppRoute {
   static GoRouter route =
-      GoRouter(initialLocation: AppRouteName.signUp.path, routes: [
+      GoRouter(initialLocation: AppRouteName.navbar.rootPath, routes: [
     GoRoute(
       path: AppRouteName.signUp.path,
       name: AppRouteName.signUp,
