@@ -53,7 +53,7 @@ class _SignInPageState extends State<SignInPage> {
                           width: 30,
                           height: 30,
                           child: SvgPicture.asset(
-                              'assets/images/google-icon.svg')),
+                              'assets/icons/google-icon.svg')),
                       Gap(18),
                       Text("Or use email to Sign In"),
                     ],
