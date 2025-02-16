@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_ecommerce/common/utils/toast_msg.dart';
 import 'package:flutter_ecommerce/common/utils/validator.dart';
 import 'package:flutter_ecommerce/common/widgets/app_text_field.dart';
 import 'package:flutter_ecommerce/dependency_injection.dart';
