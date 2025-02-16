@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce/common/widgets/app_text_field.dart';
+import 'package:flutter_ecommerce/routes.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -27,12 +29,13 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
         child: DefaultTextStyle(
           style: TextTheme.of(context).labelLarge!,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Gap(8),
               Center(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -48,7 +51,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         child:
                             SvgPicture.asset('assets/images/google-icon.svg')),
                     Gap(18),
-                    Text("Or use or email to Sign up"),
+                    Text("Or use email to Sign up"),
                   ],
                 ),
               ),
@@ -72,12 +75,13 @@ class _SignUpPageState extends State<SignUpPage> {
               SizedBox(
                   width: double.maxFinite,
                   child:
-                      FilledButton(onPressed: () {}, child: Text("Sign up"))),
+                      FilledButton(onPressed: () {}, child: Text("Sign Up"))),
               Gap(16),
               SizedBox(
                   width: double.maxFinite,
-                  child:
-                      OutlinedButton(onPressed: () {}, child: Text("Sign in"))),
+                  child: OutlinedButton(
+                      onPressed: () => context.goNamed(AppRouteName.signIn),
+                      child: Text("Sign In"))),
               Spacer(),
             ],
           ),
