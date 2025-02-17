@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ecommerce/features/home/pages/home_page.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class NavBarPage extends StatefulWidget {
@@ -31,6 +32,12 @@ class _NavBarPageState extends State<NavBarPage> {
     'Cart',
     'Account',
   ];
+  final List<Widget> _widgets = [
+    HomePage(),
+    Container(),
+    Container(),
+    Container(),
+  ];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -41,12 +48,7 @@ class _NavBarPageState extends State<NavBarPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('eCommerce App'),
-      ),
-      body: Center(
-        child: Text('Selected: ${_labels[_currentIndex]}'),
-      ),
+      body: _widgets[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: ColorScheme.of(context).surfaceContainerLowest,
         currentIndex: _currentIndex,

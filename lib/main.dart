@@ -4,6 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_ecommerce/dependency_injection.dart';
 import 'package:flutter_ecommerce/features/auth/blocs/auth_bloc/auth_bloc.dart';
 import 'package:flutter_ecommerce/routes.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> main() async {
@@ -35,7 +36,9 @@ class MyApp extends StatelessWidget {
         title: "Flutter Ecommerce",
         routerConfig: AppRoute.route,
         theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.amber)),
+            colorScheme: ColorScheme.fromSeed(
+                seedColor: const Color.fromARGB(255, 253, 62, 4)),
+            textTheme: GoogleFonts.latoTextTheme(Theme.of(context).textTheme)),
       ),
     );
   }

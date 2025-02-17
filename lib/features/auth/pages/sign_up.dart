@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ecommerce/features/auth/widgets/other_sign_in_option.dart';
+import 'package:gap/gap.dart';
+
 import 'package:flutter_ecommerce/common/utils/validator.dart';
+import 'package:flutter_ecommerce/common/widgets/app_logo.dart';
 import 'package:flutter_ecommerce/common/widgets/app_text_field.dart';
 import 'package:flutter_ecommerce/dependency_injection.dart';
 import 'package:flutter_ecommerce/features/auth/blocs/auth_bloc/auth_bloc.dart';
+import 'package:flutter_ecommerce/features/auth/widgets/already_have_an_account.dart';
 import 'package:flutter_ecommerce/features/auth/widgets/auth_button.dart';
-import 'package:flutter_ecommerce/routes.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:gap/gap.dart';
-import 'package:go_router/go_router.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -34,78 +35,60 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Form(
+        body: SafeArea(
+            child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: Form(
         key: _formKey,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-          child: DefaultTextStyle(
-            style: TextTheme.of(context).labelLarge!,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Gap(8),
-                Center(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Sign up",
-                        style: TextTheme.of(context).titleMedium,
-                      ),
-                      Gap(24),
-                      SizedBox(
-                          width: 30,
-                          height: 30,
-                          child:
-                              SvgPicture.asset('assets/icons/google-icon.svg')),
-                      Gap(18),
-                      Text("Or use email to Sign up"),
-                    ],
-                  ),
-                ),
-                Spacer(),
-                Text("Name"),
-                Gap(4),
-                AppTextField(
-                  controller: _nameController,
-                  hintText: "Enter your name",
-                  validator: Validators.validateName,
-                ),
-                Gap(18),
-                Text("Email"),
-                Gap(4),
-                AppTextField(
-                  controller: _emailController,
-                  hintText: "Enter your email",
-                  validator: Validators.validateEmail,
-                ),
-                Gap(18),
-                Text("Password"),
-                Gap(4),
-                AppTextField(
-                  controller: _passwordController,
-                  hintText: "Enter your password",
-                  obscureText: true,
-                  validator: Validators.validatePassword,
-                ),
-                Spacer(flex: 3),
-                AuthButton(
-                  buttonText: "Sign Up",
-                  onPressed: _onSignUp,
-                ),
-                Gap(16),
-                SizedBox(
-                    width: double.maxFinite,
-                    child: OutlinedButton(
-                        onPressed: () => context.goNamed(AppRouteName.signIn),
-                        child: Text("Sign In"))),
-                Spacer(),
-              ],
-            ),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Gap(48),
+              Text(
+                "Create an account",
+                style: TextTheme.of(context)
+                    .titleLarge
+                    ?.copyWith(fontWeight: FontWeight.w600),
+              ),
+              Gap(8),
+              Text(
+                "Register with valid e-mail address.",
+                style: TextTheme.of(context).bodyMedium,
+              ),
+              Gap(24),
+              AppLogo(),
+              Gap(24),
+              AppTextField(
+                labelText: "Name",
+                hintText: "Enter your name",
+                controller: _nameController,
+                validator: Validators.validateName,
+              ),
+              Gap(16),
+              AppTextField(
+                labelText: "Email",
+                hintText: "Enter your email",
+                controller: _emailController,
+                validator: Validators.validateEmail,
+              ),
+              Gap(16),
+              AppTextField(
+                labelText: "Password",
+                validator: Validators.validatePassword,
+                obscureText: true,
+                hintText: 'Enter your password',
+              ),
+              Gap(16),
+              AuthButton(buttonText: "Sign up", onPressed: _onSignUp),
+              Gap(20),
+              Center(child: AlreadyHaveAnAccount()),
+              OtherSignInOption()
+            ],
           ),
         ),
       ),
-    );
+    )));
   }
 
   void _onSignUp() {
