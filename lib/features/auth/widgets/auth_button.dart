@@ -32,7 +32,9 @@ class AuthButton extends StatelessWidget {
             return FilledButton(
                 onPressed: onPressed,
                 child: state.maybeWhen(
-                    loading: () => CircularProgressIndicator(),
+                    loading: () => SizedBox(
+                        height: 20,
+                        child: Center(child: CircularProgressIndicator())),
                     orElse: () => Text(buttonText)));
           },
         ));

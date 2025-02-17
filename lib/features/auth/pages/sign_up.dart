@@ -74,6 +74,7 @@ class _SignUpPageState extends State<SignUpPage> {
               ),
               Gap(16),
               AppTextField(
+                controller: _passwordController,
                 labelText: "Password",
                 validator: Validators.validatePassword,
                 obscureText: true,

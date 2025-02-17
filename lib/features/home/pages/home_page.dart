@@ -12,21 +12,27 @@ class HomePage extends StatelessWidget {
           headerSliverBuilder: (context, innerBoxIsScrolled) {
             return [
               SliverAppBar(
+                // pinned: true,
+                snap: true,
+
+                floating: true,
                 title: Text(
                   "Ecommerce",
                 ),
               ),
               SliverAppBar(
+                expandedHeight: 160,
                 flexibleSpace: FlexibleSpaceBar(
-                  background: CarouselView.weighted(
-                      flexWeights: [1, 7, 5],
+                  background: CarouselView(
+                      itemExtent: 270,
                       children: List.generate(10, (index) {
-                        return Container(
-                          width: 200,
-                          height: 500,
-                          color: Color.fromARGB(255, Random().nextInt(256), 120,
-                              Random().nextInt(256)),
-                          child: Text("hello"),
+                        return LimitedBox(
+                          maxHeight: 400,
+                          child: Container(
+                            color: Color.fromARGB(255, Random().nextInt(256),
+                                120, Random().nextInt(256)),
+                            child: Text("hello"),
+                          ),
                         );
                       })),
                 ),

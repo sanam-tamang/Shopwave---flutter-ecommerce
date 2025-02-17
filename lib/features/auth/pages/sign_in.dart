@@ -70,6 +70,7 @@ class _SignInPageState extends State<SignInPage> {
                 validator: Validators.validatePassword,
                 obscureText: true,
                 hintText: 'Enter your password',
+                controller: _passwordController,
               ),
               Gap(16),
               AuthButton(buttonText: "Sign In", onPressed: _onSignIn),
