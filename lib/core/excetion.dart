@@ -6,7 +6,7 @@ import 'package:flutter_ecommerce/common/typedef.dart';
 import 'package:flutter_ecommerce/core/failure/failure.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-FutureFailureOrData<T> handleApplicationException<T>(
+FutureEither<T> handleApplicationException<T>(
     Future<T> Function() operation) async {
   try {
     final result = await operation();
