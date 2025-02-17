@@ -1,4 +1,3 @@
-import 'package:flutter_ecommerce/common/blocs/user_local_data/user_local_data_bloc.dart';
 import 'package:flutter_ecommerce/common/extension.dart';
 import 'package:flutter_ecommerce/common/repositories/user_local_data_repository.dart';
 import 'package:flutter_ecommerce/dependency_injection.dart';
