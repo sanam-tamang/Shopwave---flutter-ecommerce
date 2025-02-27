@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_ecommerce/common/base_state.dart';
+import 'package:flutter_ecommerce/core/state/base_state.dart';
 import 'package:flutter_ecommerce/features/auth/repositories/auth_repository.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 

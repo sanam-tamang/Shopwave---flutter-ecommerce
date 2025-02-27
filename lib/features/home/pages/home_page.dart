@@ -1,6 +1,8 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_ecommerce/common/utils/extension.dart';
+import 'package:flutter_ecommerce/routes.dart';
+import 'package:go_router/go_router.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -24,6 +26,9 @@ class HomePage extends StatelessWidget {
                 expandedHeight: 160,
                 flexibleSpace: FlexibleSpaceBar(
                   background: CarouselView(
+                      onTap: (index) {
+                       
+                      },
                       itemExtent: 270,
                       children: List.generate(10, (index) {
                         return LimitedBox(

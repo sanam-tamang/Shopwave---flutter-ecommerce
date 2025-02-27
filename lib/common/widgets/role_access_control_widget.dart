@@ -2,7 +2,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:flutter_ecommerce/common/blocs/user_local_data/user_local_data_bloc.dart';
+import 'package:flutter_ecommerce/core/blocs/user_local_data/user_local_data_bloc.dart';
 
 class RoleBasedWidget extends StatelessWidget {
   const RoleBasedWidget({

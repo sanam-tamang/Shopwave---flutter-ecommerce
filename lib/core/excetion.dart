@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:dartz/dartz.dart';
-import 'package:flutter_ecommerce/common/typedef.dart';
+import 'package:flutter_ecommerce/common/utils/typedef.dart';
 import 'package:flutter_ecommerce/core/failure/failure.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 

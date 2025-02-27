@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_ecommerce/common/utils/extension.dart';
 import 'package:flutter_ecommerce/common/utils/toast_msg.dart';
 import 'package:flutter_ecommerce/features/auth/blocs/auth_bloc/auth_bloc.dart';
 import 'package:flutter_ecommerce/routes.dart';
@@ -21,7 +22,7 @@ class AuthButton extends StatelessWidget {
           listener: (context, state) => state.maybeWhen(
               loaded: (data) {
                 AppToast.success(context, data);
-                context.goNamed(AppRouteName.navbar);
+                context.goNamed(AppRouteName.home.rootPath);
                 return null;
               },
               failure: (failure) => AppToast.error(context, failure.toString()),

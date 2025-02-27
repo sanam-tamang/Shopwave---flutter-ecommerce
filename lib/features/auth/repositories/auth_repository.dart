@@ -1,10 +1,9 @@
 import 'dart:math';
-
-import 'package:flutter_ecommerce/common/model/local_user_model.dart';
-import 'package:flutter_ecommerce/common/repositories/user_local_data_repository.dart';
+import 'package:flutter_ecommerce/core/repositories/user_local_data_repository.dart';
 import 'package:flutter_ecommerce/core/excetion.dart';
+import 'package:flutter_ecommerce/features/user/model/user.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:flutter_ecommerce/common/typedef.dart';
+import 'package:flutter_ecommerce/common/utils/typedef.dart';
 
 abstract interface class AuthRepository {
   FutureEither<String> signUp(
@@ -32,15 +31,19 @@ class AuthRepositoryI implements AuthRepository {
     return await handleApplicationException(() async {
       final response = await _client.auth
           .signUp(email: email, password: password, data: {'name': name});
+      final username =
+          "${name.split(" ").first}${Random().nextInt(99999999)}".toLowerCase();
       await _client.from('users').insert({
         'id': response.user!.id,
         'name': name,
         'email': email,
-        'username':
-            "dispaly${Random().nextInt(99)}${Random().nextInt(100)}${Random().nextInt(90000)}"
+        'username': username,
       });
-      await _repo.writeData(
-          LocalUserModel(userId: response.user!.id, role: "general"));
+      await _repo.writeData(UserModel(
+          id: response.user!.id,
+          role: "general",
+          username: username,
+          email: email));
       return "User registered successfully";
     });
   }
@@ -49,7 +52,10 @@ class AuthRepositoryI implements AuthRepository {
   FutureEither<String> signIn(
       {required String password, required String email}) async {
     return await handleApplicationException(() async {
-      await _client.auth.signInWithPassword(email: email, password: password);
+      final response = await _client.auth
+          .signInWithPassword(email: email, password: password);
+      await _repo.writeData(UserModel(
+          id: response.user!.id, role: "general", username: "", email: email));
       return "User logged in successfully";
     });
   }
@@ -57,7 +63,8 @@ class AuthRepositoryI implements AuthRepository {
   @override
   FutureEither<String> signOut() async {
     return await handleApplicationException(() async {
-      await _client.auth.signOut();
+      await Future.wait([_client.auth.signOut(), _repo.deleteData()]);
+
       return "User logged out successfully";
     });
   }

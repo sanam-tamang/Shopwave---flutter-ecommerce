@@ -8,7 +8,6 @@ import 'package:flutter_ecommerce/common/widgets/app_logo.dart';
 import 'package:flutter_ecommerce/common/widgets/app_text_field.dart';
 import 'package:flutter_ecommerce/dependency_injection.dart';
 import 'package:flutter_ecommerce/features/auth/blocs/auth_bloc/auth_bloc.dart';
-import 'package:flutter_ecommerce/features/auth/widgets/already_have_an_account.dart';
 import 'package:flutter_ecommerce/features/auth/widgets/auth_button.dart';
 
 class SignInPage extends StatefulWidget {
@@ -34,54 +33,55 @@ class _SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(),
         body: SafeArea(
             child: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      child: Form(
-        key: _formKey,
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Gap(48),
-              Text(
-                "Hi,\nWelcome back!",
-                style: TextTheme.of(context)
-                    .titleLarge
-                    ?.copyWith(fontWeight: FontWeight.w600),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          child: Form(
+            key: _formKey,
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Gap(48),
+                  Text(
+                    "Hi,\nWelcome back!",
+                    style: TextTheme.of(context)
+                        .titleLarge
+                        ?.copyWith(fontWeight: FontWeight.w600),
+                  ),
+                  Gap(8),
+                  Text(
+                    "Please login with password.",
+                    style: TextTheme.of(context).bodyMedium,
+                  ),
+                  Gap(24),
+                  AppLogo(),
+                  Gap(24),
+                  AppTextField(
+                    labelText: "Email",
+                    hintText: "Enter your email",
+                    controller: _emailController,
+                    validator: Validators.validateEmail,
+                  ),
+                  Gap(16),
+                  AppTextField(
+                    labelText: "Password",
+                    validator: Validators.validatePassword,
+                    obscureText: true,
+                    hintText: 'Enter your password',
+                    controller: _passwordController,
+                  ),
+                  Gap(16),
+                  AuthButton(buttonText: "Sign In", onPressed: _onSignIn),
+                  Gap(20),
+                  Center(child: DontHaveAnAccount()),
+                  OtherSignInOption()
+                ],
               ),
-              Gap(8),
-              Text(
-                "Please login with password.",
-                style: TextTheme.of(context).bodyMedium,
-              ),
-              Gap(24),
-              AppLogo(),
-              Gap(24),
-              AppTextField(
-                labelText: "Email",
-                hintText: "Enter your email",
-                controller: _emailController,
-                validator: Validators.validateEmail,
-              ),
-              Gap(16),
-              AppTextField(
-                labelText: "Password",
-                validator: Validators.validatePassword,
-                obscureText: true,
-                hintText: 'Enter your password',
-                controller: _passwordController,
-              ),
-              Gap(16),
-              AuthButton(buttonText: "Sign In", onPressed: _onSignIn),
-              Gap(20),
-              Center(child: DontHaveAnAccount()),
-              OtherSignInOption()
-            ],
+            ),
           ),
-        ),
-      ),
-    )));
+        )));
   }
 
   void _onSignIn() {

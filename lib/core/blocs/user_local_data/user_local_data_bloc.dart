@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_ecommerce/common/base_state.dart';
-import 'package:flutter_ecommerce/common/model/local_user_model.dart';
-import 'package:flutter_ecommerce/common/repositories/user_local_data_repository.dart';
+import 'package:flutter_ecommerce/core/state/base_state.dart';
+import 'package:flutter_ecommerce/core/repositories/user_local_data_repository.dart';
+import 'package:flutter_ecommerce/features/user/model/user.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'user_local_data_event.dart';

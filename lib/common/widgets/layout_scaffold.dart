@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_ecommerce/features/home/pages/home_page.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 
-class NavBarPage extends StatefulWidget {
-  const NavBarPage({super.key});
-
+class LayoutScaffold extends StatefulWidget {
+  const LayoutScaffold({
+    super.key,
+    required this.shell,
+  });
+  final StatefulNavigationShell shell;
   @override
-  State<NavBarPage> createState() => _NavBarPageState();
+  State<LayoutScaffold> createState() => _LayoutScaffoldState();
 }
 
-class _NavBarPageState extends State<NavBarPage> {
-  int _currentIndex = 0;
-
+class _LayoutScaffoldState extends State<LayoutScaffold> {
   final List<String> _iconPaths = [
     'assets/icons/home_outline.svg',
     'assets/icons/search.svg',
@@ -32,27 +33,15 @@ class _NavBarPageState extends State<NavBarPage> {
     'Cart',
     'Account',
   ];
-  final List<Widget> _widgets = [
-    HomePage(),
-    Container(),
-    Container(),
-    Container(),
-  ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _currentIndex = index;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _widgets[_currentIndex],
+      body: widget.shell,
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: ColorScheme.of(context).surfaceContainerLowest,
-        currentIndex: _currentIndex,
-        onTap: _onItemTapped,
+        currentIndex: widget.shell.currentIndex,
+        onTap: widget.shell.goBranch,
         type: BottomNavigationBarType.fixed,
         unselectedFontSize: 12,
         selectedFontSize: 12,
