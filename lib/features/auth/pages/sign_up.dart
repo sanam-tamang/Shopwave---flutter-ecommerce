@@ -97,7 +97,7 @@ class _SignUpPageState extends State<SignUpPage> {
       final String name = _nameController.text;
       final String email = _emailController.text;
       final String password = _passwordController.text;
-
+   
       sl<AuthBloc>()
           .add(AuthEvent.signUp(name: name, email: email, password: password));
     }

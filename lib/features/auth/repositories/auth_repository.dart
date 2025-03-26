@@ -1,6 +1,6 @@
 import 'dart:math';
 import 'package:flutter_ecommerce/core/repositories/user_local_data_repository.dart';
-import 'package:flutter_ecommerce/core/excetion.dart';
+import 'package:flutter_ecommerce/core/exception.dart';
 import 'package:flutter_ecommerce/features/user/model/user.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_ecommerce/common/utils/typedef.dart';

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_ecommerce/common/utils/extension.dart';
 import 'package:flutter_ecommerce/common/utils/toast_msg.dart';
 import 'package:flutter_ecommerce/features/auth/blocs/auth_bloc/auth_bloc.dart';
 import 'package:flutter_ecommerce/routes.dart';
@@ -30,13 +29,10 @@ class AuthButton extends StatelessWidget {
                 return null;
               }),
           builder: (context, state) {
-            return FilledButton(
-                onPressed: onPressed,
-                child: state.maybeWhen(
-                    loading: () => SizedBox(
-                        height: 20,
-                        child: Center(child: CircularProgressIndicator())),
-                    orElse: () => Text(buttonText)));
+            return state.maybeWhen(
+                loading: () => Center(child: CircularProgressIndicator()),
+                orElse: () => FilledButton(
+                    onPressed: onPressed, child: Text(buttonText)));
           },
         ));
   }

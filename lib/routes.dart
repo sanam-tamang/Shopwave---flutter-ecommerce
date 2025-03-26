@@ -4,6 +4,7 @@ import 'package:flutter_ecommerce/common/utils/extension.dart';
 import 'package:flutter_ecommerce/common/widgets/layout_scaffold.dart';
 import 'package:flutter_ecommerce/core/repositories/user_local_data_repository.dart';
 import 'package:flutter_ecommerce/dependency_injection.dart';
+import 'package:flutter_ecommerce/features/admin/pages/category_form_page.dart';
 import 'package:flutter_ecommerce/features/auth/pages/sign_in.dart';
 import 'package:flutter_ecommerce/features/auth/pages/sign_up.dart';
 import 'package:flutter_ecommerce/features/home/pages/home_page.dart';
@@ -17,6 +18,7 @@ class AppRouteName {
   static const String userProfile = "u";
   static const String search = "search";
   static const String cart = "cart";
+  static const String categoryForm = "category-form";
   static const String authGuard = "grd";
 }
 
@@ -93,10 +95,17 @@ class AppRoute {
             navigatorKey: accountNavKey,
             routes: [
               GoRoute(
-                path: AppRouteName.userProfile.path,
-                name: AppRouteName.userProfile,
-                builder: (context, state) => const UserAccountPage(),
-              ),
+                  path: AppRouteName.userProfile.path,
+                  name: AppRouteName.userProfile,
+                  builder: (context, state) => const UserAccountPage(),
+                  routes: [
+                    GoRoute(
+                      parentNavigatorKey: rootNavigatorKey,
+                      path: AppRouteName.categoryForm.path,
+                      name: AppRouteName.categoryForm,
+                      builder: (context, state) => const CategoryFormPage(),
+                    ),
+                  ]),
             ],
           ),
         ],
@@ -114,6 +123,7 @@ class AppRoute {
 
     final isAuthGuardingPath = currentPath == AppRouteName.userProfile.path ||
         currentPath == AppRouteName.cart.path;
+
     // await sl<UserLocalDataRepository>().deleteData();
     final failureOrUser = await sl<UserLocalDataRepository>().getData();
     final currentUser = failureOrUser.fold((failure) => null, (user) => user);

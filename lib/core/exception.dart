@@ -12,7 +12,7 @@ FutureEither<T> handleApplicationException<T>(
     final result = await operation();
     return Right(result);
   } on AuthException catch (e) {
-    return Left(FailureWithMsg("Authentication error: ${e.message}"));
+    return Left(FailureWithMsg(e.message));
   } on SocketException catch (e) {
     return Left(FailureWithMsg("Network error: ${e.message}"));
   } on TimeoutException {
