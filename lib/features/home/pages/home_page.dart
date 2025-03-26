@@ -1,5 +1,9 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_ecommerce/common/widgets/app_loading.dart';
+import 'package:flutter_ecommerce/features/category/blocs/category_bloc/category_bloc.dart';
+import 'package:flutter_ecommerce/features/category/blocs/get_category_bloc/get_category_bloc.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -35,6 +39,42 @@ class HomePage extends StatelessWidget {
                           ),
                         );
                       })),
+                ),
+              ),
+              SliverAppBar(
+                pinned: true,
+                floating: true,
+                flexibleSpace: FlexibleSpaceBar(
+                  background: Container(
+                    color: Colors.red,
+                    child: BlocBuilder<GetCategoryBloc, GetCategoryState>(
+                      builder: (context, state) {
+                        return state.maybeWhen(
+                          orElse: () => SizedBox(),
+                          loading: () => AppLoading.center(),
+                          loaded: (categories) {
+                            return ListView.builder(
+                              itemCount: categories.length,
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (context, index) {
+                                return Container(
+                                  margin: EdgeInsets.all(8),
+                                  padding: EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: Text(categories[index].name),
+                                );
+                              },
+                            );
+                          },
+                          failure: (failure) => Text(failure.toString()),
+                        );
+                        return Text("hello");
+                      },
+                    ),
+                  ),
                 ),
               ),
             ];
