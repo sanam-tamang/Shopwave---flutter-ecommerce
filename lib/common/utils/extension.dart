@@ -7,3 +7,9 @@ extension RoutePath on String {
     return "/";
   }
 }
+
+extension UserName on String {
+  String get addUserName {
+    return "@$this";
+  }
+}

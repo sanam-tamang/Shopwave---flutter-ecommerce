@@ -43,6 +43,22 @@ dependencies:
   get_it: ^8.0.3
   supabase_flutter: ^2.8.3
   flutter_dotenv: ^5.2.1
+  freezed_annotation: ^2.4.4
+  json_annotation: ^4.9.0
+  dartz: ^0.10.1
+  fluttertoast: ^8.2.12
+  toastification: ^2.3.0
+  shared_preferences: ^2.5.2
+  font_awesome_flutter: ^10.8.0
+  collection: ^1.19.0
+  flutter_speed_dial: ^7.0.0
+  flutter_form_builder: ^10.0.1
+  form_builder_validators: ^11.1.2
+  form_builder_image_picker: ^4.3.0
+  image_picker: ^1.1.2
+  logger: ^2.5.0
+  uuid: ^4.5.1
+  loader_overlay: ^5.0.0
 
 dev_dependencies:
   flutter_test:
@@ -54,7 +70,12 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^5.0.0
-
+  build_runner: ^2.4.15
+  freezed: ^2.5.8
+  json_serializable: ^6.9.4
+  
+dependency_overrides:
+  async: ^2.13.0
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
@@ -69,6 +90,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
+    - assets/icons/
     - .env
   #   - images/a_dot_ham.jpeg
 

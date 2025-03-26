@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_ecommerce/common/widgets/app_text_field.dart';
-import 'package:flutter_ecommerce/routes.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_ecommerce/features/auth/widgets/dont_have_an_account.dart';
+import 'package:flutter_ecommerce/features/auth/widgets/other_sign_in_option.dart';
 import 'package:gap/gap.dart';
-import 'package:go_router/go_router.dart';
+
+import 'package:flutter_ecommerce/common/utils/validator.dart';
+import 'package:flutter_ecommerce/common/widgets/app_logo.dart';
+import 'package:flutter_ecommerce/common/widgets/app_text_field.dart';
+import 'package:flutter_ecommerce/dependency_injection.dart';
+import 'package:flutter_ecommerce/features/auth/blocs/auth_bloc/auth_bloc.dart';
+import 'package:flutter_ecommerce/features/auth/widgets/auth_button.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
@@ -16,6 +21,8 @@ class _SignInPageState extends State<SignInPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   @override
   void dispose() {
     _emailController.dispose();
@@ -26,65 +33,63 @@ class _SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-        child: DefaultTextStyle(
-          style: TextTheme.of(context).labelLarge!,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Gap(8),
-              Center(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Sign In",
-                      style: TextTheme.of(context).titleMedium,
-                    ),
-                    Gap(24),
-                    SizedBox(
-                        width: 30,
-                        height: 30,
-                        child:
-                            SvgPicture.asset('assets/images/google-icon.svg')),
-                    Gap(18),
-                    Text("Or use email to Sign In"),
-                  ],
-                ),
+        appBar: AppBar(),
+        body: SafeArea(
+            child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          child: Form(
+            key: _formKey,
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Gap(48),
+                  Text(
+                    "Hi,\nWelcome back!",
+                    style: TextTheme.of(context)
+                        .titleLarge
+                        ?.copyWith(fontWeight: FontWeight.w600),
+                  ),
+                  Gap(8),
+                  Text(
+                    "Please login with password.",
+                    style: TextTheme.of(context).bodyMedium,
+                  ),
+                  Gap(24),
+                  AppLogo(),
+                  Gap(24),
+                  AppTextField(
+                    labelText: "Email",
+                    hintText: "Enter your email",
+                    controller: _emailController,
+                    validator: Validators.validateEmail,
+                  ),
+                  Gap(16),
+                  AppTextField(
+                    labelText: "Password",
+                    validator: Validators.validatePassword,
+                    obscureText: true,
+                    hintText: 'Enter your password',
+                    controller: _passwordController,
+                  ),
+                  Gap(16),
+                  AuthButton(buttonText: "Sign In", onPressed: _onSignIn),
+                  Gap(20),
+                  Center(child: DontHaveAnAccount()),
+                  OtherSignInOption()
+                ],
               ),
-              Spacer(),
-              Text("Email"),
-              Gap(4),
-              AppTextField(
-                  controller: _emailController, hintText: "Enter your email"),
-              Gap(18),
-              Text("Password"),
-              Gap(4),
-              AppTextField(
-                  controller: _passwordController,
-                  hintText: "Enter your password"),
-              Gap(1),
-              Align(
-                  alignment: Alignment.centerRight,
-                  child: TextButton(
-                      onPressed: () {}, child: Text("Forget password"))),
-              Spacer(flex: 3),
-              SizedBox(
-                  width: double.maxFinite,
-                  child:
-                      FilledButton(onPressed: () {}, child: Text("Sign In"))),
-              Gap(16),
-              SizedBox(
-                  width: double.maxFinite,
-                  child: OutlinedButton(
-                      onPressed: () => context.goNamed(AppRouteName.signUp),
-                      child: Text("Sign Up"))),
-              Spacer(),
-            ],
+            ),
           ),
-        ),
-      ),
-    );
+        )));
+  }
+
+  void _onSignIn() {
+    if (_formKey.currentState!.validate()) {
+      final String email = _emailController.text;
+      final String password = _passwordController.text;
+
+      sl<AuthBloc>().add(AuthEvent.signIn(email: email, password: password));
+    }
   }
 }
