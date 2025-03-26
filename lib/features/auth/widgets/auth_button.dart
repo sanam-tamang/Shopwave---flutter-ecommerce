@@ -22,7 +22,7 @@ class AuthButton extends StatelessWidget {
           listener: (context, state) => state.maybeWhen(
               loaded: (data) {
                 AppToast.success(context, data);
-                context.goNamed(AppRouteName.home.rootPath);
+                context.goNamed(AppRouteName.home);
                 return null;
               },
               failure: (failure) => AppToast.error(context, failure.toString()),

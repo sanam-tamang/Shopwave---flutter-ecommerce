@@ -1,9 +1,7 @@
 import 'dart:async';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce/common/utils/extension.dart';
 import 'package:flutter_ecommerce/common/widgets/layout_scaffold.dart';
-import 'package:flutter_ecommerce/common/widgets/test_detail_page.dart';
 import 'package:flutter_ecommerce/core/repositories/user_local_data_repository.dart';
 import 'package:flutter_ecommerce/dependency_injection.dart';
 import 'package:flutter_ecommerce/features/auth/pages/sign_in.dart';
@@ -65,8 +63,7 @@ class AppRoute {
                       path: AppRouteName.authGuard,
                       name: AppRouteName.authGuard,
                       pageBuilder: (context, state) {
-                        return DialogPage(
-                            builder: (context) => SignInPage());
+                        return DialogPage(builder: (context) => SignInPage());
                       },
                     ),
                   ]),
@@ -99,7 +96,6 @@ class AppRoute {
                 path: AppRouteName.userProfile.path,
                 name: AppRouteName.userProfile,
                 builder: (context, state) => const UserAccountPage(),
-                
               ),
             ],
           ),
@@ -116,15 +112,13 @@ class AppRoute {
     final isAuthPath = currentPath == AppRouteName.signIn.path ||
         currentPath == AppRouteName.signUp.path;
 
-    final isAuthGuardingPath =
-        currentPath == AppRouteName.userProfile.path ||
-            currentPath == AppRouteName.cart.path;
-
+    final isAuthGuardingPath = currentPath == AppRouteName.userProfile.path ||
+        currentPath == AppRouteName.cart.path;
+    // await sl<UserLocalDataRepository>().deleteData();
     final failureOrUser = await sl<UserLocalDataRepository>().getData();
     final currentUser = failureOrUser.fold((failure) => null, (user) => user);
 
-    if (isAuthGuardingPath &&
-        currentUser == null) {
+    if (isAuthGuardingPath && currentUser == null) {
       return AppRouteName.authGuard.path;
     }
 
