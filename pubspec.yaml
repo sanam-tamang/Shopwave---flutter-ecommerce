@@ -54,11 +54,10 @@ dependencies:
   flutter_speed_dial: ^7.0.0
   flutter_form_builder: ^10.0.1
   form_builder_validators: ^11.1.2
-  form_builder_image_picker: ^4.3.0
   image_picker: ^1.1.2
   logger: ^2.5.0
   uuid: ^4.5.1
-  loader_overlay: ^5.0.0
+  extended_image: ^10.0.0
 
 dev_dependencies:
   flutter_test:

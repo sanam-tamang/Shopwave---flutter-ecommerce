@@ -2,8 +2,10 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ecommerce/common/widgets/app_loading.dart';
+import 'package:flutter_ecommerce/common/widgets/custom_cached_network_image.dart';
 import 'package:flutter_ecommerce/features/category/blocs/category_bloc/category_bloc.dart';
 import 'package:flutter_ecommerce/features/category/blocs/get_category_bloc/get_category_bloc.dart';
+import 'package:gap/gap.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -11,6 +13,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey.shade100,
       body: NestedScrollView(
           headerSliverBuilder: (context, innerBoxIsScrolled) {
             return [
@@ -41,45 +44,89 @@ class HomePage extends StatelessWidget {
                       })),
                 ),
               ),
-              SliverAppBar(
-                pinned: true,
-                floating: true,
-                flexibleSpace: FlexibleSpaceBar(
-                  background: Container(
-                    color: Colors.red,
-                    child: BlocBuilder<GetCategoryBloc, GetCategoryState>(
-                      builder: (context, state) {
-                        return state.maybeWhen(
-                          orElse: () => SizedBox(),
-                          loading: () => AppLoading.center(),
-                          loaded: (categories) {
-                            return ListView.builder(
-                              itemCount: categories.length,
-                              scrollDirection: Axis.horizontal,
-                              itemBuilder: (context, index) {
-                                return Container(
-                                  margin: EdgeInsets.all(8),
-                                  padding: EdgeInsets.all(8),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  child: Text(categories[index].name),
-                                );
-                              },
-                            );
-                          },
-                          failure: (failure) => Text(failure.toString()),
-                        );
-                        return Text("hello");
-                      },
-                    ),
-                  ),
-                ),
-              ),
             ];
           },
-          body: Text("hello")),
+          body: CustomScrollView(
+            slivers: [
+              SliverToBoxAdapter(
+                child: _buildCategoryTabs(),
+              ),
+            ],
+          )),
+    );
+  }
+
+  BlocBuilder<GetCategoryBloc, GetCategoryState> _buildCategoryTabs() {
+    return BlocBuilder<GetCategoryBloc, GetCategoryState>(
+      builder: (context, state) {
+        return state.maybeWhen(
+          orElse: () => SizedBox(),
+          loading: () => AppLoading.center(),
+          loaded: (categories) {
+            return ColoredBox(
+              color: ColorScheme.of(context).surfaceContainerLowest,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Categories",
+                      style: TextTheme.of(context)
+                          .titleMedium
+                          ?.copyWith(fontWeight: FontWeight.bold),
+                    ),
+                    Gap(12),
+                    LimitedBox(
+                      maxHeight: 140,
+                      child: ListView.builder(
+                        itemCount: categories.length,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          return Container(
+                            width: 130,
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 4),
+                            // margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Expanded(
+                                    child: SizedBox(
+                                  width: double.maxFinite,
+                                  child: AppCachedNetworkImage(
+                                    imageUrl: categories[index].imageUrl,
+                                    fit: BoxFit.cover,
+                                  ),
+                                )),
+                                Gap(8),
+                                Center(
+                                  child: Text(
+                                    categories[index].name,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextTheme.of(context).labelMedium,
+                                  ),
+                                ),
+                                Gap(4),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+          failure: (failure) => Text(failure.toString()),
+        );
+      },
     );
   }
 }
