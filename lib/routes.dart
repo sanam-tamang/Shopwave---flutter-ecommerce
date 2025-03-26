@@ -5,6 +5,7 @@ import 'package:flutter_ecommerce/common/widgets/layout_scaffold.dart';
 import 'package:flutter_ecommerce/core/repositories/user_local_data_repository.dart';
 import 'package:flutter_ecommerce/dependency_injection.dart';
 import 'package:flutter_ecommerce/features/admin/pages/category_form_page.dart';
+import 'package:flutter_ecommerce/features/admin/pages/product_form.dart';
 import 'package:flutter_ecommerce/features/auth/pages/sign_in.dart';
 import 'package:flutter_ecommerce/features/auth/pages/sign_up.dart';
 import 'package:flutter_ecommerce/features/home/pages/home_page.dart';
@@ -19,6 +20,7 @@ class AppRouteName {
   static const String search = "search";
   static const String cart = "cart";
   static const String categoryForm = "category-form";
+  static const String productForm = "product-form";
   static const String authGuard = "grd";
 }
 
@@ -104,6 +106,13 @@ class AppRoute {
                       path: AppRouteName.categoryForm.path,
                       name: AppRouteName.categoryForm,
                       builder: (context, state) => const CategoryFormPage(),
+                    ),
+
+                      GoRoute(
+                      parentNavigatorKey: rootNavigatorKey,
+                      path: AppRouteName.productForm.path,
+                      name: AppRouteName.productForm,
+                      builder: (context, state) => const ProductFormPage(),
                     ),
                   ]),
             ],

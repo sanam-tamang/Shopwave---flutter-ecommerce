@@ -23,9 +23,7 @@ class HomePage extends StatelessWidget {
                 expandedHeight: 160,
                 flexibleSpace: FlexibleSpaceBar(
                   background: CarouselView(
-                      onTap: (index) {
-                       
-                      },
+                      onTap: (index) {},
                       itemExtent: 270,
                       children: List.generate(10, (index) {
                         return LimitedBox(

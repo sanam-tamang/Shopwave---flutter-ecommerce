@@ -5,6 +5,8 @@ import 'package:flutter_ecommerce/core/blocs/user_local_data/user_local_data_blo
 import 'package:flutter_ecommerce/dependency_injection.dart';
 import 'package:flutter_ecommerce/features/auth/blocs/auth_bloc/auth_bloc.dart';
 import 'package:flutter_ecommerce/features/category/blocs/category_bloc/category_bloc.dart';
+import 'package:flutter_ecommerce/features/category/blocs/get_category_bloc/get_category_bloc.dart';
+import 'package:flutter_ecommerce/features/product/blocs/product_bloc/product_bloc.dart';
 import 'package:flutter_ecommerce/features/user/blocs/user_bloc/user_bloc.dart';
 import 'package:flutter_ecommerce/routes.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -33,6 +35,10 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => sl<AuthBloc>()),
         BlocProvider(create: (context) => sl<CategoryBloc>()),
+        BlocProvider(create: (context) => sl<ProductBloc>()),
+        BlocProvider(
+            create: (context) =>
+                sl<GetCategoryBloc>()..add(GetCategoryEvent.get())),
         BlocProvider(
             create: (context) =>
                 sl<UserLocalDataBloc>()..add(UserLocalDataEvent.get())),

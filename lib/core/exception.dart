@@ -13,12 +13,14 @@ FutureEither<T> handleApplicationException<T>(
     return Right(result);
   } on AuthException catch (e) {
     return Left(FailureWithMsg(e.message));
-  } on SocketException catch (e) {
-    return Left(FailureWithMsg("Network error: ${e.message}"));
+  } on SocketException {
+    return Left(FailureWithMsg("Network error"));
   } on TimeoutException {
     return Left(FailureWithMsg("Request timed out. Please try again."));
   } on FormatException {
     return Left(FailureWithMsg("Invalid format. Please check your input."));
+  } on PostgrestException catch (e) {
+    return Left(FailureWithMsg(e.message));
   } catch (e) {
     return Left(FailureWithMsg("Unexpected error: ${e.toString()}"));
   }

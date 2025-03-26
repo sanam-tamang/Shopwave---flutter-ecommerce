@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_ecommerce/common/utils/loading_dialog.dart';
 import 'package:flutter_ecommerce/common/utils/toast_msg.dart';
-import 'package:flutter_ecommerce/common/widgets/app_loading.dart';
 import 'package:flutter_ecommerce/common/widgets/custom_image_picker.dart';
 import 'package:flutter_ecommerce/dependency_injection.dart';
 import 'package:flutter_ecommerce/features/category/blocs/category_bloc/category_bloc.dart';
@@ -78,16 +78,20 @@ class _CategoryFormPageState extends State<CategoryFormPage> {
   BlocConsumer<CategoryBloc, CategoryState> _buildCategorySaveBtn() {
     return BlocConsumer<CategoryBloc, CategoryState>(
       listener: (context, state) {
-        state.whenOrNull(loaded: (data) {
+        state.whenOrNull(loading: () {
+          AppProgressIndicator.show(context);
+        }, loaded: (data) {
           AppToast.success(context, data);
+          AppProgressIndicator.hide(context);
           context.pop();
         }, failure: (failure) {
+          AppProgressIndicator.hide(context);
+
           AppToast.error(context, failure.toString());
         });
       },
       builder: (context, state) {
         return state.maybeWhen(
-            loading: () => Center(child: AppLoading.center()),
             orElse: () => SizedBox(
                   width: double.maxFinite,
                   child: BlocBuilder<CategoryBloc, CategoryState>(

@@ -3,6 +3,7 @@ import 'package:flutter_ecommerce/common/utils/typedef.dart';
 import 'package:flutter_ecommerce/core/exception.dart';
 import 'package:flutter_ecommerce/core/repositories/image_uploader_repository.dart';
 import 'package:flutter_ecommerce/features/category/models/category.dart';
+import 'package:logger/web.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract interface class CategoryRepository {
@@ -22,8 +23,16 @@ class CategoryRepositoryI implements CategoryRepository {
 
   @override
   FutureEither<List<Category>> getCategories() async {
-    //TODO: implement getCategories
-    throw UnimplementedError();
+    return await handleApplicationException(() async {
+      final response = await _client.from("categories").select();
+      if (response.isEmpty) {
+        return [];
+      }
+      Logger().d("Categories: $response");
+      return List.from(response)
+          .map((category) => Category.fromJson(category))
+          .toList();
+    });
   }
 
   @override

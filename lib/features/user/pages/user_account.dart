@@ -23,13 +23,11 @@ class UserAccountPage extends StatelessWidget {
         children: [
           SpeedDialChild(
             label: "Add Product",
-            onTap: () {},
+            onTap: () => context.pushNamed(AppRouteName.productForm),
           ),
           SpeedDialChild(
               label: "Add Category",
-              onTap: () {
-                context.pushNamed(AppRouteName.categoryForm);
-              })
+              onTap: () => context.pushNamed(AppRouteName.categoryForm))
         ],
       )),
       body: BlocConsumer<UserBloc, UserState>(
