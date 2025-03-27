@@ -6,6 +6,7 @@ import 'package:flutter_ecommerce/dependency_injection.dart';
 import 'package:flutter_ecommerce/features/auth/blocs/auth_bloc/auth_bloc.dart';
 import 'package:flutter_ecommerce/features/category/blocs/category_bloc/category_bloc.dart';
 import 'package:flutter_ecommerce/features/category/blocs/get_category_bloc/get_category_bloc.dart';
+import 'package:flutter_ecommerce/features/product/blocs/get_product_bloc/get_product_bloc.dart';
 import 'package:flutter_ecommerce/features/product/blocs/product_bloc/product_bloc.dart';
 import 'package:flutter_ecommerce/features/user/blocs/user_bloc/user_bloc.dart';
 import 'package:flutter_ecommerce/routes.dart';
@@ -22,7 +23,7 @@ Future<void> main() async {
     anonKey: annonKey,
   );
 
-  init();
+  await init();
   runApp(const MyApp());
 }
 
@@ -36,6 +37,9 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => sl<AuthBloc>()),
         BlocProvider(create: (context) => sl<CategoryBloc>()),
         BlocProvider(create: (context) => sl<ProductBloc>()),
+        BlocProvider(
+            create: (context) =>
+                sl<GetProductBloc>()..add(GetProductEvent.get())),
         BlocProvider(
             create: (context) =>
                 sl<GetCategoryBloc>()..add(GetCategoryEvent.get())),

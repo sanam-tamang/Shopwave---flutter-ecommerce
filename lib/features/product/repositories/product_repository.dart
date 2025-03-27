@@ -1,13 +1,14 @@
 import 'package:flutter_ecommerce/common/utils/typedef.dart';
 import 'package:flutter_ecommerce/core/exception.dart';
 import 'package:flutter_ecommerce/core/repositories/image_uploader_repository.dart';
+import 'package:flutter_ecommerce/features/product/models/product.dart';
 import 'package:flutter_ecommerce/features/product/models/product_form.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
 
 abstract interface class ProductRepository {
+  FutureEither<List<Product>> getProducts();
   FutureEither<String> addProduct(ProductForm product);
-  // FutureEither<List<Product>> getProducts() ;
   FutureEither<String> updateProduct(ProductForm product);
 }
 
@@ -21,8 +22,8 @@ class ProductRepositoryI implements ProductRepository {
         _imageUploaderRepository = imageUploaderRepo;
 
   @override
-  FutureEither<String> addProduct(ProductForm product) {
-    return handleApplicationException(() async {
+  FutureEither<String> addProduct(ProductForm product) async {
+    return await handleApplicationException(() async {
       final productId = Uuid().v4();
       await _client.from('products').insert({
         'id': productId,
@@ -62,5 +63,16 @@ class ProductRepositoryI implements ProductRepository {
   FutureEither<String> updateProduct(ProductForm product) {
     // TODO: implement updateProduct
     throw UnimplementedError();
+  }
+
+  @override
+  FutureEither<List<Product>> getProducts() async {
+    return await handleApplicationException(() async {
+      final productsMap =
+          await _client.from('products').select('*, images:product_images(*)');
+      final products =
+          List.from(productsMap).map((e) => Product.fromJson(e)).toList();
+      return products;
+    });
   }
 }

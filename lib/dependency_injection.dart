@@ -6,6 +6,7 @@ import 'package:flutter_ecommerce/features/auth/repositories/auth_repository.dar
 import 'package:flutter_ecommerce/features/category/blocs/category_bloc/category_bloc.dart';
 import 'package:flutter_ecommerce/features/category/blocs/get_category_bloc/get_category_bloc.dart';
 import 'package:flutter_ecommerce/features/category/repositories/category_repository.dart';
+import 'package:flutter_ecommerce/features/product/blocs/get_product_bloc/get_product_bloc.dart';
 import 'package:flutter_ecommerce/features/product/blocs/product_bloc/product_bloc.dart';
 import 'package:flutter_ecommerce/features/product/repositories/product_repository.dart';
 import 'package:flutter_ecommerce/features/user/blocs/user_bloc/user_bloc.dart';
@@ -22,6 +23,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => CategoryBloc(repo: sl()));
   sl.registerLazySingleton(() => GetCategoryBloc(repo: sl()));
   sl.registerLazySingleton(() => ProductBloc(repo: sl()));
+  sl.registerLazySingleton(() => GetProductBloc(repo: sl()));
 
   sl.registerLazySingleton<ProductRepository>(() => ProductRepositoryI(
         client: sl(),

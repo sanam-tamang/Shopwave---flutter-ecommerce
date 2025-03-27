@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ecommerce/common/widgets/app_loading.dart';
 import 'package:flutter_ecommerce/common/widgets/custom_cached_network_image.dart';
 import 'package:flutter_ecommerce/features/category/blocs/get_category_bloc/get_category_bloc.dart';
+import 'package:flutter_ecommerce/features/product/blocs/get_product_bloc/get_product_bloc.dart';
+import 'package:flutter_ecommerce/features/product/widgets/product_card.dart';
 import 'package:gap/gap.dart';
 
 class HomePage extends StatelessWidget {
@@ -49,6 +51,23 @@ class HomePage extends StatelessWidget {
             slivers: [
               SliverToBoxAdapter(
                 child: _buildCategoryTabs(),
+              ),
+              BlocBuilder<GetProductBloc, GetProductState>(
+                builder: (context, state) {
+                  return state.maybeWhen(
+                      loaded: (data) => SliverGrid.builder(
+                            itemCount: data.length,
+                            itemBuilder: (context, index) {
+                              return ProductCard(product: data[index]);
+                            },
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    crossAxisSpacing: 8,
+                                    mainAxisSpacing: 8),
+                          ),
+                      orElse: () => SliverToBoxAdapter());
+                },
               ),
             ],
           )),
