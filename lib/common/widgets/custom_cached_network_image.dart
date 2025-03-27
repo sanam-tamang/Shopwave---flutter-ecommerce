@@ -2,7 +2,7 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:logger/web.dart';
+
 
 class AppCachedNetworkImage extends StatelessWidget {
   const AppCachedNetworkImage({
@@ -38,7 +38,6 @@ class AppCachedNetworkImage extends StatelessWidget {
     final projectUrl = dotenv.get('SUPABASE_URL');
     final fullImageUrl =
         (prefix ?? "$projectUrl/storage/v1/object/public/") + (imageUrl ?? '');
-    Logger().d(fullImageUrl);
     return imageUrl != null
         ? isCircular
             ? CircleAvatar(
