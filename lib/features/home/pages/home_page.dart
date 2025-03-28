@@ -14,7 +14,6 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade100,
       body: NestedScrollView(
           headerSliverBuilder: (context, innerBoxIsScrolled) {
             return [
@@ -47,34 +46,50 @@ class HomePage extends StatelessWidget {
               ),
             ];
           },
-          body: CustomScrollView(
-            slivers: [
-              SliverToBoxAdapter(
-                child: _buildCategoryTabs(),
-              ),
-              SliverPadding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                sliver: BlocBuilder<GetProductBloc, GetProductState>(
-                  builder: (context, state) {
-                    return state.maybeWhen(
-                        loaded: (data) => SliverGrid.builder(
-                              itemCount: data.length,
-                              itemBuilder: (context, index) {
-                                return ProductCard(product: data[index]);
-                              },
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                      mainAxisExtent: 250,
-                                      crossAxisCount: 2,
-                                      crossAxisSpacing: 8,
-                                      mainAxisSpacing: 8),
-                            ),
-                        orElse: () => SliverToBoxAdapter());
-                  },
+          body: Container(
+            color: Colors.white,
+            child: CustomScrollView(
+              slivers: [
+                SliverToBoxAdapter(
+                  child: _buildCategoryTabs(),
                 ),
-              ),
-            ],
+                SliverPadding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                  ).copyWith(top: 16),
+                  sliver: SliverToBoxAdapter(
+                    child: Text(
+                      "Products",
+                      style: TextTheme.of(context)
+                          .titleMedium
+                          ?.copyWith(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+                SliverPadding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  sliver: BlocBuilder<GetProductBloc, GetProductState>(
+                    builder: (context, state) {
+                      return state.maybeWhen(
+                          loaded: (data) => SliverGrid.builder(
+                                itemCount: data.length,
+                                itemBuilder: (context, index) {
+                                  return ProductCard(product: data[index]);
+                                },
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                        mainAxisExtent: 250,
+                                        crossAxisCount: 2,
+                                        crossAxisSpacing: 8,
+                                        mainAxisSpacing: 8),
+                              ),
+                          orElse: () => SliverToBoxAdapter());
+                    },
+                  ),
+                ),
+              ],
+            ),
           )),
     );
   }

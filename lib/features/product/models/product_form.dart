@@ -1,4 +1,3 @@
-
 import 'dart:io';
 
 class ProductForm {
@@ -6,7 +5,7 @@ class ProductForm {
   final String description;
   final double price;
   final List<File> imageFiles;
-  final double discountPrice;
+  final double? discountPrice;
   final int quantity;
   final String categoryId;
   ProductForm({

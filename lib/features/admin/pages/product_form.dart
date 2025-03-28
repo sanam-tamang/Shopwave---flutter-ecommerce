@@ -177,7 +177,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
                 ),
                 keyboardType: TextInputType.number,
                 validator: FormBuilderValidators.compose([
-                  FormBuilderValidators.numeric(),
+                  FormBuilderValidators.numeric(checkNullOrEmpty: false),
                 ]),
               ),
             ),
@@ -244,7 +244,8 @@ class _ProductFormPageState extends State<ProductFormPage> {
         description: productDescription,
         price: double.parse(productPrice),
         imageFiles: _selectedImages,
-        discountPrice: double.parse(discountPrice),
+        discountPrice:
+            discountPrice != null ? double.tryParse(discountPrice) : null,
         quantity: int.parse(quantity),
         categoryId: categoryId,
       );

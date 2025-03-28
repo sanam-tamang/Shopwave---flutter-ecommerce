@@ -40,7 +40,7 @@ class ProductCard extends StatelessWidget {
                   Gap(12),
                   Text(
                     product.name,
-                    style: Theme.of(context).textTheme.titleMedium,
+                    style: Theme.of(context).textTheme.labelLarge,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -53,7 +53,7 @@ class ProductCard extends StatelessWidget {
                             '\$${product.discountPrice!.toStringAsFixed(2)}',
                             style: Theme.of(context)
                                 .textTheme
-                                .titleLarge
+                                .titleSmall
                                 ?.copyWith(
                                   color: Theme.of(context).primaryColor,
                                   fontWeight: FontWeight.bold,
@@ -62,20 +62,18 @@ class ProductCard extends StatelessWidget {
                           const SizedBox(width: 8),
                           Text(
                             '\$${product.price.toStringAsFixed(2)}',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium
-                                ?.copyWith(
-                                  decoration: TextDecoration.lineThrough,
-                                  color: Colors.grey,
-                                ),
+                            style:
+                                Theme.of(context).textTheme.bodySmall?.copyWith(
+                                      decoration: TextDecoration.lineThrough,
+                                      color: Colors.grey,
+                                    ),
                           ),
                         ] else
                           Text(
                             '\$${product.price.toStringAsFixed(2)}',
                             style: Theme.of(context)
                                 .textTheme
-                                .titleLarge
+                                .titleSmall
                                 ?.copyWith(
                                   color: Theme.of(context).primaryColor,
                                   fontWeight: FontWeight.bold,
