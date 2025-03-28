@@ -52,22 +52,27 @@ class HomePage extends StatelessWidget {
               SliverToBoxAdapter(
                 child: _buildCategoryTabs(),
               ),
-              BlocBuilder<GetProductBloc, GetProductState>(
-                builder: (context, state) {
-                  return state.maybeWhen(
-                      loaded: (data) => SliverGrid.builder(
-                            itemCount: data.length,
-                            itemBuilder: (context, index) {
-                              return ProductCard(product: data[index]);
-                            },
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2,
-                                    crossAxisSpacing: 8,
-                                    mainAxisSpacing: 8),
-                          ),
-                      orElse: () => SliverToBoxAdapter());
-                },
+              SliverPadding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                sliver: BlocBuilder<GetProductBloc, GetProductState>(
+                  builder: (context, state) {
+                    return state.maybeWhen(
+                        loaded: (data) => SliverGrid.builder(
+                              itemCount: data.length,
+                              itemBuilder: (context, index) {
+                                return ProductCard(product: data[index]);
+                              },
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                      mainAxisExtent: 250,
+                                      crossAxisCount: 2,
+                                      crossAxisSpacing: 8,
+                                      mainAxisSpacing: 8),
+                            ),
+                        orElse: () => SliverToBoxAdapter());
+                  },
+                ),
               ),
             ],
           )),
