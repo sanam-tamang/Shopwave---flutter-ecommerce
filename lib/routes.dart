@@ -9,6 +9,7 @@ import 'package:flutter_ecommerce/features/admin/pages/category_form_page.dart';
 import 'package:flutter_ecommerce/features/admin/pages/product_form.dart';
 import 'package:flutter_ecommerce/features/auth/pages/sign_in.dart';
 import 'package:flutter_ecommerce/features/auth/pages/sign_up.dart';
+import 'package:flutter_ecommerce/features/cart/pages/cart_page.dart';
 import 'package:flutter_ecommerce/features/home/pages/home_page.dart';
 import 'package:flutter_ecommerce/features/product/models/product.dart';
 import 'package:flutter_ecommerce/features/product/pages/product_detail_page.dart';
@@ -103,7 +104,7 @@ class AppRoute {
               GoRoute(
                 path: AppRouteName.cart.path,
                 name: AppRouteName.cart,
-                builder: (context, state) => const UserAccountPage(),
+                builder: (context, state) => const CartPage(),
               ),
             ],
           ),

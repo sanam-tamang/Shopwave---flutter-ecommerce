@@ -5,6 +5,7 @@ import 'package:flutter_ecommerce/core/blocs/user_local_data/user_local_data_blo
 import 'package:flutter_ecommerce/dependency_injection.dart';
 import 'package:flutter_ecommerce/features/auth/blocs/auth_bloc/auth_bloc.dart';
 import 'package:flutter_ecommerce/features/cart/blocs/cart_bloc/cart_bloc.dart';
+import 'package:flutter_ecommerce/features/cart/blocs/get_cart_bloc/get_cart_bloc.dart';
 import 'package:flutter_ecommerce/features/category/blocs/category_bloc/category_bloc.dart';
 import 'package:flutter_ecommerce/features/category/blocs/get_category_bloc/get_category_bloc.dart';
 import 'package:flutter_ecommerce/features/product/blocs/get_product_bloc/get_product_bloc.dart';
@@ -39,6 +40,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => sl<CategoryBloc>()),
         BlocProvider(create: (context) => sl<ProductBloc>()),
         BlocProvider(create: (context) => sl<CartBloc>()),
+        BlocProvider(
+            create: (context) => sl<GetCartBloc>()..add(GetCartEvent.get())),
         BlocProvider(
             create: (context) =>
                 sl<GetProductBloc>()..add(GetProductEvent.get())),

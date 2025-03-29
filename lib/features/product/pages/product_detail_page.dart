@@ -1,14 +1,10 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_ecommerce/common/utils/loading_dialog.dart';
-import 'package:flutter_ecommerce/common/utils/toast_msg.dart';
-
 import 'package:flutter_ecommerce/dependency_injection.dart';
 import 'package:flutter_ecommerce/features/cart/blocs/cart_bloc/cart_bloc.dart';
 import 'package:flutter_ecommerce/features/cart/models/cart_form.dart';
+import 'package:flutter_ecommerce/features/cart/widgets/cart_bloc_listener.dart';
 import 'package:flutter_ecommerce/features/product/widgets/item_quantity_controller.dart';
 import 'package:gap/gap.dart';
 
@@ -32,9 +28,11 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   double currentImageIndex = 0.0;
   Product? product;
   int _quantity = 1;
+  late final CartBloc _cartBloc;
   @override
   void initState() {
     product = widget.product;
+    _cartBloc = sl<CartBloc>();
     super.initState();
   }
 
@@ -90,18 +88,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 Spacer(),
                 Expanded(
                   flex: 3,
-                  child: BlocListener<CartBloc, CartState>(
-                    listener: (context, state) {
-                      state.whenOrNull(
-                          loading: () =>
-                              AppProgressIndicator.showWithContainer(context),
-                          loaded: (data) {
-                            AppProgressIndicator.hide(context);
-                            AppToast.success(context, data);
-                          },
-                          failure: (failure) =>
-                              AppToast.error(context, failure.toString()));
-                    },
+                  child: CartBlocListener(
+                    bloc: _cartBloc,
                     child: FilledButton(
                       onPressed: _onAddToCart,
                       child: Text("Add to cart"),
@@ -197,6 +185,6 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
 
   void _onAddToCart() {
     final cart = CartForm(productId: product!.id, quantity: _quantity);
-    sl<CartBloc>().add(CartEvent.add(cart));
+    _cartBloc.add(CartEvent.add(cart));
   }
 }

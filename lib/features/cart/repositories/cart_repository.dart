@@ -1,12 +1,15 @@
 import 'package:flutter_ecommerce/common/utils/typedef.dart';
 import 'package:flutter_ecommerce/core/exception.dart';
 import 'package:flutter_ecommerce/core/repositories/user_local_data_repository.dart';
+import 'package:flutter_ecommerce/features/cart/models/cart.dart';
 import 'package:flutter_ecommerce/features/cart/models/cart_form.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:logger/logger.dart';
 
 abstract interface class CartRepository {
+  FutureEither<List<Cart>> getCart();
   FutureEither<String> addCart(CartForm cart);
-  FutureEither<String> updateCart({required String id, required CartForm cart});
+  FutureEither<String> updateCart({required String id, required int updatedTotalQuantity});
 }
 
 class CartRepositoryI implements CartRepository {
@@ -44,9 +47,11 @@ class CartRepositoryI implements CartRepository {
 
   @override
   FutureEither<String> updateCart(
-      {required String id, required CartForm cart}) async {
+      {required String id, required int updatedTotalQuantity}) async {
     return await handleApplicationException(() async {
-      await _client.from("carts").update(cart.toJson()).eq('id', id);
+      await _client.from("carts").update({
+        'quantity': updatedTotalQuantity
+      }).eq('id', id);
       return "Success! Cart update.";
     });
   }
@@ -54,5 +59,20 @@ class CartRepositoryI implements CartRepository {
   Future<String> _getUserId() async {
     final failureOrUser = await _userRepo.getData();
     return failureOrUser.fold((failure) => throw failure, (user) => user.id);
+  }
+
+  @override
+  FutureEither<List<Cart>> getCart() async {
+    return await handleApplicationException(() async {
+      final userId = await _getUserId();
+      final cartMap = await _client
+          .from('carts')
+          .select('*, product:products(*,images: product_images(*))')
+          .eq('user_id', userId);
+      Logger().d(cartMap);
+
+      final carts = List.from(cartMap).map((e) => Cart.fromJson(e)).toList();
+      return carts;
+    });
   }
 }

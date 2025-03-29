@@ -4,6 +4,7 @@ import 'package:flutter_ecommerce/features/product/models/product_form.dart';
 import 'package:flutter_ecommerce/features/product/repositories/product_repository.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+
 part 'product_event.dart';
 part 'product_state.dart';
 part 'product_bloc.freezed.dart';

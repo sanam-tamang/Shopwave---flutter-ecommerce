@@ -3,6 +3,7 @@ import 'package:flutter_ecommerce/core/state/base_state.dart';
 import 'package:flutter_ecommerce/features/cart/models/cart_form.dart';
 import 'package:flutter_ecommerce/features/cart/repositories/cart_repository.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:logger/logger.dart';
 
 part 'cart_event.dart';
 part 'cart_state.dart';
@@ -19,9 +20,13 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         final failureOrSuccess = await _repo.addCart(cart);
         failureOrSuccess.fold((failure) => emit(CartState.failure(failure)),
             (success) => emit(CartState.loaded(success)));
-      }, update: (id, cart) async {
+      }, update: (id, updatedTotalQuantity) async {
+        Logger().d("Product ID: $updatedTotalQuantity");
+
         emit(CartState.loading());
-        final failureOrSuccess = await _repo.updateCart(id: id, cart: cart);
+
+        final failureOrSuccess = await _repo.updateCart(
+            id: id, updatedTotalQuantity: updatedTotalQuantity);
         failureOrSuccess.fold((failure) => emit(CartState.failure(failure)),
             (success) => emit(CartState.loaded(success)));
       });

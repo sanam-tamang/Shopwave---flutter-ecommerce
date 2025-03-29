@@ -16,23 +16,22 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$CartEvent {
-  CartForm get cart => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(CartForm cart) add,
-    required TResult Function(String id, CartForm cart) update,
+    required TResult Function(String id, int updatedTotalQuantity) update,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(CartForm cart)? add,
-    TResult? Function(String id, CartForm cart)? update,
+    TResult? Function(String id, int updatedTotalQuantity)? update,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(CartForm cart)? add,
-    TResult Function(String id, CartForm cart)? update,
+    TResult Function(String id, int updatedTotalQuantity)? update,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -55,22 +54,12 @@ mixin _$CartEvent {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
-
-  /// Create a copy of CartEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $CartEventCopyWith<CartEvent> get copyWith =>
-      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $CartEventCopyWith<$Res> {
   factory $CartEventCopyWith(CartEvent value, $Res Function(CartEvent) then) =
       _$CartEventCopyWithImpl<$Res, CartEvent>;
-  @useResult
-  $Res call({CartForm cart});
-
-  $CartFormCopyWith<$Res> get cart;
 }
 
 /// @nodoc
@@ -85,39 +74,15 @@ class _$CartEventCopyWithImpl<$Res, $Val extends CartEvent>
 
   /// Create a copy of CartEvent
   /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? cart = null,
-  }) {
-    return _then(_value.copyWith(
-      cart: null == cart
-          ? _value.cart
-          : cart // ignore: cast_nullable_to_non_nullable
-              as CartForm,
-    ) as $Val);
-  }
-
-  /// Create a copy of CartEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $CartFormCopyWith<$Res> get cart {
-    return $CartFormCopyWith<$Res>(_value.cart, (value) {
-      return _then(_value.copyWith(cart: value) as $Val);
-    });
-  }
 }
 
 /// @nodoc
-abstract class _$$AddImplCopyWith<$Res> implements $CartEventCopyWith<$Res> {
+abstract class _$$AddImplCopyWith<$Res> {
   factory _$$AddImplCopyWith(_$AddImpl value, $Res Function(_$AddImpl) then) =
       __$$AddImplCopyWithImpl<$Res>;
-  @override
   @useResult
   $Res call({CartForm cart});
 
-  @override
   $CartFormCopyWith<$Res> get cart;
 }
 
@@ -141,6 +106,16 @@ class __$$AddImplCopyWithImpl<$Res>
           : cart // ignore: cast_nullable_to_non_nullable
               as CartForm,
     ));
+  }
+
+  /// Create a copy of CartEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $CartFormCopyWith<$Res> get cart {
+    return $CartFormCopyWith<$Res>(_value.cart, (value) {
+      return _then(_value.copyWith(cart: value));
+    });
   }
 }
 
@@ -180,7 +155,7 @@ class _$AddImpl implements _Add {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(CartForm cart) add,
-    required TResult Function(String id, CartForm cart) update,
+    required TResult Function(String id, int updatedTotalQuantity) update,
   }) {
     return add(cart);
   }
@@ -189,7 +164,7 @@ class _$AddImpl implements _Add {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(CartForm cart)? add,
-    TResult? Function(String id, CartForm cart)? update,
+    TResult? Function(String id, int updatedTotalQuantity)? update,
   }) {
     return add?.call(cart);
   }
@@ -198,7 +173,7 @@ class _$AddImpl implements _Add {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(CartForm cart)? add,
-    TResult Function(String id, CartForm cart)? update,
+    TResult Function(String id, int updatedTotalQuantity)? update,
     required TResult orElse(),
   }) {
     if (add != null) {
@@ -242,28 +217,22 @@ class _$AddImpl implements _Add {
 abstract class _Add implements CartEvent {
   const factory _Add(final CartForm cart) = _$AddImpl;
 
-  @override
   CartForm get cart;
 
   /// Create a copy of CartEvent
   /// with the given fields replaced by the non-null parameter values.
-  @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AddImplCopyWith<_$AddImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$UpdateImplCopyWith<$Res> implements $CartEventCopyWith<$Res> {
+abstract class _$$UpdateImplCopyWith<$Res> {
   factory _$$UpdateImplCopyWith(
           _$UpdateImpl value, $Res Function(_$UpdateImpl) then) =
       __$$UpdateImplCopyWithImpl<$Res>;
-  @override
   @useResult
-  $Res call({String id, CartForm cart});
-
-  @override
-  $CartFormCopyWith<$Res> get cart;
+  $Res call({String id, int updatedTotalQuantity});
 }
 
 /// @nodoc
@@ -280,17 +249,17 @@ class __$$UpdateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
-    Object? cart = null,
+    Object? updatedTotalQuantity = null,
   }) {
     return _then(_$UpdateImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      cart: null == cart
-          ? _value.cart
-          : cart // ignore: cast_nullable_to_non_nullable
-              as CartForm,
+      updatedTotalQuantity: null == updatedTotalQuantity
+          ? _value.updatedTotalQuantity
+          : updatedTotalQuantity // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -298,16 +267,16 @@ class __$$UpdateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$UpdateImpl implements _Update {
-  const _$UpdateImpl({required this.id, required this.cart});
+  const _$UpdateImpl({required this.id, required this.updatedTotalQuantity});
 
   @override
   final String id;
   @override
-  final CartForm cart;
+  final int updatedTotalQuantity;
 
   @override
   String toString() {
-    return 'CartEvent.update(id: $id, cart: $cart)';
+    return 'CartEvent.update(id: $id, updatedTotalQuantity: $updatedTotalQuantity)';
   }
 
   @override
@@ -316,11 +285,12 @@ class _$UpdateImpl implements _Update {
         (other.runtimeType == runtimeType &&
             other is _$UpdateImpl &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.cart, cart) || other.cart == cart));
+            (identical(other.updatedTotalQuantity, updatedTotalQuantity) ||
+                other.updatedTotalQuantity == updatedTotalQuantity));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, cart);
+  int get hashCode => Object.hash(runtimeType, id, updatedTotalQuantity);
 
   /// Create a copy of CartEvent
   /// with the given fields replaced by the non-null parameter values.
@@ -334,29 +304,29 @@ class _$UpdateImpl implements _Update {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(CartForm cart) add,
-    required TResult Function(String id, CartForm cart) update,
+    required TResult Function(String id, int updatedTotalQuantity) update,
   }) {
-    return update(id, cart);
+    return update(id, updatedTotalQuantity);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(CartForm cart)? add,
-    TResult? Function(String id, CartForm cart)? update,
+    TResult? Function(String id, int updatedTotalQuantity)? update,
   }) {
-    return update?.call(id, cart);
+    return update?.call(id, updatedTotalQuantity);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(CartForm cart)? add,
-    TResult Function(String id, CartForm cart)? update,
+    TResult Function(String id, int updatedTotalQuantity)? update,
     required TResult orElse(),
   }) {
     if (update != null) {
-      return update(id, cart);
+      return update(id, updatedTotalQuantity);
     }
     return orElse();
   }
@@ -395,15 +365,14 @@ class _$UpdateImpl implements _Update {
 
 abstract class _Update implements CartEvent {
   const factory _Update(
-      {required final String id, required final CartForm cart}) = _$UpdateImpl;
+      {required final String id,
+      required final int updatedTotalQuantity}) = _$UpdateImpl;
 
   String get id;
-  @override
-  CartForm get cart;
+  int get updatedTotalQuantity;
 
   /// Create a copy of CartEvent
   /// with the given fields replaced by the non-null parameter values.
-  @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$UpdateImplCopyWith<_$UpdateImpl> get copyWith =>
       throw _privateConstructorUsedError;

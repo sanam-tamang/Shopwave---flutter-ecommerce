@@ -4,6 +4,7 @@ import 'package:flutter_ecommerce/core/repositories/user_local_data_repository.d
 import 'package:flutter_ecommerce/features/auth/blocs/auth_bloc/auth_bloc.dart';
 import 'package:flutter_ecommerce/features/auth/repositories/auth_repository.dart';
 import 'package:flutter_ecommerce/features/cart/blocs/cart_bloc/cart_bloc.dart';
+import 'package:flutter_ecommerce/features/cart/blocs/get_cart_bloc/get_cart_bloc.dart';
 import 'package:flutter_ecommerce/features/cart/repositories/cart_repository.dart';
 import 'package:flutter_ecommerce/features/category/blocs/category_bloc/category_bloc.dart';
 import 'package:flutter_ecommerce/features/category/blocs/get_category_bloc/get_category_bloc.dart';
@@ -26,7 +27,8 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetCategoryBloc(repo: sl()));
   sl.registerLazySingleton(() => ProductBloc(repo: sl()));
   sl.registerLazySingleton(() => GetProductBloc(repo: sl()));
-  sl.registerLazySingleton(() => CartBloc(repo: sl()));
+  sl.registerFactory(() => CartBloc(repo: sl()));
+  sl.registerLazySingleton(() => GetCartBloc(repo: sl()));
 
   sl.registerLazySingleton<ProductRepository>(() => ProductRepositoryI(
         client: sl(),
