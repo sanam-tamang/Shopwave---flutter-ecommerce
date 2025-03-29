@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_ecommerce/common/utils/dialog_page.dart';
 import 'package:flutter_ecommerce/common/utils/extension.dart';
 import 'package:flutter_ecommerce/common/widgets/layout_scaffold.dart';
 import 'package:flutter_ecommerce/core/repositories/user_local_data_repository.dart';
@@ -9,6 +10,8 @@ import 'package:flutter_ecommerce/features/admin/pages/product_form.dart';
 import 'package:flutter_ecommerce/features/auth/pages/sign_in.dart';
 import 'package:flutter_ecommerce/features/auth/pages/sign_up.dart';
 import 'package:flutter_ecommerce/features/home/pages/home_page.dart';
+import 'package:flutter_ecommerce/features/product/models/product.dart';
+import 'package:flutter_ecommerce/features/product/pages/product_detail_page.dart';
 import 'package:flutter_ecommerce/features/user/pages/user_account.dart';
 import 'package:go_router/go_router.dart';
 
@@ -21,6 +24,7 @@ class AppRouteName {
   static const String cart = "cart";
   static const String categoryForm = "category-form";
   static const String productForm = "product-form";
+  static const String productDetailPage = "product";
   static const String authGuard = "grd";
 }
 
@@ -70,6 +74,16 @@ class AppRoute {
                         return DialogPage(builder: (context) => SignInPage());
                       },
                     ),
+                    GoRoute(
+                      parentNavigatorKey: rootNavigatorKey,
+                      path: "${AppRouteName.productDetailPage.path}/:id",
+                      name: AppRouteName.productDetailPage,
+                      builder: (context, state) {
+                        final product = state.extra as Product?;
+
+                        return ProductDetailPage(product: product);
+                      },
+                    ),
                   ]),
             ],
           ),
@@ -107,8 +121,7 @@ class AppRoute {
                       name: AppRouteName.categoryForm,
                       builder: (context, state) => const CategoryFormPage(),
                     ),
-
-                      GoRoute(
+                    GoRoute(
                       parentNavigatorKey: rootNavigatorKey,
                       path: AppRouteName.productForm.path,
                       name: AppRouteName.productForm,
@@ -147,43 +160,4 @@ class AppRoute {
 
     return null; // Allow access
   }
-}
-
-class DialogPage<T> extends Page<T> {
-  final Offset? anchorPoint;
-  final Color? barrierColor;
-  final bool barrierDismissible;
-  final String? barrierLabel;
-  final bool useSafeArea;
-  final CapturedThemes? themes;
-  final WidgetBuilder builder;
-
-  const DialogPage({
-    required this.builder,
-    this.anchorPoint,
-    this.barrierColor = Colors.black38,
-    this.barrierDismissible = true,
-    this.barrierLabel,
-    this.useSafeArea = true,
-    this.themes,
-    super.key,
-    super.name,
-    super.arguments,
-    super.restorationId,
-  });
-
-  @override
-  Route<T> createRoute(BuildContext context) => DialogRoute<T>(
-        context: context,
-        settings: this,
-        builder: (context) => Dialog(
-          child: builder(context),
-        ),
-        anchorPoint: anchorPoint,
-        barrierColor: barrierColor,
-        barrierDismissible: barrierDismissible,
-        barrierLabel: barrierLabel,
-        useSafeArea: useSafeArea,
-        themes: themes,
-      );
 }

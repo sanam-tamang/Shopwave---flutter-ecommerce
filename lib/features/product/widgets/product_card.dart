@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce/common/widgets/custom_cached_network_image.dart';
+import 'package:flutter_ecommerce/features/product/widgets/product_price.dart';
 import 'package:gap/gap.dart';
 import '../models/product.dart';
 
@@ -46,41 +47,7 @@ class ProductCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   FittedBox(
-                    child: Row(
-                      children: [
-                        if (product.discountPrice != null) ...[
-                          Text(
-                            '\$${product.discountPrice!.toStringAsFixed(2)}',
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleSmall
-                                ?.copyWith(
-                                  color: Theme.of(context).primaryColor,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                          ),
-                          const SizedBox(width: 8),
-                          Text(
-                            '\$${product.price.toStringAsFixed(2)}',
-                            style:
-                                Theme.of(context).textTheme.bodySmall?.copyWith(
-                                      decoration: TextDecoration.lineThrough,
-                                      color: Colors.grey,
-                                    ),
-                          ),
-                        ] else
-                          Text(
-                            '\$${product.price.toStringAsFixed(2)}',
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleSmall
-                                ?.copyWith(
-                                  color: Theme.of(context).primaryColor,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                          ),
-                      ],
-                    ),
+                    child: ProductPrice(product: product),
                   ),
                 ],
               ),

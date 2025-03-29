@@ -4,6 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_ecommerce/core/blocs/user_local_data/user_local_data_bloc.dart';
 import 'package:flutter_ecommerce/dependency_injection.dart';
 import 'package:flutter_ecommerce/features/auth/blocs/auth_bloc/auth_bloc.dart';
+import 'package:flutter_ecommerce/features/cart/blocs/bloc/cart_bloc.dart';
 import 'package:flutter_ecommerce/features/category/blocs/category_bloc/category_bloc.dart';
 import 'package:flutter_ecommerce/features/category/blocs/get_category_bloc/get_category_bloc.dart';
 import 'package:flutter_ecommerce/features/product/blocs/get_product_bloc/get_product_bloc.dart';
@@ -37,6 +38,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => sl<AuthBloc>()),
         BlocProvider(create: (context) => sl<CategoryBloc>()),
         BlocProvider(create: (context) => sl<ProductBloc>()),
+        BlocProvider(create: (context) => sl<CartBloc>()),
         BlocProvider(
             create: (context) =>
                 sl<GetProductBloc>()..add(GetProductEvent.get())),
@@ -56,7 +58,7 @@ class MyApp extends StatelessWidget {
         routerConfig: AppRoute.route,
         theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(
-                seedColor: const Color.fromARGB(255, 253, 62, 4)),
+                seedColor: const Color.fromARGB(255, 2, 2, 186)),
             textTheme: GoogleFonts.latoTextTheme(Theme.of(context).textTheme)),
       ),
     );

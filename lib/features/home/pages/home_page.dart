@@ -6,7 +6,9 @@ import 'package:flutter_ecommerce/common/widgets/custom_cached_network_image.dar
 import 'package:flutter_ecommerce/features/category/blocs/get_category_bloc/get_category_bloc.dart';
 import 'package:flutter_ecommerce/features/product/blocs/get_product_bloc/get_product_bloc.dart';
 import 'package:flutter_ecommerce/features/product/widgets/product_card.dart';
+import 'package:flutter_ecommerce/routes.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -53,44 +55,39 @@ class HomePage extends StatelessWidget {
                 SliverToBoxAdapter(
                   child: _buildCategoryTabs(),
                 ),
-                SliverPadding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                  ).copyWith(top: 16),
-                  sliver: SliverToBoxAdapter(
-                    child: Text(
-                      "Products",
-                      style: TextTheme.of(context)
-                          .titleMedium
-                          ?.copyWith(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ),
-                SliverPadding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  sliver: BlocBuilder<GetProductBloc, GetProductState>(
-                    builder: (context, state) {
-                      return state.maybeWhen(
-                          loaded: (data) => SliverGrid.builder(
-                                itemCount: data.length,
-                                itemBuilder: (context, index) {
-                                  return ProductCard(product: data[index]);
-                                },
-                                gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                        mainAxisExtent: 250,
-                                        crossAxisCount: 2,
-                                        crossAxisSpacing: 8,
-                                        mainAxisSpacing: 8),
-                              ),
-                          orElse: () => SliverToBoxAdapter());
-                    },
-                  ),
-                ),
+                _BuildProductHeader(),
+                _buildProductList(),
               ],
             ),
           )),
+    );
+  }
+
+  SliverPadding _buildProductList() {
+    return SliverPadding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      sliver: BlocBuilder<GetProductBloc, GetProductState>(
+        builder: (context, state) {
+          return state.maybeWhen(
+              loaded: (products) => SliverGrid.builder(
+                    itemCount: products.length,
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                          onTap: () => context.pushNamed(
+                              AppRouteName.productDetailPage,
+                              pathParameters: {'id': products[index].id},
+                              extra: products[index]),
+                          child: ProductCard(product: products[index]));
+                    },
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        mainAxisExtent: 250,
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 8,
+                        mainAxisSpacing: 8),
+                  ),
+              orElse: () => SliverToBoxAdapter());
+        },
+      ),
     );
   }
 
@@ -121,37 +118,39 @@ class HomePage extends StatelessWidget {
                         itemCount: categories.length,
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
-                          return Container(
-                            width: 130,
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 8, vertical: 4),
-                            // margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Expanded(
-                                    child: SizedBox(
-                                  width: double.maxFinite,
-                                  child: AppCachedNetworkImage(
-                                    imageUrl: categories[index].imageUrl,
-                                    fit: BoxFit.cover,
+                          return GestureDetector(
+                            child: Container(
+                              width: 130,
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 8, vertical: 4),
+                              // margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Expanded(
+                                      child: SizedBox(
+                                    width: double.maxFinite,
+                                    child: AppCachedNetworkImage(
+                                      imageUrl: categories[index].imageUrl,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  )),
+                                  Gap(8),
+                                  Center(
+                                    child: Text(
+                                      categories[index].name,
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextTheme.of(context).labelMedium,
+                                    ),
                                   ),
-                                )),
-                                Gap(8),
-                                Center(
-                                  child: Text(
-                                    categories[index].name,
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextTheme.of(context).labelMedium,
-                                  ),
-                                ),
-                                Gap(4),
-                              ],
+                                  Gap(4),
+                                ],
+                              ),
                             ),
                           );
                         },
@@ -165,6 +164,25 @@ class HomePage extends StatelessWidget {
           failure: (failure) => Text(failure.toString()),
         );
       },
+    );
+  }
+}
+
+class _BuildProductHeader extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return SliverPadding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 16,
+      ).copyWith(top: 16),
+      sliver: SliverToBoxAdapter(
+        child: Text(
+          "Products",
+          style: TextTheme.of(context)
+              .titleMedium
+              ?.copyWith(fontWeight: FontWeight.bold),
+        ),
+      ),
     );
   }
 }
