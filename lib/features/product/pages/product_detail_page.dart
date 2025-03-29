@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ecommerce/common/utils/loading_dialog.dart';
 import 'package:flutter_ecommerce/common/utils/toast_msg.dart';
-import 'package:flutter_ecommerce/common/widgets/app_loading.dart';
+
 import 'package:flutter_ecommerce/dependency_injection.dart';
 import 'package:flutter_ecommerce/features/cart/blocs/bloc/cart_bloc.dart';
 import 'package:flutter_ecommerce/features/cart/models/cart_form.dart';
