@@ -3,7 +3,7 @@ import 'package:flutter_ecommerce/core/repositories/image_uploader_repository.da
 import 'package:flutter_ecommerce/core/repositories/user_local_data_repository.dart';
 import 'package:flutter_ecommerce/features/auth/blocs/auth_bloc/auth_bloc.dart';
 import 'package:flutter_ecommerce/features/auth/repositories/auth_repository.dart';
-import 'package:flutter_ecommerce/features/cart/blocs/bloc/cart_bloc.dart';
+import 'package:flutter_ecommerce/features/cart/blocs/cart_bloc/cart_bloc.dart';
 import 'package:flutter_ecommerce/features/cart/repositories/cart_repository.dart';
 import 'package:flutter_ecommerce/features/category/blocs/category_bloc/category_bloc.dart';
 import 'package:flutter_ecommerce/features/category/blocs/get_category_bloc/get_category_bloc.dart';
