@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ecommerce/common/widgets/app_loading.dart';
+import 'package:flutter_ecommerce/dependency_injection.dart';
 import 'package:flutter_ecommerce/features/cart/blocs/get_cart_bloc/get_cart_bloc.dart';
 import 'package:flutter_ecommerce/features/cart/models/cart.dart';
 import 'package:flutter_ecommerce/features/cart/widgets/cart_card.dart';
+import 'package:gap/gap.dart';
 
 class CartPage extends StatelessWidget {
   const CartPage({super.key});
@@ -12,21 +14,65 @@ class CartPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Cart"),
+        title: const Text("My cart"),
       ),
       body: BlocBuilder<GetCartBloc, GetCartState>(
         builder: (context, state) {
           return state.when(
               initial: () => SizedBox(),
               loading: () => AppLoading.center(),
-              loaded: (carts) => _BuildCarts(
-                    carts: carts,
+              loaded: (data) => _BuildCarts(
+                    carts: data.carts,
                   ),
               failure: (failure) => Center(
                     child: Text(failure.toString()),
                   ));
         },
       ),
+      bottomNavigationBar: _BottomSheet(),
+    );
+  }
+}
+
+class _BottomSheet extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<GetCartBloc, GetCartState>(
+      builder: (context, state) {
+        return state.maybeWhen(
+            loaded: (data) => Container(
+                  color: ColorScheme.of(context).surfaceContainerLowest,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Row(children: [
+                        SizedBox(
+                          child: Row(
+                            children: [
+                              Checkbox(
+                                  value: data.isAllCartSelected,
+                                  onChanged: (value) => sl<GetCartBloc>()
+                                      .add(GetCartEvent.selectAllCarts())),
+                              Text("All"),
+                            ],
+                          ),
+                        ),
+                        Spacer(),
+                        Column(
+                          children: [
+                            Text("Subtotal Rs. ${data.subTotal}"),
+                          ],
+                        ),
+                        Gap(12),
+                        FilledButton(onPressed: () {}, child: Text("Check Out"))
+                      ]),
+                    ],
+                  ),
+                ),
+            orElse: () => SizedBox());
+      },
     );
   }
 }
@@ -40,7 +86,7 @@ class _BuildCarts extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+      padding: const EdgeInsets.symmetric(vertical: 4),
       itemCount: carts.length,
       itemBuilder: (context, index) {
         final cart = carts[index];

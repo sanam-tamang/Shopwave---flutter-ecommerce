@@ -23,6 +23,7 @@ class CartBlocListener extends StatelessWidget {
             loading: () async =>
                 await AppProgressIndicator.showWithContainer(context),
             loaded: (data) {
+           
               AppProgressIndicator.hide(context);
               AppToast.success(context, data);
             },

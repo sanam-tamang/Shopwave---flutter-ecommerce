@@ -27,7 +27,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetCategoryBloc(repo: sl()));
   sl.registerLazySingleton(() => ProductBloc(repo: sl()));
   sl.registerLazySingleton(() => GetProductBloc(repo: sl()));
-  sl.registerFactory(() => CartBloc(repo: sl()));
+  sl.registerFactory(() => CartBloc(repo: sl(), getCartBloc: sl()));
   sl.registerLazySingleton(() => GetCartBloc(repo: sl()));
 
   sl.registerLazySingleton<ProductRepository>(() => ProductRepositoryI(

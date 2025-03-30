@@ -1,9 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ecommerce/core/state/base_state.dart';
+import 'package:flutter_ecommerce/features/cart/blocs/get_cart_bloc/get_cart_bloc.dart';
 import 'package:flutter_ecommerce/features/cart/models/cart_form.dart';
 import 'package:flutter_ecommerce/features/cart/repositories/cart_repository.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:logger/logger.dart';
 
 part 'cart_event.dart';
 part 'cart_state.dart';
@@ -11,8 +11,10 @@ part 'cart_bloc.freezed.dart';
 
 class CartBloc extends Bloc<CartEvent, CartState> {
   final CartRepository _repo;
-  CartBloc({required CartRepository repo})
+  final GetCartBloc _getCartBloc;
+  CartBloc({required CartRepository repo, required GetCartBloc getCartBloc})
       : _repo = repo,
+        _getCartBloc = getCartBloc,
         super(CartState.initial()) {
     on<CartEvent>((event, emit) async {
       await event.when(add: (cart) async {
@@ -21,14 +23,16 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         failureOrSuccess.fold((failure) => emit(CartState.failure(failure)),
             (success) => emit(CartState.loaded(success)));
       }, update: (id, updatedTotalQuantity) async {
-        Logger().d("Product ID: $updatedTotalQuantity");
-
         emit(CartState.loading());
 
         final failureOrSuccess = await _repo.updateCart(
             id: id, updatedTotalQuantity: updatedTotalQuantity);
         failureOrSuccess.fold((failure) => emit(CartState.failure(failure)),
-            (success) => emit(CartState.loaded(success)));
+            (success) {
+          emit(CartState.loaded(success));
+          _getCartBloc.add(
+              GetCartEvent.updateCartQuantityLocally(id, updatedTotalQuantity));
+        });
       });
     });
   }

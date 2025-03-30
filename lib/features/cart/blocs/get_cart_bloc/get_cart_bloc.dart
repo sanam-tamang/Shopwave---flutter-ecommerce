@@ -10,18 +10,86 @@ part 'get_cart_bloc.freezed.dart';
 
 class GetCartBloc extends Bloc<GetCartEvent, GetCartState> {
   final CartRepository _repo;
+  List<Cart> _carts = [];
+
   GetCartBloc({required CartRepository repo})
       : _repo = repo,
         super(GetCartState.initial()) {
     on<GetCartEvent>((event, emit) async {
-      await event.when(get: () async {
-        emit(GetCartState.loading());
-        final failureOrCarts = await _repo.getCart();
-        failureOrCarts.fold(
-          (failure) => emit(GetCartState.failure(failure)),
-          (carts) => emit(GetCartState.loaded(carts)),
-        );
-      });
+      await event.when(
+        get: () async {
+          emit(GetCartState.loading());
+          final failureOrCarts = await _repo.getCart();
+          failureOrCarts.fold(
+            (failure) => emit(GetCartState.failure(failure)),
+            (carts) {
+              _carts = carts;
+              _callLoadedState(emit, _carts);
+            },
+          );
+        },
+        updateCartQuantityLocally: (id, updatedQuantity) async =>
+            _quantityCounterFunction(
+          emit,
+          id,
+          updatedQuantity,
+        ),
+        changeSelection: (Cart currentCart) async {
+          final List<Cart> carts = List.from(_carts);
+          _carts = carts.map((cart) {
+            if (cart.id == currentCart.id) {
+              return currentCart.copyWith(isSelected: !currentCart.isSelected);
+            }
+            return cart;
+          }).toList();
+          _callLoadedState(emit, _carts);
+        },
+        selectAllCarts: () {
+          final List<Cart> carts = List.from(_carts);
+          _carts = carts.map((cart) {
+            return cart.copyWith(isSelected: !_isSelectedAllCart());
+          }).toList();
+          _callLoadedState(emit, _carts);
+        },
+      );
     });
+  }
+
+  void _quantityCounterFunction(
+      Emitter<GetCartState> emit, String id, int updatedQuantity) {
+    final List<Cart> carts = List.from(_carts);
+    _carts = carts.map((cart) {
+      if (cart.id == id) {
+        return cart.copyWith(quantity: updatedQuantity);
+      }
+      return cart;
+    }).toList();
+    _callLoadedState(emit, _carts);
+  }
+
+  List<Cart> _filterSelectedCartsForProcessing() {
+    return _carts.where((cart) => cart.isSelected).toList();
+  }
+
+  bool _isSelectedAllCart() {
+    return _carts.every((cart) => cart.isSelected);
+  }
+
+  double _getSubTotal() {
+    double subTotal = 0;
+    for (var cart in _carts) {
+      if (cart.isSelected) {
+        subTotal += cart.quantity * cart.product.price;
+      }
+    }
+    return subTotal;
+  }
+
+  void _callLoadedState(Emitter<GetCartState> emit, List<Cart> carts) {
+    emit(GetCartState.loaded(GetCartModel(
+        subTotal: _getSubTotal(),
+        carts: _carts,
+        selectedCarts: _filterSelectedCartsForProcessing(),
+        isAllCartSelected: _isSelectedAllCart())));
   }
 }

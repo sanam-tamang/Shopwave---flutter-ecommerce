@@ -1,17 +1,22 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+
 import 'package:flutter_ecommerce/features/product/models/product.dart';
+import 'package:gap/gap.dart';
 
 class ProductPrice extends StatelessWidget {
   const ProductPrice({
     super.key,
     required this.product,
+    this.direction = Axis.horizontal,
   });
 
   final Product product;
-
+  final Axis direction;
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Flex(
+      direction: direction,
       children: [
         if (product.discountPrice != null) ...[
           Text(
@@ -21,7 +26,7 @@ class ProductPrice extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
           ),
-          const SizedBox(width: 8),
+          Gap(8),
           Text(
             '\$${product.price.toStringAsFixed(2)}',
             style: Theme.of(context).textTheme.bodySmall?.copyWith(

@@ -23,6 +23,7 @@ mixin _$Cart {
   String get id => throw _privateConstructorUsedError;
   Product get product => throw _privateConstructorUsedError;
   int get quantity => throw _privateConstructorUsedError;
+  bool get isSelected => throw _privateConstructorUsedError;
 
   /// Serializes this Cart to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -38,7 +39,7 @@ abstract class $CartCopyWith<$Res> {
   factory $CartCopyWith(Cart value, $Res Function(Cart) then) =
       _$CartCopyWithImpl<$Res, Cart>;
   @useResult
-  $Res call({String id, Product product, int quantity});
+  $Res call({String id, Product product, int quantity, bool isSelected});
 
   $ProductCopyWith<$Res> get product;
 }
@@ -61,6 +62,7 @@ class _$CartCopyWithImpl<$Res, $Val extends Cart>
     Object? id = null,
     Object? product = null,
     Object? quantity = null,
+    Object? isSelected = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -75,6 +77,10 @@ class _$CartCopyWithImpl<$Res, $Val extends Cart>
           ? _value.quantity
           : quantity // ignore: cast_nullable_to_non_nullable
               as int,
+      isSelected: null == isSelected
+          ? _value.isSelected
+          : isSelected // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 
@@ -96,7 +102,7 @@ abstract class _$$CartImplCopyWith<$Res> implements $CartCopyWith<$Res> {
       __$$CartImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, Product product, int quantity});
+  $Res call({String id, Product product, int quantity, bool isSelected});
 
   @override
   $ProductCopyWith<$Res> get product;
@@ -117,6 +123,7 @@ class __$$CartImplCopyWithImpl<$Res>
     Object? id = null,
     Object? product = null,
     Object? quantity = null,
+    Object? isSelected = null,
   }) {
     return _then(_$CartImpl(
       id: null == id
@@ -131,6 +138,10 @@ class __$$CartImplCopyWithImpl<$Res>
           ? _value.quantity
           : quantity // ignore: cast_nullable_to_non_nullable
               as int,
+      isSelected: null == isSelected
+          ? _value.isSelected
+          : isSelected // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -139,7 +150,10 @@ class __$$CartImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$CartImpl implements _Cart {
   const _$CartImpl(
-      {required this.id, required this.product, required this.quantity});
+      {required this.id,
+      required this.product,
+      required this.quantity,
+      this.isSelected = false});
 
   factory _$CartImpl.fromJson(Map<String, dynamic> json) =>
       _$$CartImplFromJson(json);
@@ -150,10 +164,13 @@ class _$CartImpl implements _Cart {
   final Product product;
   @override
   final int quantity;
+  @override
+  @JsonKey()
+  final bool isSelected;
 
   @override
   String toString() {
-    return 'Cart(id: $id, product: $product, quantity: $quantity)';
+    return 'Cart(id: $id, product: $product, quantity: $quantity, isSelected: $isSelected)';
   }
 
   @override
@@ -164,12 +181,15 @@ class _$CartImpl implements _Cart {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.product, product) || other.product == product) &&
             (identical(other.quantity, quantity) ||
-                other.quantity == quantity));
+                other.quantity == quantity) &&
+            (identical(other.isSelected, isSelected) ||
+                other.isSelected == isSelected));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, product, quantity);
+  int get hashCode =>
+      Object.hash(runtimeType, id, product, quantity, isSelected);
 
   /// Create a copy of Cart
   /// with the given fields replaced by the non-null parameter values.
@@ -191,7 +211,8 @@ abstract class _Cart implements Cart {
   const factory _Cart(
       {required final String id,
       required final Product product,
-      required final int quantity}) = _$CartImpl;
+      required final int quantity,
+      final bool isSelected}) = _$CartImpl;
 
   factory _Cart.fromJson(Map<String, dynamic> json) = _$CartImpl.fromJson;
 
@@ -201,6 +222,8 @@ abstract class _Cart implements Cart {
   Product get product;
   @override
   int get quantity;
+  @override
+  bool get isSelected;
 
   /// Create a copy of Cart
   /// with the given fields replaced by the non-null parameter values.
