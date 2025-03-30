@@ -71,6 +71,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
           mainAxisSize: MainAxisSize.min,
           children: [
             ItemQuantityController(
+              label: "Quantity",
               getQuantity: (quantity) {
                 _quantity = quantity;
               },
