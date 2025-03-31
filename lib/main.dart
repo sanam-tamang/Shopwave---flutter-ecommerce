@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_ecommerce/common/theme/app_theme.dart';
 import 'package:flutter_ecommerce/core/blocs/user_local_data/user_local_data_bloc.dart';
 import 'package:flutter_ecommerce/dependency_injection.dart';
 import 'package:flutter_ecommerce/features/auth/blocs/auth_bloc/auth_bloc.dart';
@@ -12,7 +13,6 @@ import 'package:flutter_ecommerce/features/product/blocs/get_product_bloc/get_pr
 import 'package:flutter_ecommerce/features/product/blocs/product_bloc/product_bloc.dart';
 import 'package:flutter_ecommerce/features/user/blocs/user_bloc/user_bloc.dart';
 import 'package:flutter_ecommerce/routes.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> main() async {
@@ -59,10 +59,8 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: "Flutter Ecommerce",
         routerConfig: AppRoute.route,
-        theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(
-                seedColor: const Color.fromARGB(255, 2, 2, 186)),
-            textTheme: GoogleFonts.latoTextTheme(Theme.of(context).textTheme)),
+        theme: lightTheme(context),
+        // darkTheme: darkTheme(context),
       ),
     );
   }
