@@ -75,7 +75,7 @@ class _BottomSheet extends StatelessWidget {
                                   ? null
                                   : () =>
                                       context.pushNamed(AppRouteName.checkout),
-                              child: Text("Check Out"))
+                              child: Text("Checkout"))
                         ]),
                       ],
                     ),
