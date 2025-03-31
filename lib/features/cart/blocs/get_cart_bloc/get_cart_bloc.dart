@@ -79,11 +79,13 @@ class GetCartBloc extends Bloc<GetCartEvent, GetCartState> {
     double subTotal = 0;
     for (var cart in _carts) {
       if (cart.isSelected) {
-        subTotal += cart.quantity * cart.product.price;
+        double currentPrice = cart.product.discountPrice ?? cart.product.price;
+        subTotal += cart.quantity * currentPrice;
       }
     }
     return subTotal;
   }
+
 
   void _callLoadedState(Emitter<GetCartState> emit, List<Cart> carts) {
     emit(GetCartState.loaded(GetCartModel(

@@ -21,7 +21,10 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         emit(CartState.loading());
         final failureOrSuccess = await _repo.addCart(cart);
         failureOrSuccess.fold((failure) => emit(CartState.failure(failure)),
-            (success) => emit(CartState.loaded(success)));
+            (success) {
+          emit(CartState.loaded(success));
+          _getCartBloc.add(GetCartEvent.get());
+        });
       }, update: (id, updatedTotalQuantity) async {
         emit(CartState.loading());
 
