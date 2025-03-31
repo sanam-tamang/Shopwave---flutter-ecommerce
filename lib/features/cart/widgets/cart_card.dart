@@ -20,68 +20,73 @@ class CartCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 16),
+      padding: const EdgeInsets.only(bottom: 12),
       child: Card(
         margin: EdgeInsets.zero,
-        elevation: 0,
         color: Theme.of(context).colorScheme.surfaceContainerLowest,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          child: SizedBox(
-            height: 120,
-            child: Row(
-              children: [
-                Checkbox.adaptive(
-                    value: cart.isSelected,
-                    onChanged: (value) => sl<GetCartBloc>()
-                        .add(GetCartEvent.changeSelection(cart))),
-                Gap(4),
-                Expanded(
-                    child: SizedBox(
-                  height: double.maxFinite,
-                  child: AppCachedNetworkImage(
-                    imageUrl: cart.product.images.firstOrNull?.url,
-                    fit: BoxFit.cover,
-                  ),
-                )),
-                Expanded(
-                    flex: 2,
-                    child: Container(
-                        padding: const EdgeInsets.all(12),
-                        child: Column(
-                            spacing: 8,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                cart.product.name,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .labelLarge
-                                    ?.copyWith(fontWeight: FontWeight.bold),
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              Expanded(
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    FittedBox(
-                                        child: ProductPrice(
-                                            direction: Axis.vertical,
-                                            product: cart.product)),
-                                    _cartQuantity(),
-                                  ],
-                                ),
-                              ),
-                            ])))
-              ],
-            ),
+        child: SizedBox(
+          height: 120,
+          child: Row(
+            children: [
+              _buildCheckBox(),
+              Gap(4),
+              _buildProductImage(),
+              _buildProductDetail(context)
+            ],
           ),
         ),
       ),
     );
+  }
+
+  Checkbox _buildCheckBox() {
+    return Checkbox.adaptive(
+        value: cart.isSelected,
+        onChanged: (value) =>
+            sl<GetCartBloc>().add(GetCartEvent.changeSelection(cart)));
+  }
+
+  Expanded _buildProductImage() {
+    return Expanded(
+        child: SizedBox(
+      height: double.maxFinite,
+      child: AppCachedNetworkImage(
+        imageUrl: cart.product.images.firstOrNull?.url,
+        fit: BoxFit.cover,
+      ),
+    ));
+  }
+
+  Expanded _buildProductDetail(BuildContext context) {
+    return Expanded(
+        flex: 2,
+        child: Container(
+            padding: const EdgeInsets.all(12),
+            child: Column(
+                spacing: 8,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    cart.product.name,
+                    style: Theme.of(context)
+                        .textTheme
+                        .labelLarge
+                        ?.copyWith(fontWeight: FontWeight.bold),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      FittedBox(
+                          child: ProductPrice(
+                              direction: Axis.vertical, product: cart.product)),
+                      Spacer(),
+                      _cartQuantity(),
+                    ],
+                  ),
+                ])));
   }
 
   CartBlocListener _cartQuantity() {

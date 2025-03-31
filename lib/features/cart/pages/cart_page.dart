@@ -40,37 +40,40 @@ class _BottomSheet extends StatelessWidget {
     return BlocBuilder<GetCartBloc, GetCartState>(
       builder: (context, state) {
         return state.maybeWhen(
-            loaded: (data) => Container(
-                  color: ColorScheme.of(context).surfaceContainerLowest,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Row(children: [
-                        SizedBox(
-                          child: Row(
+            loaded: (data) => data.carts.isEmpty
+                ? SizedBox()
+                : Container(
+                    color: ColorScheme.of(context).surfaceContainerLowest,
+                    padding: const EdgeInsets.symmetric(vertical: 20)
+                        .copyWith(right: 12),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Row(children: [
+                          SizedBox(
+                            child: Row(
+                              children: [
+                                Checkbox(
+                                    value: data.isAllCartSelected,
+                                    onChanged: (value) => sl<GetCartBloc>()
+                                        .add(GetCartEvent.selectAllCarts())),
+                                Text("All"),
+                              ],
+                            ),
+                          ),
+                          Spacer(),
+                          Column(
                             children: [
-                              Checkbox(
-                                  value: data.isAllCartSelected,
-                                  onChanged: (value) => sl<GetCartBloc>()
-                                      .add(GetCartEvent.selectAllCarts())),
-                              Text("All"),
+                              Text("Subtotal Rs. ${data.subTotal}"),
                             ],
                           ),
-                        ),
-                        Spacer(),
-                        Column(
-                          children: [
-                            Text("Subtotal Rs. ${data.subTotal}"),
-                          ],
-                        ),
-                        Gap(12),
-                        FilledButton(onPressed: () {}, child: Text("Check Out"))
-                      ]),
-                    ],
+                          Gap(12),
+                          FilledButton(
+                              onPressed: () {}, child: Text("Check Out"))
+                        ]),
+                      ],
+                    ),
                   ),
-                ),
             orElse: () => SizedBox());
       },
     );

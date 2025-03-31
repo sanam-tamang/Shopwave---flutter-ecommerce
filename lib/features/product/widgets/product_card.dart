@@ -15,7 +15,8 @@ class ProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Colors.grey.shade100,
+      color: ColorScheme.of(context).surfaceContainerLowest,
+      elevation: 0.5,
       child: Padding(
         padding: const EdgeInsets.only(bottom: 12),
         child: Column(

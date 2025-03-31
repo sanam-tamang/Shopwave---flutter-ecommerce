@@ -61,7 +61,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
 
   Widget _bottomSheet() {
     return Card(
-      color: Colors.white,
+      color: ColorScheme.of(context).surfaceContainerLowest,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       margin: EdgeInsets.zero,
       child: Padding(
