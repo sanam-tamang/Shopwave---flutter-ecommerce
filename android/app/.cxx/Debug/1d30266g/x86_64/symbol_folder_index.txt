@@ -1,0 +1,1 @@
+/media/sanam/Prolifa/1_projects/flutter/flutter_ecommerce/build/app/intermediates/cxx/Debug/1d30266g/obj/x86_64
