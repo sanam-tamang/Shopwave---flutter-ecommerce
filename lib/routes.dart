@@ -11,6 +11,7 @@ import 'package:flutter_ecommerce/features/auth/pages/sign_in.dart';
 import 'package:flutter_ecommerce/features/auth/pages/sign_up.dart';
 import 'package:flutter_ecommerce/features/cart/pages/cart_page.dart';
 import 'package:flutter_ecommerce/features/home/pages/home_page.dart';
+import 'package:flutter_ecommerce/features/order/pages/checkout_page.dart';
 import 'package:flutter_ecommerce/features/product/models/product.dart';
 import 'package:flutter_ecommerce/features/product/pages/product_detail_page.dart';
 import 'package:flutter_ecommerce/features/user/pages/user_account.dart';
@@ -23,6 +24,7 @@ class AppRouteName {
   static const String userProfile = "u";
   static const String search = "search";
   static const String cart = "cart";
+  static const String checkout = "checkout";
   static const String categoryForm = "category-form";
   static const String productForm = "product-form";
   static const String productDetailPage = "product";
@@ -102,10 +104,17 @@ class AppRoute {
             navigatorKey: cartNavKey,
             routes: [
               GoRoute(
-                path: AppRouteName.cart.path,
-                name: AppRouteName.cart,
-                builder: (context, state) => const CartPage(),
-              ),
+                  path: AppRouteName.cart.path,
+                  name: AppRouteName.cart,
+                  builder: (context, state) => const CartPage(),
+                  routes: [
+                    GoRoute(
+                      parentNavigatorKey: rootNavigatorKey,
+                      path: AppRouteName.checkout.path,
+                      name: AppRouteName.checkout,
+                      builder: (context, state) => const CheckOutPage(),
+                    ),
+                  ]),
             ],
           ),
           StatefulShellBranch(

@@ -5,7 +5,9 @@ import 'package:flutter_ecommerce/dependency_injection.dart';
 import 'package:flutter_ecommerce/features/cart/blocs/get_cart_bloc/get_cart_bloc.dart';
 import 'package:flutter_ecommerce/features/cart/models/cart.dart';
 import 'package:flutter_ecommerce/features/cart/widgets/cart_card.dart';
+import 'package:flutter_ecommerce/routes.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 
 class CartPage extends StatelessWidget {
   const CartPage({super.key});
@@ -69,7 +71,11 @@ class _BottomSheet extends StatelessWidget {
                           ),
                           Gap(12),
                           FilledButton(
-                              onPressed: () {}, child: Text("Check Out"))
+                              onPressed: data.selectedCarts.isEmpty
+                                  ? null
+                                  : () =>
+                                      context.pushNamed(AppRouteName.checkout),
+                              child: Text("Check Out"))
                         ]),
                       ],
                     ),
