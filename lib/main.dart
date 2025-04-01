@@ -4,6 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_ecommerce/common/theme/app_theme.dart';
 import 'package:flutter_ecommerce/core/blocs/user_local_data/user_local_data_bloc.dart';
 import 'package:flutter_ecommerce/dependency_injection.dart';
+import 'package:flutter_ecommerce/features/address/blocs/address_bloc/address_bloc.dart';
 import 'package:flutter_ecommerce/features/auth/blocs/auth_bloc/auth_bloc.dart';
 import 'package:flutter_ecommerce/features/cart/blocs/cart_bloc/cart_bloc.dart';
 import 'package:flutter_ecommerce/features/cart/blocs/get_cart_bloc/get_cart_bloc.dart';
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => sl<CategoryBloc>()),
         BlocProvider(create: (context) => sl<ProductBloc>()),
         BlocProvider(create: (context) => sl<CartBloc>()),
+        BlocProvider(create: (context) => sl<AddressBloc>()),
         BlocProvider(
             create: (context) => sl<GetCartBloc>()..add(GetCartEvent.get())),
         BlocProvider(

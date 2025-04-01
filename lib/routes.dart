@@ -5,6 +5,7 @@ import 'package:flutter_ecommerce/common/utils/extension.dart';
 import 'package:flutter_ecommerce/common/widgets/layout_scaffold.dart';
 import 'package:flutter_ecommerce/core/repositories/user_local_data_repository.dart';
 import 'package:flutter_ecommerce/dependency_injection.dart';
+import 'package:flutter_ecommerce/features/address/pages/address_form_page.dart';
 import 'package:flutter_ecommerce/features/admin/pages/category_form_page.dart';
 import 'package:flutter_ecommerce/features/admin/pages/product_form.dart';
 import 'package:flutter_ecommerce/features/auth/pages/sign_in.dart';
@@ -27,6 +28,7 @@ class AppRouteName {
   static const String checkout = "checkout";
   static const String categoryForm = "category-form";
   static const String productForm = "product-form";
+  static const String addressForm = "address-form";
   static const String productDetailPage = "product";
   static const String authGuard = "grd";
 }
@@ -136,6 +138,12 @@ class AppRoute {
                       path: AppRouteName.productForm.path,
                       name: AppRouteName.productForm,
                       builder: (context, state) => const ProductFormPage(),
+                    ),
+                    GoRoute(
+                      parentNavigatorKey: rootNavigatorKey,
+                      path: AppRouteName.addressForm.path,
+                      name: AppRouteName.addressForm,
+                      builder: (context, state) => const AddressFormPage(),
                     ),
                   ]),
             ],

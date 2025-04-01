@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ecommerce/common/widgets/app_loading.dart';
 import 'package:flutter_ecommerce/common/widgets/custom_cached_network_image.dart';
+import 'package:flutter_ecommerce/features/address/widgets/add_shipping_address.dart';
 import 'package:flutter_ecommerce/features/cart/blocs/get_cart_bloc/get_cart_bloc.dart';
 import 'package:flutter_ecommerce/features/cart/models/cart.dart';
 
@@ -39,10 +40,13 @@ class _BuildCheckOutCarts extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.separated(
         padding: const EdgeInsets.symmetric(horizontal: 12),
-        itemCount: selectedCarts.length,
+        itemCount: selectedCarts.length + 1,
         separatorBuilder: (context, index) => Divider(),
         itemBuilder: (context, index) {
-          final cart = selectedCarts[index];
+          if (index == 0) {
+            return AddShippingAddressButton();
+          }
+          final cart = selectedCarts[index - 1];
           return Row(children: [
             SizedBox(
               height: 150,
