@@ -77,7 +77,7 @@ class HomePage extends StatelessWidget {
       builder: (context, state) {
         return state.maybeWhen(
           orElse: () => SizedBox(),
-          loading: () => AppLoading.center(),
+          // loading: () => AppLoading.center(),
           loaded: (categories) {
             return ColoredBox(
               color: ColorScheme.of(context).surfaceContainerLow,

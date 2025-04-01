@@ -3,7 +3,6 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-
 class AppCachedNetworkImage extends StatelessWidget {
   const AppCachedNetworkImage({
     super.key,
@@ -42,10 +41,8 @@ class AppCachedNetworkImage extends StatelessWidget {
         ? isCircular
             ? CircleAvatar(
                 radius: radius,
-                backgroundImage: ExtendedNetworkImageProvider(
-                  fullImageUrl,
-                  cache: true,
-                ),
+                backgroundImage: ExtendedNetworkImageProvider(fullImageUrl,
+                    cache: true, cacheRawData: true),
                 backgroundColor: Colors.transparent,
                 onBackgroundImageError: (exception, stackTrace) =>
                     const Icon(Icons.error),

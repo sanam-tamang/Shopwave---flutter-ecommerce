@@ -60,7 +60,7 @@ class MyApp extends StatelessWidget {
         title: "Flutter Ecommerce",
         routerConfig: AppRoute.route,
         theme: lightTheme(context),
-        darkTheme: darkTheme(context),
+        // darkTheme: darkTheme(context),
       ),
     );
   }
