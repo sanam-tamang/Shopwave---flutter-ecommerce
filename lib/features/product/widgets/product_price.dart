@@ -21,24 +21,24 @@ class ProductPrice extends StatelessWidget {
         if (product.discountPrice != null) ...[
           Text(
             '\$${product.discountPrice!.toStringAsFixed(2)}',
-            style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                  color: Theme.of(context).primaryColor,
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: ColorScheme.of(context).onSurface,
                   fontWeight: FontWeight.bold,
                 ),
           ),
           Gap(8),
           Text(
             '\$${product.price.toStringAsFixed(2)}',
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+            style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                  color: ColorScheme.of(context).secondary,
                   decoration: TextDecoration.lineThrough,
-                  color: Colors.grey,
                 ),
           ),
         ] else
           Text(
             '\$${product.price.toStringAsFixed(2)}',
-            style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                  color: Theme.of(context).primaryColor,
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: ColorScheme.of(context).onSurface,
                   fontWeight: FontWeight.bold,
                 ),
           ),

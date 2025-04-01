@@ -20,10 +20,12 @@ class CartCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.only(
+        bottom: 16,
+      ),
       child: Card(
-        margin: EdgeInsets.zero,
-        color: Theme.of(context).colorScheme.surfaceContainerLowest,
+        // margin: EdgeInsets.zero,
+        color: Theme.of(context).colorScheme.surfaceContainerLow,
         child: SizedBox(
           height: 120,
           child: Row(

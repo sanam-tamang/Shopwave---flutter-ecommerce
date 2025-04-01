@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ecommerce/common/widgets/app_loading.dart';
@@ -6,6 +5,7 @@ import 'package:flutter_ecommerce/common/widgets/custom_cached_network_image.dar
 import 'package:flutter_ecommerce/features/category/blocs/get_category_bloc/get_category_bloc.dart';
 import 'package:flutter_ecommerce/features/product/blocs/get_product_bloc/get_product_bloc.dart';
 import 'package:flutter_ecommerce/features/product/widgets/product_card.dart';
+import 'package:flutter_ecommerce/features/search/widgets/app_search_box.dart';
 import 'package:flutter_ecommerce/routes.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
@@ -16,51 +16,29 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       body: SafeArea(
         child: NestedScrollView(
             headerSliverBuilder: (context, innerBoxIsScrolled) {
               return [
                 SliverAppBar(
-                  // pinned: true,
-                  snap: true,
-
-                  floating: true,
                   title: Text(
                     "Ecommerce",
                   ),
                 ),
                 SliverAppBar(
-                  expandedHeight: 160,
-                  flexibleSpace: FlexibleSpaceBar(
-                    background: CarouselView(
-                        onTap: (index) {},
-                        itemExtent: 270,
-                        children: List.generate(10, (index) {
-                          return LimitedBox(
-                            maxHeight: 400,
-                            child: Container(
-                              color: Color.fromARGB(255, Random().nextInt(256),
-                                  120, Random().nextInt(256)),
-                              child: Text("hello"),
-                            ),
-                          );
-                        })),
-                  ),
+                  pinned: true,
+                  flexibleSpace: AppSearchBoxUI(),
                 ),
               ];
             },
-            body: Container(
-              color: Colors.white,
-              child: CustomScrollView(
-                slivers: [
-                  SliverToBoxAdapter(
-                    child: _buildCategoryTabs(),
-                  ),
-                  _BuildProductHeader(),
-                  _buildProductList(),
-                ],
-              ),
+            body: CustomScrollView(
+              slivers: [
+                SliverToBoxAdapter(
+                  child: _buildCategoryTabs(),
+                ),
+                _BuildProductHeader(),
+                _buildProductList(),
+              ],
             )),
       ),
     );
@@ -102,12 +80,13 @@ class HomePage extends StatelessWidget {
           loading: () => AppLoading.center(),
           loaded: (categories) {
             return ColoredBox(
-              color: ColorScheme.of(context).surfaceContainerLowest,
+              color: ColorScheme.of(context).surfaceContainerLow,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Gap(8),
                     Text(
                       "Categories",
                       style: TextTheme.of(context)
@@ -123,7 +102,7 @@ class HomePage extends StatelessWidget {
                         itemBuilder: (context, index) {
                           return GestureDetector(
                             child: Container(
-                              width: 130,
+                              width: 100,
                               padding: EdgeInsets.symmetric(
                                   horizontal: 8, vertical: 4),
                               // margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -151,7 +130,7 @@ class HomePage extends StatelessWidget {
                                       style: TextTheme.of(context).labelMedium,
                                     ),
                                   ),
-                                  Gap(4),
+                                  Gap(8),
                                 ],
                               ),
                             ),

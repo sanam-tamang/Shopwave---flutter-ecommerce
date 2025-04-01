@@ -45,7 +45,7 @@ class _BottomSheet extends StatelessWidget {
             loaded: (data) => data.carts.isEmpty
                 ? SizedBox()
                 : Container(
-                    color: ColorScheme.of(context).surfaceContainerLowest,
+                    color: ColorScheme.of(context).surfaceContainerLow,
                     padding: const EdgeInsets.symmetric(vertical: 20)
                         .copyWith(right: 12),
                     child: Column(
