@@ -117,7 +117,7 @@ class _BottomNavBar extends StatelessWidget {
                       Spacer(),
                       FilledButton(
                         onPressed: () {},
-                        child: Text("Checkout"),
+                        child: Text("Order now"),
                       )
                     ],
                   ),
