@@ -13,6 +13,7 @@ import 'package:flutter_ecommerce/features/auth/pages/sign_up.dart';
 import 'package:flutter_ecommerce/features/cart/pages/cart_page.dart';
 import 'package:flutter_ecommerce/features/home/pages/home_page.dart';
 import 'package:flutter_ecommerce/features/order/pages/checkout_page.dart';
+import 'package:flutter_ecommerce/features/order/pages/order_success_page.dart';
 import 'package:flutter_ecommerce/features/product/models/product.dart';
 import 'package:flutter_ecommerce/features/product/pages/product_detail_page.dart';
 import 'package:flutter_ecommerce/features/user/pages/user_account.dart';
@@ -30,6 +31,7 @@ class AppRouteName {
   static const String productForm = "product-form";
   static const String addressForm = "address-form";
   static const String productDetailPage = "product";
+  static const String orderSuccessPage = "order-confirm";
   static const String authGuard = "grd";
 }
 
@@ -111,11 +113,21 @@ class AppRoute {
                   builder: (context, state) => const CartPage(),
                   routes: [
                     GoRoute(
-                      parentNavigatorKey: rootNavigatorKey,
-                      path: AppRouteName.checkout.path,
-                      name: AppRouteName.checkout,
-                      builder: (context, state) => const CheckOutPage(),
-                    ),
+                        parentNavigatorKey: rootNavigatorKey,
+                        path: AppRouteName.checkout.path,
+                        name: AppRouteName.checkout,
+                        builder: (context, state) => const CheckOutPage(),
+                        routes: [
+                          GoRoute(
+                            parentNavigatorKey: rootNavigatorKey,
+                            path: AppRouteName.orderSuccessPage.path,
+                            name: AppRouteName.orderSuccessPage,
+                            builder: (context, state) {
+                              final orderId = state.extra as String;
+                              return OrderSuccessPage(orderId: orderId);
+                            },
+                          ),
+                        ]),
                   ]),
             ],
           ),

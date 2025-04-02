@@ -16,6 +16,8 @@ class Product with _$Product {
     required List<ProductImage> images,
     @JsonKey(name: "quantity") required int stockQuantity,
   }) = _Product;
+  double get currentAmount => discountPrice ?? price;
+
   double? get discountPercentage =>
       discountPrice == null ? null : (price - discountPrice!) / price * 100;
   factory Product.fromJson(Map<String, dynamic> json) =>

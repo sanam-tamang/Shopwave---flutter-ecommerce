@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ecommerce/core/state/base_state.dart';
 import 'package:flutter_ecommerce/features/cart/blocs/get_cart_bloc/get_cart_bloc.dart';
+import 'package:flutter_ecommerce/features/cart/models/cart.dart';
 import 'package:flutter_ecommerce/features/cart/models/cart_form.dart';
 import 'package:flutter_ecommerce/features/cart/repositories/cart_repository.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';

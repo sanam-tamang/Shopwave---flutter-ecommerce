@@ -6,6 +6,7 @@ part 'cart.g.dart';
 
 @freezed
 class Cart with _$Cart {
+  const Cart._();
   const factory Cart({
     required String id,
     required Product product,
@@ -14,6 +15,6 @@ class Cart with _$Cart {
     bool
         isSelected, //we typically use this property to select processing product from cart page
   }) = _Cart;
-
+  double get subTotal => quantity * (product.discountPrice ?? product.price);
   factory Cart.fromJson(Map<String, dynamic> json) => _$CartFromJson(json);
 }

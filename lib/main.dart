@@ -11,6 +11,7 @@ import 'package:flutter_ecommerce/features/cart/blocs/cart_bloc/cart_bloc.dart';
 import 'package:flutter_ecommerce/features/cart/blocs/get_cart_bloc/get_cart_bloc.dart';
 import 'package:flutter_ecommerce/features/category/blocs/category_bloc/category_bloc.dart';
 import 'package:flutter_ecommerce/features/category/blocs/get_category_bloc/get_category_bloc.dart';
+import 'package:flutter_ecommerce/features/order/blocs/order_bloc/order_bloc.dart';
 import 'package:flutter_ecommerce/features/product/blocs/get_product_bloc/get_product_bloc.dart';
 import 'package:flutter_ecommerce/features/product/blocs/product_bloc/product_bloc.dart';
 import 'package:flutter_ecommerce/features/user/blocs/user_bloc/user_bloc.dart';
@@ -43,6 +44,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => sl<ProductBloc>()),
         BlocProvider(create: (context) => sl<CartBloc>()),
         BlocProvider(create: (context) => sl<AddressBloc>()),
+        BlocProvider(create: (context) => sl<OrderBloc>()),
+
         BlocProvider(
             create: (context) =>
                 sl<GetAddressBloc>()..add(GetAddressEvent.get())),

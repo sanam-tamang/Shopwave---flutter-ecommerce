@@ -1,14 +1,27 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_ecommerce/common/utils/loading_dialog.dart';
+import 'package:flutter_ecommerce/common/utils/toast_msg.dart';
+
 import 'package:flutter_ecommerce/common/widgets/app_loading.dart';
 import 'package:flutter_ecommerce/common/widgets/custom_cached_network_image.dart';
+import 'package:flutter_ecommerce/dependency_injection.dart';
+import 'package:flutter_ecommerce/features/address/blocs/get_address_bloc/get_address_bloc.dart';
 import 'package:flutter_ecommerce/features/address/widgets/add_address_or_get_address_widget.dart';
 import 'package:flutter_ecommerce/features/cart/blocs/get_cart_bloc/get_cart_bloc.dart';
 import 'package:flutter_ecommerce/features/cart/models/cart.dart';
+import 'package:flutter_ecommerce/features/order/blocs/order_bloc/order_bloc.dart';
+import 'package:flutter_ecommerce/features/order/models/order_model.dart';
+import 'package:flutter_ecommerce/routes.dart';
+import 'package:go_router/go_router.dart';
 
 class CheckOutPage extends StatelessWidget {
-  const CheckOutPage({super.key});
-
+  const CheckOutPage({
+    super.key,
+    this.order,
+  });
+  final BuyNowOrderModel? order;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -103,9 +116,14 @@ class _BuildCheckOutCarts extends StatelessWidget {
   }
 }
 
-class _BottomNavBar extends StatelessWidget {
+class _BottomNavBar extends StatefulWidget {
   const _BottomNavBar();
 
+  @override
+  State<_BottomNavBar> createState() => _BottomNavBarState();
+}
+
+class _BottomNavBarState extends State<_BottomNavBar> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<GetCartBloc, GetCartState>(
@@ -130,9 +148,36 @@ class _BottomNavBar extends StatelessWidget {
                           ],
                         ),
                         Spacer(),
-                        FilledButton(
-                          onPressed: () {},
-                          child: Text("Order now"),
+                        BlocListener<OrderBloc, OrderState>(
+                          listener: (context, state) {
+                            state.whenOrNull(
+                                loading: () =>
+                                    AppProgressIndicator.show(context),
+                                failure: (failure) {
+                                  AppProgressIndicator.hide(context);
+                                  AppToast.error(context, failure.toString());
+                                },
+                                loaded: (order) {
+                                  AppProgressIndicator.hide(context);
+                                  return context.pushReplacementNamed(
+                                      AppRouteName.orderSuccessPage,
+                                      extra: order);
+                                });
+                          },
+                          child: BlocBuilder<GetAddressBloc, GetAddressState>(
+                            builder: (context, state) {
+                              return FilledButton(
+                                onPressed: () {
+                                  final addressId = getAddressId(state);
+                                  _placeCartOrder(CartOrderModel(
+                                      carts: data.selectedCarts,
+                                      totalAmount: data.subTotal,
+                                      shippingAddressId: addressId!));
+                                },
+                                child: Text("Place order"),
+                              );
+                            },
+                          ),
                         )
                       ],
                     ),
@@ -141,5 +186,21 @@ class _BottomNavBar extends StatelessWidget {
             orElse: () => SizedBox());
       },
     );
+  }
+
+  void _placeCartOrder(CartOrderModel order) {
+    sl<OrderBloc>().add(OrderEvent.placeCartOrder(order));
+  }
+
+  String? getAddressId(GetAddressState state) {
+    final addressId = state.maybeWhen(
+      loaded: (data) => data!.id,
+      orElse: () {
+        AppToast.error(context, "Please add address");
+        context.pushNamed(AppRouteName.addressForm);
+        return "";
+      },
+    );
+    return addressId;
   }
 }
