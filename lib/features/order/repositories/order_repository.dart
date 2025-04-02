@@ -22,10 +22,8 @@ class OrderRepositoryI implements OrderRepository {
   FutureEither<String> createBuyNowOrder(BuyNowOrderModel order) async {
     return await handleApplicationException(() async {
       final orderId = Uuid().v4();
-      await Future.wait([
-        _createOrder(orderId, order),
-        _createBuyNowOrderItem(orderId, order)
-      ]);
+      await _createOrder(orderId, order);
+      await _createBuyNowOrderItem(orderId, order);
 
       return orderId;
     });
@@ -35,10 +33,8 @@ class OrderRepositoryI implements OrderRepository {
   FutureEither<String> createCartOrder(CartOrderModel order) async {
     return await handleApplicationException(() async {
       final orderId = Uuid().v4();
-      await Future.wait([
-        _createOrder(orderId, order),
-        _createCartOrderItems(orderId, order)
-      ]);
+      await _createOrder(orderId, order);
+      await _createCartOrderItems(orderId, order);
 
       return orderId;
     });
@@ -55,40 +51,37 @@ class OrderRepositoryI implements OrderRepository {
       await _client.from("orders").insert({
         "id": orderId,
         "user_id": userId,
-        "total_amount": order.totalAmount,
+        "total_price": order.totalAmount,
         "shipping_address": order.shippingAddressId,
       });
+
+      return;
     });
   }
 
-  FutureEither<void> _createCartOrderItems(
+  Future<void> _createCartOrderItems(
       String orderId, CartOrderModel order) async {
-    return await handleApplicationException(() async {
-      List<Map> orderItemMap = order.carts
-          .map((cart) => Map.from({
-                "order_id": orderId,
-                "product_id": cart.product.id,
-                "quantity": cart.quantity,
-                "price": cart.product.currentAmount,
-                "sub_total": cart.subTotal,
-              }))
-          .toList();
-      await _client.from("order_items").insert(orderItemMap);
-    });
+    List<Map<String, dynamic>> orderItemMap = order.carts
+        .map((cart) => Map<String, dynamic>.from({
+              "order_id": orderId,
+              "product_id": cart.product.id,
+              "quantity": cart.quantity,
+              "price": cart.product.currentAmount,
+            }))
+        .toList();
+    await _client.from("order_items").insert(orderItemMap);
+    return;
   }
 
-  FutureEither<void> _createBuyNowOrderItem(
+  Future<void> _createBuyNowOrderItem(
       String orderId, BuyNowOrderModel order) async {
-    return await handleApplicationException(() async {
-      Map orderItemMap = Map.from({
-        "order_id": orderId,
-        "product_id": order.product.id,
-        "quantity": order.quantity,
-        "price": order.product.currentAmount,
-        "sub_total": order.quantity * order.product.currentAmount,
-      });
-
-      await _client.from("order_items").insert(orderItemMap);
+    Map orderItemMap = Map.from({
+      "order_id": orderId,
+      "product_id": order.product.id,
+      "quantity": order.quantity,
+      "price": order.product.currentAmount,
     });
+
+    await _client.from("order_items").insert(orderItemMap);
   }
 }

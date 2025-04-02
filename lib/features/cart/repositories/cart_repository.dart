@@ -9,7 +9,9 @@ import 'package:logger/logger.dart';
 abstract interface class CartRepository {
   FutureEither<List<Cart>> getCart();
   FutureEither<String> addCart(CartForm cart);
-  FutureEither<String> updateCart({required String id, required int updatedTotalQuantity});
+  FutureEither<String> deleteCarts(List<Cart> carts);
+  FutureEither<String> updateCart(
+      {required String id, required int updatedTotalQuantity});
 }
 
 class CartRepositoryI implements CartRepository {
@@ -49,9 +51,9 @@ class CartRepositoryI implements CartRepository {
   FutureEither<String> updateCart(
       {required String id, required int updatedTotalQuantity}) async {
     return await handleApplicationException(() async {
-      await _client.from("carts").update({
-        'quantity': updatedTotalQuantity
-      }).eq('id', id);
+      await _client
+          .from("carts")
+          .update({'quantity': updatedTotalQuantity}).eq('id', id);
       return "Success! Cart update.";
     });
   }
@@ -73,6 +75,21 @@ class CartRepositoryI implements CartRepository {
 
       final carts = List.from(cartMap).map((e) => Cart.fromJson(e)).toList();
       return carts;
+    });
+  }
+
+  @override
+  FutureEither<String> deleteCarts(List<Cart> carts) async {
+    return await handleApplicationException(() async {
+      final cartIds = carts.map((cart) => cart.id).toList();
+      final userId = await _getUserId();
+      await _client
+          .from('carts')
+          .delete()
+          .inFilter('id', cartIds)
+          .eq('user_id', userId);
+
+      return "Success! ${carts.length} cart items deleted.";
     });
   }
 }

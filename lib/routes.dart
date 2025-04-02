@@ -12,6 +12,7 @@ import 'package:flutter_ecommerce/features/auth/pages/sign_in.dart';
 import 'package:flutter_ecommerce/features/auth/pages/sign_up.dart';
 import 'package:flutter_ecommerce/features/cart/pages/cart_page.dart';
 import 'package:flutter_ecommerce/features/home/pages/home_page.dart';
+import 'package:flutter_ecommerce/features/order/models/order_model.dart';
 import 'package:flutter_ecommerce/features/order/pages/checkout_page.dart';
 import 'package:flutter_ecommerce/features/order/pages/order_success_page.dart';
 import 'package:flutter_ecommerce/features/product/models/product.dart';
@@ -59,6 +60,25 @@ class AppRoute {
         name: AppRouteName.signIn,
         builder: (context, state) => const SignInPage(),
       ),
+      GoRoute(
+          parentNavigatorKey: rootNavigatorKey,
+          path: AppRouteName.checkout.path,
+          name: AppRouteName.checkout,
+          builder: (context, state) {
+            final BuyNowOrderModel? order = state.extra as BuyNowOrderModel?;
+            return CheckOutPage(order: order);
+          },
+          routes: [
+            GoRoute(
+              parentNavigatorKey: rootNavigatorKey,
+              path: AppRouteName.orderSuccessPage.path,
+              name: AppRouteName.orderSuccessPage,
+              builder: (context, state) {
+                final orderId = state.extra as String;
+                return OrderSuccessPage(orderId: orderId);
+              },
+            ),
+          ]),
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
           return LayoutScaffold(shell: navigationShell);
@@ -108,27 +128,10 @@ class AppRoute {
             navigatorKey: cartNavKey,
             routes: [
               GoRoute(
-                  path: AppRouteName.cart.path,
-                  name: AppRouteName.cart,
-                  builder: (context, state) => const CartPage(),
-                  routes: [
-                    GoRoute(
-                        parentNavigatorKey: rootNavigatorKey,
-                        path: AppRouteName.checkout.path,
-                        name: AppRouteName.checkout,
-                        builder: (context, state) => const CheckOutPage(),
-                        routes: [
-                          GoRoute(
-                            parentNavigatorKey: rootNavigatorKey,
-                            path: AppRouteName.orderSuccessPage.path,
-                            name: AppRouteName.orderSuccessPage,
-                            builder: (context, state) {
-                              final orderId = state.extra as String;
-                              return OrderSuccessPage(orderId: orderId);
-                            },
-                          ),
-                        ]),
-                  ]),
+                path: AppRouteName.cart.path,
+                name: AppRouteName.cart,
+                builder: (context, state) => const CartPage(),
+              )
             ],
           ),
           StatefulShellBranch(

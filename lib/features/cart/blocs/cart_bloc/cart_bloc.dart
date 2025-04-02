@@ -37,6 +37,15 @@ class CartBloc extends Bloc<CartEvent, CartState> {
           _getCartBloc.add(
               GetCartEvent.updateCartQuantityLocally(id, updatedTotalQuantity));
         });
+      }, deleteCarts: (List<Cart> carts) async {
+        emit(CartState.loading());
+        final failureOrSuccess = await _repo.deleteCarts(carts);
+        failureOrSuccess.fold((failure) => emit(CartState.failure(failure)),
+            (success) {
+          emit(CartState.loaded(success));
+          _getCartBloc.add(GetCartEvent.get());
+        });
+        
       });
     });
   }

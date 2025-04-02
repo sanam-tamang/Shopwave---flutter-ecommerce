@@ -1,17 +1,22 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_ecommerce/common/utils/get_address.dart';
 import 'package:flutter_ecommerce/dependency_injection.dart';
+import 'package:flutter_ecommerce/features/address/blocs/get_address_bloc/get_address_bloc.dart';
 import 'package:flutter_ecommerce/features/cart/blocs/cart_bloc/cart_bloc.dart';
 import 'package:flutter_ecommerce/features/cart/models/cart_form.dart';
 import 'package:flutter_ecommerce/features/cart/widgets/cart_bloc_listener.dart';
+import 'package:flutter_ecommerce/features/order/models/order_model.dart';
 import 'package:flutter_ecommerce/features/product/widgets/item_quantity_controller.dart';
+import 'package:flutter_ecommerce/routes.dart';
 import 'package:gap/gap.dart';
-
 import 'package:flutter_ecommerce/common/widgets/app_read_more.dart';
 import 'package:flutter_ecommerce/common/widgets/custom_cached_network_image.dart';
 import 'package:flutter_ecommerce/features/product/models/product.dart';
 import 'package:flutter_ecommerce/features/product/widgets/product_price.dart';
+import 'package:go_router/go_router.dart';
 
 class ProductDetailPage extends StatefulWidget {
   const ProductDetailPage({
@@ -81,9 +86,13 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               children: [
                 Expanded(
                   flex: 3,
-                  child: OutlinedButton(
-                    onPressed: () {},
-                    child: Text("Buy now"),
+                  child: BlocBuilder<GetAddressBloc, GetAddressState>(
+                    builder: (context, state) {
+                      return OutlinedButton(
+                        onPressed: () => _buyNow(state),
+                        child: Text("Buy now"),
+                      );
+                    },
                   ),
                 ),
                 Spacer(),
@@ -187,5 +196,14 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   void _onAddToCart() {
     final cart = CartForm(productId: product!.id, quantity: _quantity);
     _cartBloc.add(CartEvent.add(cart));
+  }
+
+  void _buyNow(GetAddressState state) {
+    context.pushNamed(AppRouteName.checkout,
+        extra: BuyNowOrderModel(
+            product: product!,
+            quantity: _quantity,
+            totalAmount: product!.currentAmount * _quantity,
+            shippingAddressId: getAddressId(context, state) ?? ""));
   }
 }
