@@ -2,10 +2,12 @@ import 'package:flutter_ecommerce/common/utils/typedef.dart';
 import 'package:flutter_ecommerce/core/exception.dart';
 import 'package:flutter_ecommerce/core/repositories/user_local_data_repository.dart';
 import 'package:flutter_ecommerce/features/address/models/address_form.dart';
+import 'package:flutter_ecommerce/features/address/models/address_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract interface class AddressRepository {
   FutureEither<String> addAddress(AddressForm address);
+  FutureEither<Address?> getUserAddress();
 }
 
 class AddressRepositoryI implements AddressRepository {
@@ -31,5 +33,18 @@ class AddressRepositoryI implements AddressRepository {
   Future<String> _getUserId() async {
     final failureOrUser = await _userRepo.getData();
     return failureOrUser.fold((failure) => throw failure, (user) => user.id);
+  }
+
+  @override
+  FutureEither<Address?> getUserAddress() async {
+    return await handleApplicationException(() async {
+      final userId = await _getUserId();
+      final address = await _client
+          .from("addresses")
+          .select()
+          .eq("user_id", userId)
+          .maybeSingle();
+      return address == null ? null : Address.fromJson(address);
+    });
   }
 }

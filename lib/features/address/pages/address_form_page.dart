@@ -6,6 +6,7 @@ import 'package:flutter_ecommerce/common/utils/toast_msg.dart';
 import 'package:flutter_ecommerce/common/widgets/app_form_builder_text.dart';
 import 'package:flutter_ecommerce/dependency_injection.dart';
 import 'package:flutter_ecommerce/features/address/blocs/address_bloc/address_bloc.dart';
+import 'package:flutter_ecommerce/features/address/blocs/get_address_bloc/get_address_bloc.dart';
 import 'package:flutter_ecommerce/features/address/models/address_form.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -90,6 +91,7 @@ class _AddressFormPageState extends State<AddressFormPage> {
                 loaded: (data) {
                   AppToast.success(context, data);
                   AppProgressIndicator.hide(context);
+                  sl<GetAddressBloc>().add(GetAddressEvent.get());
                   context.pop();
                 },
                 failure: (failure) {
