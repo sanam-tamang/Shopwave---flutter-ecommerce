@@ -39,16 +39,17 @@ class ProductCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Gap(12),
+                  Gap(8),
                   Text(
                     product.name,
-                    style: Theme.of(context).textTheme.labelLarge,
+                    style: Theme.of(context).textTheme.labelMedium,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  const SizedBox(height: 8),
+                  Gap(4),
                   FittedBox(
-                    child: ProductPrice(product: product),
+                    child: ProductPrice(
+                        direction: Axis.vertical, product: product),
                   ),
                 ],
               ),

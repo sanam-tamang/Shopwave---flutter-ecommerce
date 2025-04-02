@@ -13,3 +13,9 @@ extension UserName on String {
     return "@$this";
   }
 }
+
+extension DoubleFormatter on double {
+  String get formatPrice {
+    return (this % 1 == 0) ? toInt().toString() : toStringAsFixed(2);
+  }
+}

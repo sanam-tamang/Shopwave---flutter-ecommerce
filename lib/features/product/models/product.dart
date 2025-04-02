@@ -6,6 +6,7 @@ part 'product.g.dart';
 
 @freezed
 class Product with _$Product {
+  const Product._();
   const factory Product({
     required String id,
     required String name,
@@ -15,7 +16,8 @@ class Product with _$Product {
     required List<ProductImage> images,
     @JsonKey(name: "quantity") required int stockQuantity,
   }) = _Product;
-
+  double? get discountPercentage =>
+      discountPrice == null ? null : (price - discountPrice!) / price * 100;
   factory Product.fromJson(Map<String, dynamic> json) =>
       _$ProductFromJson(json);
 }

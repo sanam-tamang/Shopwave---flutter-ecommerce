@@ -26,8 +26,8 @@ class CartCard extends StatelessWidget {
       child: Card(
         // margin: EdgeInsets.zero,
         color: Theme.of(context).colorScheme.surfaceContainerLow,
-        child: SizedBox(
-          height: 120,
+        child: LimitedBox(
+          maxHeight: 140,
           child: Row(
             children: [
               _buildCheckBox(),
@@ -50,8 +50,11 @@ class CartCard extends StatelessWidget {
 
   Expanded _buildProductImage() {
     return Expanded(
-        child: SizedBox(
-      height: double.maxFinite,
+        child: ConstrainedBox(
+      constraints: BoxConstraints(
+        minHeight: 120,
+        maxHeight: 140,
+      ),
       child: AppCachedNetworkImage(
         imageUrl: cart.product.images.firstOrNull?.url,
         fit: BoxFit.cover,
@@ -65,9 +68,10 @@ class CartCard extends StatelessWidget {
         child: Container(
             padding: const EdgeInsets.all(12),
             child: Column(
-                spacing: 8,
+                spacing: 4,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
                     cart.product.name,

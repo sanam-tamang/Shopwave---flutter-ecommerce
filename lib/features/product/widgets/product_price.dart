@@ -1,5 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:flutter_ecommerce/common/utils/extension.dart';
+import 'package:flutter_ecommerce/common/widgets/app_price.dart';
 
 import 'package:flutter_ecommerce/features/product/models/product.dart';
 import 'package:gap/gap.dart';
@@ -17,31 +19,44 @@ class ProductPrice extends StatelessWidget {
   Widget build(BuildContext context) {
     return Flex(
       direction: direction,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      textBaseline: TextBaseline.alphabetic,
       children: [
         if (product.discountPrice != null) ...[
-          Text(
-            '\$${product.discountPrice!.toStringAsFixed(2)}',
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: ColorScheme.of(context).onSurface,
-                  fontWeight: FontWeight.bold,
-                ),
+          ProductPriceText(
+            product.discountPrice!.formatPrice,
           ),
-          Gap(8),
-          Text(
-            '\$${product.price.toStringAsFixed(2)}',
-            style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                  color: ColorScheme.of(context).secondary,
-                  decoration: TextDecoration.lineThrough,
-                ),
-          ),
+          direction == Axis.vertical ? Gap(1) : Gap(8),
+          Baseline(
+              baseline: 20,
+              baselineType: TextBaseline.alphabetic,
+              child: _buildOriginalPrice(context)),
         ] else
-          Text(
-            '\$${product.price.toStringAsFixed(2)}',
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: ColorScheme.of(context).onSurface,
-                  fontWeight: FontWeight.bold,
-                ),
+          ProductPriceText(
+            product.price.formatPrice,
           ),
+      ],
+    );
+  }
+
+  Row _buildOriginalPrice(BuildContext context) {
+    return Row(
+      children: [
+        Text(
+          'Rs.${product.price.formatPrice}',
+          style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                color: ColorScheme.of(context).onSurfaceVariant.withAlpha(120),
+                decoration: TextDecoration.lineThrough,
+                decorationColor: ColorScheme.of(context).onSurfaceVariant,
+              ),
+        ),
+        Gap(2),
+        Text(
+          '-${product.discountPercentage!.formatPrice}%',
+          style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                color: ColorScheme.of(context).onSurfaceVariant,
+              ),
+        ),
       ],
     );
   }

@@ -80,7 +80,9 @@ class _BuildCheckOutCarts extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "Rs. ${cart.product.price}",
+                          cart.product.discountPrice == null
+                              ? "Rs. ${cart.product.price}"
+                              : "Rs. ${cart.product.discountPrice}",
                           style: Theme.of(context).textTheme.titleMedium,
                         ),
                         Text(
@@ -109,21 +111,31 @@ class _BottomNavBar extends StatelessWidget {
     return BlocBuilder<GetCartBloc, GetCartState>(
       builder: (context, state) {
         return state.maybeWhen(
-            loaded: (data) => Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
-                  child: Row(
-                    children: [
-                      Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [Text("Total"), Text("Rs. ${data.subTotal}")],
-                      ),
-                      Spacer(),
-                      FilledButton(
-                        onPressed: () {},
-                        child: Text("Order now"),
-                      )
-                    ],
+            loaded: (data) => Container(
+                  color: ColorScheme.of(context).surfaceContainerLow,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 12, vertical: 16),
+                    child: Row(
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              "Total",
+                              style: Theme.of(context).textTheme.titleMedium,
+                            ),
+                            Text("Rs. ${data.subTotal}")
+                          ],
+                        ),
+                        Spacer(),
+                        FilledButton(
+                          onPressed: () {},
+                          child: Text("Order now"),
+                        )
+                      ],
+                    ),
                   ),
                 ),
             orElse: () => SizedBox());
