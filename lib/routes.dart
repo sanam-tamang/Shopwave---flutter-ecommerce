@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce/common/utils/dialog_page.dart';
 import 'package:flutter_ecommerce/common/utils/extension.dart';
@@ -13,6 +14,7 @@ import 'package:flutter_ecommerce/features/cart/pages/cart_page.dart';
 import 'package:flutter_ecommerce/features/home/pages/home_page.dart';
 import 'package:flutter_ecommerce/features/order/models/order_model.dart';
 import 'package:flutter_ecommerce/features/order/pages/checkout_page.dart';
+import 'package:flutter_ecommerce/features/order/pages/order_page.dart';
 import 'package:flutter_ecommerce/features/order/pages/order_success_page.dart';
 import 'package:flutter_ecommerce/features/product/models/product.dart';
 import 'package:flutter_ecommerce/features/product/pages/product_detail_page.dart';
@@ -32,6 +34,7 @@ class AppRouteName {
   static const String addressForm = "address-form";
   static const String productDetailPage = "product";
   static const String orderSuccessPage = "order-confirm";
+  static const String order = "orders";
   static const String authGuard = "grd";
 }
 
@@ -158,6 +161,14 @@ class AppRoute {
                       path: AppRouteName.addressForm.path,
                       name: AppRouteName.addressForm,
                       builder: (context, state) => const AddressFormPage(),
+                    ),
+                    GoRoute(
+                      parentNavigatorKey: rootNavigatorKey,
+                      path: AppRouteName.order.path,
+                      name: AppRouteName.order,
+                      builder: (context, state) {
+                        return OrderPage();
+                      },
                     ),
                   ]),
             ],

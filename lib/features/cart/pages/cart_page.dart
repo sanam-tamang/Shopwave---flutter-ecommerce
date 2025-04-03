@@ -5,6 +5,7 @@ import 'package:flutter_ecommerce/dependency_injection.dart';
 import 'package:flutter_ecommerce/features/cart/blocs/get_cart_bloc/get_cart_bloc.dart';
 import 'package:flutter_ecommerce/features/cart/models/cart.dart';
 import 'package:flutter_ecommerce/features/cart/widgets/cart_card.dart';
+import 'package:flutter_ecommerce/features/cart/widgets/empty_cart.dart';
 import 'package:flutter_ecommerce/routes.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
@@ -43,7 +44,7 @@ class _BottomSheet extends StatelessWidget {
       builder: (context, state) {
         return state.maybeWhen(
             loaded: (data) => data.carts.isEmpty
-                ? SizedBox()
+                ? EmptyCartWidget()
                 : Container(
                     color: ColorScheme.of(context).surfaceContainerLow,
                     padding: const EdgeInsets.symmetric(vertical: 20)

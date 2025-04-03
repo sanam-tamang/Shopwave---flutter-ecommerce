@@ -19,7 +19,10 @@ class UserAccountPage extends StatelessWidget {
     return Scaffold(
       floatingActionButton: RoleBasedWidget(
           adminUser: SpeedDial(
-        animatedIcon: AnimatedIcons.menu_close,
+        // animatedIcon: AnimatedIcons.menu_close,
+        activeIcon: Icons.close,
+        icon: Icons.add,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         children: [
           SpeedDialChild(
             label: "Add Product",
