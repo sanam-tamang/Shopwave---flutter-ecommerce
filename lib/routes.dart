@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce/common/utils/dialog_page.dart';
 import 'package:flutter_ecommerce/common/utils/extension.dart';
@@ -168,7 +167,7 @@ class AppRoute {
     ],
   );
 
-  static FutureOr<String?> _redirect(
+  static Future<String?> _redirect(
       BuildContext context, GoRouterState state) async {
     final currentPath = state.uri.path;
     debugPrint("**********");
