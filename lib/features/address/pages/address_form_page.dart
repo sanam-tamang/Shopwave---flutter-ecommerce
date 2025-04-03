@@ -66,7 +66,7 @@ class _AddressFormPageState extends State<AddressFormPage> {
                     name: 'zip',
                     hintText: 'Zip code',
                     validator: FormBuilderValidators.compose([
-                      FormBuilderValidators.zipCode(),
+                      FormBuilderValidators.zipCode(checkNullOrEmpty: false),
                     ]),
                   )),
                 ],

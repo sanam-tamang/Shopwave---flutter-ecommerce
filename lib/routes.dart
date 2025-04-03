@@ -5,6 +5,7 @@ import 'package:flutter_ecommerce/common/widgets/layout_scaffold.dart';
 import 'package:flutter_ecommerce/core/repositories/user_local_data_repository.dart';
 import 'package:flutter_ecommerce/dependency_injection.dart';
 import 'package:flutter_ecommerce/features/address/pages/address_form_page.dart';
+import 'package:flutter_ecommerce/features/address/pages/address_page.dart';
 import 'package:flutter_ecommerce/features/admin/pages/category_form_page.dart';
 import 'package:flutter_ecommerce/features/admin/pages/product_form.dart';
 import 'package:flutter_ecommerce/features/auth/pages/sign_in.dart';
@@ -34,6 +35,7 @@ class AppRouteName {
   static const String productDetailPage = "product";
   static const String orderSuccessPage = "order-confirm";
   static const String order = "orders";
+  static const String address = "addresses";
   static const String authGuard = "grd";
 }
 
@@ -143,6 +145,17 @@ class AppRoute {
                   name: AppRouteName.userProfile,
                   builder: (context, state) => const UserAccountPage(),
                   routes: [
+                    GoRoute(
+                      parentNavigatorKey: rootNavigatorKey,
+                      path: AppRouteName.address.path,
+                      name: AppRouteName.address,
+                      builder: (context, state) {
+                        final bool? isSelectableAddresss = state.extra as bool?;
+                        return AddressPage(
+                          isSelectableAddress: isSelectableAddresss,
+                        );
+                      },
+                    ),
                     GoRoute(
                       parentNavigatorKey: rootNavigatorKey,
                       path: AppRouteName.categoryForm.path,

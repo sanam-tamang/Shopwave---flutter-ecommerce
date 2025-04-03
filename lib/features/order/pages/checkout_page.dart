@@ -27,21 +27,24 @@ class CheckOutPage extends StatelessWidget {
         child: Column(
           children: [
             AddAddressOrGetAddressWidget(),
-            Gap(12),
+            Gap(24),
             Expanded(
               child: BlocBuilder<GetCartBloc, GetCartState>(
                 builder: (context, state) {
                   return state.when(
                       initial: () => SizedBox(),
                       loading: () => AppLoading.center(),
-                      loaded: (data) => order != null
-                          ? CheckoutProductCart(
-                              product: order!.product,
-                              quantity: order!.quantity,
-                            )
-                          : _BuildCheckOutCarts(
-                              selectedCarts: data.selectedCarts,
-                            ),
+                      loaded: (data) => Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 4),
+                            child: order != null
+                                ? CheckoutProductCart(
+                                    product: order!.product,
+                                    quantity: order!.quantity,
+                                  )
+                                : _BuildCheckOutCarts(
+                                    selectedCarts: data.selectedCarts,
+                                  ),
+                          ),
                       failure: (failure) => Center(
                             child: Text(failure.toString()),
                           ));

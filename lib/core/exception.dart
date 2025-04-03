@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_ecommerce/common/utils/typedef.dart';
 import 'package:flutter_ecommerce/core/failure/failure.dart';
+import 'package:logger/logger.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 FutureEither<T> handleApplicationException<T>(
@@ -19,8 +20,11 @@ FutureEither<T> handleApplicationException<T>(
   } on FormatException {
     return Left(FailureWithMsg("Invalid format. Please check your input."));
   } on PostgrestException catch (e) {
+    Logger().d(e.message);
     return Left(FailureWithMsg(e.message));
   } catch (e) {
+    Logger().d(e.toString());
+
     return Left(FailureWithMsg("Unexpected error: ${e.toString()}"));
   }
 }

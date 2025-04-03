@@ -7,7 +7,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract interface class AddressRepository {
   FutureEither<String> addAddress(AddressForm address);
-  FutureEither<Address?> getUserAddress();
+  FutureEither<List<Address>> getUserAddress();
 }
 
 class AddressRepositoryI implements AddressRepository {
@@ -36,15 +36,12 @@ class AddressRepositoryI implements AddressRepository {
   }
 
   @override
-  FutureEither<Address?> getUserAddress() async {
+  FutureEither<List<Address>> getUserAddress() async {
     return await handleApplicationException(() async {
       final userId = await _getUserId();
-      final address = await _client
-          .from("addresses")
-          .select()
-          .eq("user_id", userId)
-          .maybeSingle();
-      return address == null ? null : Address.fromJson(address);
+      final response =
+          await _client.from("addresses").select().eq("user_id", userId);
+      return List.from(response).map((e) => Address.fromJson(e)).toList();
     });
   }
 }

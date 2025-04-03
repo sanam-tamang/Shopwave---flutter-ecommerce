@@ -10,10 +10,10 @@ class AddShippingAddressButton extends StatelessWidget {
     return Ink(
       child: InkWell(
         onTap: () => context.pushNamed(AppRouteName.addressForm),
-        child: Card(
+        child: Card.filled(
           color: ColorScheme.of(context).surfaceContainer,
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(12),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

@@ -15,7 +15,7 @@ class SettingsList extends StatelessWidget {
       children: [
         CustomListTileCard(
             title: "Address",
-            onTap: () => context.pushNamed(AppRouteName.addressForm)),
+            onTap: () => context.pushNamed(AppRouteName.address)),
         CustomListTileCard(
           title: "Orders",
           onTap: () {},

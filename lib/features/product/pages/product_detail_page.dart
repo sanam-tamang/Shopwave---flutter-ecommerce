@@ -2,7 +2,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_ecommerce/common/utils/get_address.dart';
 import 'package:flutter_ecommerce/dependency_injection.dart';
 import 'package:flutter_ecommerce/features/address/blocs/get_address_bloc/get_address_bloc.dart';
 import 'package:flutter_ecommerce/features/cart/blocs/cart_bloc/cart_bloc.dart';
@@ -89,7 +88,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   child: BlocBuilder<GetAddressBloc, GetAddressState>(
                     builder: (context, state) {
                       return OutlinedButton(
-                        onPressed: () => _buyNow(state),
+                        onPressed: () => _buyNow(),
                         child: Text("Buy now"),
                       );
                     },
@@ -198,12 +197,12 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     _cartBloc.add(CartEvent.add(cart));
   }
 
-  void _buyNow(GetAddressState state) {
+  void _buyNow() {
     context.pushNamed(AppRouteName.checkout,
         extra: BuyNowOrderModel(
             product: product!,
             quantity: _quantity,
             totalAmount: product!.currentAmount * _quantity,
-            shippingAddressId: getAddressId(context, state) ?? ""));
+           ));
   }
 }

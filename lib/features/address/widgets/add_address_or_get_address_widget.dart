@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ecommerce/common/widgets/app_loading.dart';
+import 'package:flutter_ecommerce/dependency_injection.dart';
+import 'package:flutter_ecommerce/features/address/blocs/current_shipping_address_bloc/current_shipping_address_bloc.dart';
 import 'package:flutter_ecommerce/features/address/blocs/get_address_bloc/get_address_bloc.dart';
 import 'package:flutter_ecommerce/features/address/widgets/add_shipping_address.dart';
 import 'package:flutter_ecommerce/features/address/widgets/address_card.dart';
@@ -10,14 +12,20 @@ class AddAddressOrGetAddressWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<GetAddressBloc, GetAddressState>(
+    return BlocConsumer<GetAddressBloc, GetAddressState>(
+      listener: (context, state) {
+        state.whenOrNull(
+            loaded: (data) => sl<CurrentShippingAddressBloc>().add(
+                CurrentShippingAddressEvent.initializeShippingAddress(
+                    data.first)));
+      },
       builder: (context, state) {
         return state.when(
           initial: () => SizedBox(),
           loading: () => AppLoading.center(),
-          loaded: (address) => address == null
+          loaded: (addresses) => addresses.isEmpty
               ? AddShippingAddressButton()
-              : ShippingAddressCard(address: address),
+              : ShippingAddressCard(),
           failure: (failure) => Text(failure.toString()),
         );
       },

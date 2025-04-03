@@ -1,7 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_ecommerce/common/utils/get_address.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_ecommerce/common/utils/loading_dialog.dart';
 import 'package:flutter_ecommerce/common/utils/toast_msg.dart';
@@ -64,12 +63,11 @@ class CheckoutBottomCartOrder extends StatelessWidget {
                             builder: (context, state) {
                               return FilledButton(
                                 onPressed: () {
-                                  final addressId =
-                                      getAddressId(context, state);
+                                 
                                   _placeCartOrder(CartOrderModel(
                                       carts: data.selectedCarts,
                                       totalAmount: data.subTotal,
-                                      shippingAddressId: addressId!));
+                                    ));
                                 },
                                 child: Text("Place order"),
                               );
