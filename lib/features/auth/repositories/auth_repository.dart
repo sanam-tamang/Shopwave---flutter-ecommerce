@@ -42,6 +42,7 @@ class AuthRepositoryI implements AuthRepository {
       await _repo.writeData(UserModel(
           id: response.user!.id,
           role: "general",
+          name: name,
           username: username,
           email: email));
       return "User registered successfully";
@@ -55,7 +56,11 @@ class AuthRepositoryI implements AuthRepository {
       final response = await _client.auth
           .signInWithPassword(email: email, password: password);
       await _repo.writeData(UserModel(
-          id: response.user!.id, role: "general", username: "", email: email));
+          name: "",
+          id: response.user!.id,
+          role: "general",
+          username: "",
+          email: email));
       return "User logged in successfully";
     });
   }

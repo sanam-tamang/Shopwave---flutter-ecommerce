@@ -23,6 +23,7 @@ mixin _$UserModel {
   String get id => throw _privateConstructorUsedError;
   String get username => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
   String get role => throw _privateConstructorUsedError;
   @JsonKey(name: 'profile_image_url')
   String? get profileImageUrl => throw _privateConstructorUsedError;
@@ -46,6 +47,7 @@ abstract class $UserModelCopyWith<$Res> {
       {String id,
       String username,
       String email,
+      String name,
       String role,
       @JsonKey(name: 'profile_image_url') String? profileImageUrl});
 }
@@ -68,6 +70,7 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
     Object? id = null,
     Object? username = null,
     Object? email = null,
+    Object? name = null,
     Object? role = null,
     Object? profileImageUrl = freezed,
   }) {
@@ -83,6 +86,10 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
       email: null == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
               as String,
       role: null == role
           ? _value.role
@@ -108,6 +115,7 @@ abstract class _$$UserModelImplCopyWith<$Res>
       {String id,
       String username,
       String email,
+      String name,
       String role,
       @JsonKey(name: 'profile_image_url') String? profileImageUrl});
 }
@@ -128,6 +136,7 @@ class __$$UserModelImplCopyWithImpl<$Res>
     Object? id = null,
     Object? username = null,
     Object? email = null,
+    Object? name = null,
     Object? role = null,
     Object? profileImageUrl = freezed,
   }) {
@@ -143,6 +152,10 @@ class __$$UserModelImplCopyWithImpl<$Res>
       email: null == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
               as String,
       role: null == role
           ? _value.role
@@ -163,6 +176,7 @@ class _$UserModelImpl implements _UserModel {
       {required this.id,
       required this.username,
       required this.email,
+      required this.name,
       required this.role,
       @JsonKey(name: 'profile_image_url') this.profileImageUrl});
 
@@ -176,6 +190,8 @@ class _$UserModelImpl implements _UserModel {
   @override
   final String email;
   @override
+  final String name;
+  @override
   final String role;
   @override
   @JsonKey(name: 'profile_image_url')
@@ -183,7 +199,7 @@ class _$UserModelImpl implements _UserModel {
 
   @override
   String toString() {
-    return 'UserModel(id: $id, username: $username, email: $email, role: $role, profileImageUrl: $profileImageUrl)';
+    return 'UserModel(id: $id, username: $username, email: $email, name: $name, role: $role, profileImageUrl: $profileImageUrl)';
   }
 
   @override
@@ -195,6 +211,7 @@ class _$UserModelImpl implements _UserModel {
             (identical(other.username, username) ||
                 other.username == username) &&
             (identical(other.email, email) || other.email == email) &&
+            (identical(other.name, name) || other.name == name) &&
             (identical(other.role, role) || other.role == role) &&
             (identical(other.profileImageUrl, profileImageUrl) ||
                 other.profileImageUrl == profileImageUrl));
@@ -202,8 +219,8 @@ class _$UserModelImpl implements _UserModel {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, username, email, role, profileImageUrl);
+  int get hashCode => Object.hash(
+      runtimeType, id, username, email, name, role, profileImageUrl);
 
   /// Create a copy of UserModel
   /// with the given fields replaced by the non-null parameter values.
@@ -226,6 +243,7 @@ abstract class _UserModel implements UserModel {
           {required final String id,
           required final String username,
           required final String email,
+          required final String name,
           required final String role,
           @JsonKey(name: 'profile_image_url') final String? profileImageUrl}) =
       _$UserModelImpl;
@@ -239,6 +257,8 @@ abstract class _UserModel implements UserModel {
   String get username;
   @override
   String get email;
+  @override
+  String get name;
   @override
   String get role;
   @override

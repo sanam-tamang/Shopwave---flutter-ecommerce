@@ -9,6 +9,7 @@ class UserModel with _$UserModel {
     required String id,
     required String username,
     required String email,
+    required String name,
     required String role,
     @JsonKey(name: 'profile_image_url') String? profileImageUrl,
   }) = _UserModel;
