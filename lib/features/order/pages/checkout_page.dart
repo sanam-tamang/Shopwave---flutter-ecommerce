@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ecommerce/common/widgets/app_loading.dart';
-import 'package:flutter_ecommerce/features/address/widgets/add_address_or_get_address_widget.dart';
+import 'package:flutter_ecommerce/features/address/widgets/shiping_address_resolver.dart';
 import 'package:flutter_ecommerce/features/cart/blocs/get_cart_bloc/get_cart_bloc.dart';
 import 'package:flutter_ecommerce/features/cart/models/cart.dart';
 import 'package:flutter_ecommerce/features/order/models/order_model.dart';
@@ -26,7 +26,7 @@ class CheckOutPage extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 12),
         child: Column(
           children: [
-            AddAddressOrGetAddressWidget(),
+            ShippingAddressResolver(),
             Gap(24),
             Expanded(
               child: BlocBuilder<GetCartBloc, GetCartState>(

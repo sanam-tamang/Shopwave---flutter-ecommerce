@@ -10,7 +10,6 @@ part 'get_address_bloc.freezed.dart';
 
 class GetAddressBloc extends Bloc<GetAddressEvent, GetAddressState> {
   final AddressRepository _addressRepo;
-
   GetAddressBloc({required AddressRepository repo})
       : _addressRepo = repo,
         super(GetAddressState.initial()) {
