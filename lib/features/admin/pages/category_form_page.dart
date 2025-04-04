@@ -95,12 +95,15 @@ class _CategoryFormPageState extends State<CategoryFormPage> {
                       ),
                     ),
                   const Gap(24),
-                  _buildCategorySaveBtn(),
                 ],
               ),
             ),
           ),
         ),
+      ),
+      bottomSheet: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        child: _buildCategorySaveBtn(),
       ),
     );
   }
