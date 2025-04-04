@@ -59,11 +59,11 @@ class CheckOutPage extends StatelessWidget {
         bottomNavigationBar: BlocBuilder<CurrentShippingAddressBloc,
             CurrentShippingAddressState>(
           builder: (context, state) {
-            bool isShippingAddressSelected = state.maybeWhen(
-                loaded: (address) => true,
-                orElse: () => false);
+            bool isShippingAddressSelected =
+                state.maybeWhen(loaded: (address) => true, orElse: () => false);
             return order == null
-                ? CheckoutBottomCartOrder(isShippingAddressSelected: isShippingAddressSelected)
+                ? CheckoutBottomCartOrder(
+                    isShippingAddressSelected: isShippingAddressSelected)
                 : CheckoutBottomBuyNowOrder(
                     order: order!,
                     isShippingAddressSelected: isShippingAddressSelected,
