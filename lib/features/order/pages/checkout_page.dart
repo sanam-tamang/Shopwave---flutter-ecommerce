@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ecommerce/common/widgets/app_loading.dart';
+import 'package:flutter_ecommerce/features/address/blocs/current_shipping_address_bloc/current_shipping_address_bloc.dart';
 import 'package:flutter_ecommerce/features/address/widgets/shiping_address_resolver.dart';
 import 'package:flutter_ecommerce/features/cart/blocs/get_cart_bloc/get_cart_bloc.dart';
 import 'package:flutter_ecommerce/features/cart/models/cart.dart';
@@ -19,47 +20,56 @@ class CheckOutPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Checkout"),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12),
-        child: Column(
-          children: [
-            ShippingAddressResolver(),
-            Gap(24),
-            Expanded(
-              child: BlocBuilder<GetCartBloc, GetCartState>(
-                builder: (context, state) {
-                  return state.when(
-                      initial: () => SizedBox(),
-                      loading: () => AppLoading.center(),
-                      loaded: (data) => Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 4),
-                            child: order != null
-                                ? CheckoutProductCart(
-                                    product: order!.product,
-                                    quantity: order!.quantity,
-                                  )
-                                : _BuildCheckOutCarts(
-                                    selectedCarts: data.selectedCarts,
-                                  ),
-                          ),
-                      failure: (failure) => Center(
-                            child: Text(failure.toString()),
-                          ));
-                },
-              ),
-            ),
-          ],
+        appBar: AppBar(
+          title: Text("Checkout"),
         ),
-      ),
-      bottomNavigationBar: order == null
-          ? CheckoutBottomCartOrder()
-          : CheckoutBottomBuyNowOrder(
-              order: order!,
-            ),
-    );
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          child: Column(
+            children: [
+              ShippingAddressResolver(),
+              Gap(24),
+              Expanded(
+                child: BlocBuilder<GetCartBloc, GetCartState>(
+                  builder: (context, state) {
+                    return state.when(
+                        initial: () => SizedBox(),
+                        loading: () => AppLoading.center(),
+                        loaded: (data) => Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 4),
+                              child: order != null
+                                  ? CheckoutProductCart(
+                                      product: order!.product,
+                                      quantity: order!.quantity,
+                                    )
+                                  : _BuildCheckOutCarts(
+                                      selectedCarts: data.selectedCarts,
+                                    ),
+                            ),
+                        failure: (failure) => Center(
+                              child: Text(failure.toString()),
+                            ));
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+        bottomNavigationBar: BlocBuilder<CurrentShippingAddressBloc,
+            CurrentShippingAddressState>(
+          builder: (context, state) {
+            bool isShippingAddressSelected = state.maybeWhen(
+                loaded: (address) => true,
+                orElse: () => false);
+            return order == null
+                ? CheckoutBottomCartOrder(isShippingAddressSelected: isShippingAddressSelected)
+                : CheckoutBottomBuyNowOrder(
+                    order: order!,
+                    isShippingAddressSelected: isShippingAddressSelected,
+                  );
+          },
+        ));
   }
 }
 

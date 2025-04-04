@@ -12,8 +12,10 @@ class CheckoutBottomBuyNowOrder extends StatelessWidget {
   const CheckoutBottomBuyNowOrder({
     super.key,
     required this.order,
+    required this.isShippingAddressSelected,
   });
   final BuyNowOrderModel order;
+  final bool isShippingAddressSelected;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -51,7 +53,8 @@ class CheckoutBottomBuyNowOrder extends StatelessWidget {
                     });
               },
               child: FilledButton(
-                onPressed: _placeBuyNowOrder,
+                onPressed:
+                    !isShippingAddressSelected ? null : _placeBuyNowOrder,
                 child: Text("Place order"),
               ),
             )

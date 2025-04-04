@@ -14,9 +14,9 @@ import 'package:flutter_ecommerce/routes.dart';
 
 class CheckoutBottomCartOrder extends StatelessWidget {
   const CheckoutBottomCartOrder({
-    super.key,
+    super.key, required this.isShippingAddressSelected,
   });
-
+final bool isShippingAddressSelected ;
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<GetCartBloc, GetCartState>(
@@ -62,7 +62,7 @@ class CheckoutBottomCartOrder extends StatelessWidget {
                           child: BlocBuilder<GetAddressBloc, GetAddressState>(
                             builder: (context, state) {
                               return FilledButton(
-                                onPressed: () {
+                                onPressed: !isShippingAddressSelected? null:() {
                                  
                                   _placeCartOrder(CartOrderModel(
                                       carts: data.selectedCarts,
