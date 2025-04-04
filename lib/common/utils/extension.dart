@@ -19,3 +19,9 @@ extension DoubleFormatter on double {
     return (this % 1 == 0) ? toInt().toString() : toStringAsFixed(2);
   }
 }
+
+extension AddRsPrefix on String {
+  String get addRsPrefix {
+    return "Rs.$this";
+  }
+}

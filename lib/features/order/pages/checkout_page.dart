@@ -5,7 +5,7 @@ import 'package:flutter_ecommerce/features/address/blocs/current_shipping_addres
 import 'package:flutter_ecommerce/features/address/widgets/shiping_address_resolver.dart';
 import 'package:flutter_ecommerce/features/cart/blocs/get_cart_bloc/get_cart_bloc.dart';
 import 'package:flutter_ecommerce/features/cart/models/cart.dart';
-import 'package:flutter_ecommerce/features/order/models/order_model.dart';
+import 'package:flutter_ecommerce/features/order/models/buy_now_and_cart_order_models.dart';
 import 'package:flutter_ecommerce/features/order/widgets/checkout_bottom_buy_now_order.dart';
 import 'package:flutter_ecommerce/features/order/widgets/checkout_bottom_cart_order.dart';
 import 'package:flutter_ecommerce/features/order/widgets/checkout_product_cart.dart';

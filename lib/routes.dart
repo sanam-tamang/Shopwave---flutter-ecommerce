@@ -12,7 +12,7 @@ import 'package:flutter_ecommerce/features/auth/pages/sign_in.dart';
 import 'package:flutter_ecommerce/features/auth/pages/sign_up.dart';
 import 'package:flutter_ecommerce/features/cart/pages/cart_page.dart';
 import 'package:flutter_ecommerce/features/home/pages/home_page.dart';
-import 'package:flutter_ecommerce/features/order/models/order_model.dart';
+import 'package:flutter_ecommerce/features/order/models/buy_now_and_cart_order_models.dart';
 import 'package:flutter_ecommerce/features/order/pages/checkout_page.dart';
 import 'package:flutter_ecommerce/features/order/pages/order_page.dart';
 import 'package:flutter_ecommerce/features/order/pages/order_success_page.dart';
@@ -34,7 +34,7 @@ class AppRouteName {
   static const String addressForm = "address-form";
   static const String productDetailPage = "product";
   static const String orderSuccessPage = "order-confirm";
-  static const String order = "orders";
+  static const String orders = "orders";
   static const String address = "addresses";
   static const String authGuard = "grd";
 }
@@ -176,8 +176,8 @@ class AppRoute {
                     ),
                     GoRoute(
                       parentNavigatorKey: rootNavigatorKey,
-                      path: AppRouteName.order.path,
-                      name: AppRouteName.order,
+                      path: AppRouteName.orders.path,
+                      name: AppRouteName.orders,
                       builder: (context, state) {
                         return OrderPage();
                       },

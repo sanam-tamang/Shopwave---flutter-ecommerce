@@ -18,7 +18,7 @@ class SettingsList extends StatelessWidget {
             onTap: () => context.pushNamed(AppRouteName.address)),
         CustomListTileCard(
           title: "Orders",
-          onTap: () {},
+          onTap: () => context.pushNamed(AppRouteName.orders),
         ),
         CustomListTileCard(
           title: "Payment",

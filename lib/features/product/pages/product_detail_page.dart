@@ -7,7 +7,7 @@ import 'package:flutter_ecommerce/features/address/blocs/get_address_bloc/get_ad
 import 'package:flutter_ecommerce/features/cart/blocs/cart_bloc/cart_bloc.dart';
 import 'package:flutter_ecommerce/features/cart/models/cart_form.dart';
 import 'package:flutter_ecommerce/features/cart/widgets/cart_bloc_listener.dart';
-import 'package:flutter_ecommerce/features/order/models/order_model.dart';
+import 'package:flutter_ecommerce/features/order/models/buy_now_and_cart_order_models.dart';
 import 'package:flutter_ecommerce/features/product/widgets/item_quantity_controller.dart';
 import 'package:flutter_ecommerce/routes.dart';
 import 'package:gap/gap.dart';

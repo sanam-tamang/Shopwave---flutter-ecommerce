@@ -9,7 +9,7 @@ import 'package:flutter_ecommerce/features/address/blocs/get_address_bloc/get_ad
 import 'package:flutter_ecommerce/features/cart/blocs/cart_bloc/cart_bloc.dart';
 import 'package:flutter_ecommerce/features/cart/blocs/get_cart_bloc/get_cart_bloc.dart';
 import 'package:flutter_ecommerce/features/order/blocs/order_bloc/order_bloc.dart';
-import 'package:flutter_ecommerce/features/order/models/order_model.dart';
+import 'package:flutter_ecommerce/features/order/models/buy_now_and_cart_order_models.dart';
 import 'package:flutter_ecommerce/routes.dart';
 
 class CheckoutBottomCartOrder extends StatelessWidget {

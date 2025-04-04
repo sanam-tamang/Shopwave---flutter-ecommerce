@@ -5,7 +5,7 @@ import 'package:flutter_ecommerce/common/utils/loading_dialog.dart';
 import 'package:flutter_ecommerce/common/utils/toast_msg.dart';
 import 'package:flutter_ecommerce/dependency_injection.dart';
 import 'package:flutter_ecommerce/features/order/blocs/order_bloc/order_bloc.dart';
-import 'package:flutter_ecommerce/features/order/models/order_model.dart';
+import 'package:flutter_ecommerce/features/order/models/buy_now_and_cart_order_models.dart';
 import 'package:flutter_ecommerce/routes.dart';
 
 class CheckoutBottomBuyNowOrder extends StatelessWidget {
