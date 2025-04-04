@@ -32,6 +32,8 @@ mixin _$Order {
   Address? get shippingAddress => throw _privateConstructorUsedError;
   @JsonKey(name: 'created_at')
   String get createdAt => throw _privateConstructorUsedError;
+  @JsonKey(name: 'order_items')
+  List<OrderItem>? get orderItems => throw _privateConstructorUsedError;
 
   /// Serializes this Order to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -54,7 +56,8 @@ abstract class $OrderCopyWith<$Res> {
       @JsonKey(name: 'payment_status') String paymentStatus,
       @JsonKey(name: 'payment_method') String? paymentMethod,
       @JsonKey(name: 'shipping_address') Address? shippingAddress,
-      @JsonKey(name: 'created_at') String createdAt});
+      @JsonKey(name: 'created_at') String createdAt,
+      @JsonKey(name: 'order_items') List<OrderItem>? orderItems});
 
   $AddressCopyWith<$Res>? get shippingAddress;
 }
@@ -81,6 +84,7 @@ class _$OrderCopyWithImpl<$Res, $Val extends Order>
     Object? paymentMethod = freezed,
     Object? shippingAddress = freezed,
     Object? createdAt = null,
+    Object? orderItems = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -111,6 +115,10 @@ class _$OrderCopyWithImpl<$Res, $Val extends Order>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as String,
+      orderItems: freezed == orderItems
+          ? _value.orderItems
+          : orderItems // ignore: cast_nullable_to_non_nullable
+              as List<OrderItem>?,
     ) as $Val);
   }
 
@@ -143,7 +151,8 @@ abstract class _$$OrderImplCopyWith<$Res> implements $OrderCopyWith<$Res> {
       @JsonKey(name: 'payment_status') String paymentStatus,
       @JsonKey(name: 'payment_method') String? paymentMethod,
       @JsonKey(name: 'shipping_address') Address? shippingAddress,
-      @JsonKey(name: 'created_at') String createdAt});
+      @JsonKey(name: 'created_at') String createdAt,
+      @JsonKey(name: 'order_items') List<OrderItem>? orderItems});
 
   @override
   $AddressCopyWith<$Res>? get shippingAddress;
@@ -169,6 +178,7 @@ class __$$OrderImplCopyWithImpl<$Res>
     Object? paymentMethod = freezed,
     Object? shippingAddress = freezed,
     Object? createdAt = null,
+    Object? orderItems = freezed,
   }) {
     return _then(_$OrderImpl(
       id: null == id
@@ -199,6 +209,10 @@ class __$$OrderImplCopyWithImpl<$Res>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as String,
+      orderItems: freezed == orderItems
+          ? _value._orderItems
+          : orderItems // ignore: cast_nullable_to_non_nullable
+              as List<OrderItem>?,
     ));
   }
 }
@@ -213,7 +227,10 @@ class _$OrderImpl implements _Order {
       @JsonKey(name: 'payment_status') required this.paymentStatus,
       @JsonKey(name: 'payment_method') this.paymentMethod,
       @JsonKey(name: 'shipping_address') this.shippingAddress,
-      @JsonKey(name: 'created_at') required this.createdAt});
+      @JsonKey(name: 'created_at') required this.createdAt,
+      @JsonKey(name: 'order_items')
+      final List<OrderItem>? orderItems = const []})
+      : _orderItems = orderItems;
 
   factory _$OrderImpl.fromJson(Map<String, dynamic> json) =>
       _$$OrderImplFromJson(json);
@@ -237,10 +254,20 @@ class _$OrderImpl implements _Order {
   @override
   @JsonKey(name: 'created_at')
   final String createdAt;
+  final List<OrderItem>? _orderItems;
+  @override
+  @JsonKey(name: 'order_items')
+  List<OrderItem>? get orderItems {
+    final value = _orderItems;
+    if (value == null) return null;
+    if (_orderItems is EqualUnmodifiableListView) return _orderItems;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
 
   @override
   String toString() {
-    return 'Order(id: $id, totalPrice: $totalPrice, status: $status, paymentStatus: $paymentStatus, paymentMethod: $paymentMethod, shippingAddress: $shippingAddress, createdAt: $createdAt)';
+    return 'Order(id: $id, totalPrice: $totalPrice, status: $status, paymentStatus: $paymentStatus, paymentMethod: $paymentMethod, shippingAddress: $shippingAddress, createdAt: $createdAt, orderItems: $orderItems)';
   }
 
   @override
@@ -259,13 +286,23 @@ class _$OrderImpl implements _Order {
             (identical(other.shippingAddress, shippingAddress) ||
                 other.shippingAddress == shippingAddress) &&
             (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt));
+                other.createdAt == createdAt) &&
+            const DeepCollectionEquality()
+                .equals(other._orderItems, _orderItems));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, totalPrice, status,
-      paymentStatus, paymentMethod, shippingAddress, createdAt);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      totalPrice,
+      status,
+      paymentStatus,
+      paymentMethod,
+      shippingAddress,
+      createdAt,
+      const DeepCollectionEquality().hash(_orderItems));
 
   /// Create a copy of Order
   /// with the given fields replaced by the non-null parameter values.
@@ -291,7 +328,8 @@ abstract class _Order implements Order {
           @JsonKey(name: 'payment_status') required final String paymentStatus,
           @JsonKey(name: 'payment_method') final String? paymentMethod,
           @JsonKey(name: 'shipping_address') final Address? shippingAddress,
-          @JsonKey(name: 'created_at') required final String createdAt}) =
+          @JsonKey(name: 'created_at') required final String createdAt,
+          @JsonKey(name: 'order_items') final List<OrderItem>? orderItems}) =
       _$OrderImpl;
 
   factory _Order.fromJson(Map<String, dynamic> json) = _$OrderImpl.fromJson;
@@ -315,6 +353,9 @@ abstract class _Order implements Order {
   @override
   @JsonKey(name: 'created_at')
   String get createdAt;
+  @override
+  @JsonKey(name: 'order_items')
+  List<OrderItem>? get orderItems;
 
   /// Create a copy of Order
   /// with the given fields replaced by the non-null parameter values.

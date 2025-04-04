@@ -3,6 +3,7 @@ import 'package:flutter_ecommerce/core/exception.dart';
 import 'package:flutter_ecommerce/core/repositories/user_local_data_repository.dart';
 import 'package:flutter_ecommerce/features/order/models/buy_now_and_cart_order_models.dart';
 import 'package:flutter_ecommerce/features/order/models/order_model.dart';
+import 'package:logger/web.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
 
@@ -10,6 +11,7 @@ abstract interface class OrderRepository {
   FutureEither<String> createCartOrder(CartOrderModel order);
   FutureEither<String> createBuyNowOrder(BuyNowOrderModel order);
   FutureEither<List<Order>> getUserOrders();
+  FutureEither<List<Order>> getVendorOrders();
 }
 
 class OrderRepositoryI implements OrderRepository {
@@ -96,6 +98,22 @@ class OrderRepositoryI implements OrderRepository {
           .select('*,shipping_address:addresses(*)')
           .eq("user_id", userId)
           .order("created_at", ascending: false);
+      final List<Order> orders =
+          List.from(listOfOrderMap).map((e) => Order.fromJson(e)).toList();
+      return orders;
+    });
+  }
+
+  @override
+  FutureEither<List<Order>> getVendorOrders() async {
+    return await handleApplicationException(() async {
+      final vendorId = await _getUserId();
+      final listOfOrderMap = await _client.rpc('get_vendor_orders', params: {
+        "vendor_uuid": vendorId,
+      });
+
+      Logger().d("listOfOrderMap: $listOfOrderMap");
+
       final List<Order> orders =
           List.from(listOfOrderMap).map((e) => Order.fromJson(e)).toList();
       return orders;

@@ -16,6 +16,10 @@ _$OrderImpl _$$OrderImplFromJson(Map<String, dynamic> json) => _$OrderImpl(
           ? null
           : Address.fromJson(json['shipping_address'] as Map<String, dynamic>),
       createdAt: json['created_at'] as String,
+      orderItems: (json['order_items'] as List<dynamic>?)
+              ?.map((e) => OrderItem.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$$OrderImplToJson(_$OrderImpl instance) =>
@@ -27,4 +31,5 @@ Map<String, dynamic> _$$OrderImplToJson(_$OrderImpl instance) =>
       'payment_method': instance.paymentMethod,
       'shipping_address': instance.shippingAddress,
       'created_at': instance.createdAt,
+      'order_items': instance.orderItems,
     };

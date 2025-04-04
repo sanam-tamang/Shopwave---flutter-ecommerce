@@ -1,4 +1,5 @@
 import 'package:flutter_ecommerce/features/address/models/address_model.dart';
+import 'package:flutter_ecommerce/features/order/models/order_item.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'order_model.freezed.dart';
@@ -14,6 +15,7 @@ class Order with _$Order {
     @JsonKey(name: 'payment_method') String? paymentMethod,
     @JsonKey(name: 'shipping_address') Address? shippingAddress,
     @JsonKey(name: 'created_at') required String createdAt,
+   @Default([]) @JsonKey(name: 'order_items')  List<OrderItem>? orderItems,
   }) = _Order;
   factory Order.fromJson(Map<String, dynamic> json) => _$OrderFromJson(json);
 }

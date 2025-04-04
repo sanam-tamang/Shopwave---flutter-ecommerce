@@ -15,6 +15,12 @@ class OrderPage extends StatefulWidget {
 
 class _OrderPageState extends State<OrderPage> {
   @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<GetOrderBloc>(context).add(GetOrderEvent.get());
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
