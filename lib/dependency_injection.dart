@@ -27,7 +27,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 GetIt sl = GetIt.instance;
 Future<void> init() async {
-  sl.registerLazySingleton(() => AuthBloc(repo: sl()));
+  sl.registerFactory(() => AuthBloc(repo: sl()));
   sl.registerLazySingleton(() => UserBloc(userRepo: sl()));
   sl.registerLazySingleton(() => UserLocalDataBloc(repo: sl()));
   sl.registerLazySingleton(() => CategoryBloc(repo: sl()));

@@ -23,7 +23,7 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController _passwordController = TextEditingController();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
+  final AuthBloc _authBloc = sl<AuthBloc>();
   @override
   void dispose() {
     _nameController.dispose();
@@ -81,7 +81,10 @@ class _SignUpPageState extends State<SignUpPage> {
                 hintText: 'Enter your password',
               ),
               Gap(16),
-              AuthButton(buttonText: "Sign up", onPressed: _onSignUp),
+              AuthButton(
+                  authBloc: _authBloc,
+                  buttonText: "Sign up",
+                  onPressed: _onSignUp),
               Gap(20),
               Center(child: AlreadyHaveAnAccount()),
               OtherSignInOption()
@@ -97,8 +100,8 @@ class _SignUpPageState extends State<SignUpPage> {
       final String name = _nameController.text;
       final String email = _emailController.text;
       final String password = _passwordController.text;
-   
-      sl<AuthBloc>()
+
+      _authBloc
           .add(AuthEvent.signUp(name: name, email: email, password: password));
     }
   }

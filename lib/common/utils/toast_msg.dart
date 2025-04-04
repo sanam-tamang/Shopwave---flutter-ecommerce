@@ -52,4 +52,5 @@ class AppToast {
       showIcon: true,
     );
   }
+
 }

@@ -22,7 +22,7 @@ class _SignInPageState extends State<SignInPage> {
   final TextEditingController _passwordController = TextEditingController();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
+  final AuthBloc _authBloc = sl<AuthBloc>();
   @override
   void dispose() {
     _emailController.dispose();
@@ -73,7 +73,9 @@ class _SignInPageState extends State<SignInPage> {
                     controller: _passwordController,
                   ),
                   Gap(16),
-                  AuthButton(buttonText: "Sign In", onPressed: _onSignIn),
+                  AuthButton(
+                    authBloc: _authBloc,
+                    buttonText: "Sign In", onPressed: _onSignIn),
                   Gap(20),
                   Center(child: DontHaveAnAccount()),
                   OtherSignInOption()
@@ -89,7 +91,7 @@ class _SignInPageState extends State<SignInPage> {
       final String email = _emailController.text;
       final String password = _passwordController.text;
 
-      sl<AuthBloc>().add(AuthEvent.signIn(email: email, password: password));
+      _authBloc.add(AuthEvent.signIn(email: email, password: password));
     }
   }
 }
