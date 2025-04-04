@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ecommerce/common/utils/extension.dart';
 import 'package:flutter_ecommerce/features/order/blocs/get_order_bloc/get_order_bloc.dart';
 import 'package:flutter_ecommerce/features/order/models/order_model.dart';
+import 'package:flutter_ecommerce/features/order/widgets/empty_order_view.dart';
 import 'package:gap/gap.dart';
 
 class OrderPage extends StatefulWidget {
@@ -17,7 +18,7 @@ class _OrderPageState extends State<OrderPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Orders"),
+        title: const Text("My Orders"),
         centerTitle: true,
       ),
       body: BlocBuilder<GetOrderBloc, GetOrderState>(
@@ -26,34 +27,36 @@ class _OrderPageState extends State<OrderPage> {
             initial: () => const SizedBox.shrink(),
             loading: () => const Center(child: CircularProgressIndicator()),
             failure: (failure) => Center(child: Text(failure.toString())),
-            loaded: (orders) => ListView.builder(
-              padding: const EdgeInsets.all(12),
-              itemCount: orders.length,
-              itemBuilder: (context, index) {
-                final order = orders[index];
+            loaded: (orders) => orders.isEmpty
+                ? const EmptyOrderView()
+                : ListView.builder(
+                    padding: const EdgeInsets.all(12),
+                    itemCount: orders.length,
+                    itemBuilder: (context, index) {
+                      final order = orders[index];
 
-                return Card(
-                  margin: const EdgeInsets.symmetric(vertical: 8),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                      return Card(
+                        margin: const EdgeInsets.symmetric(vertical: 8),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        elevation: 3,
+                        child: Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              _buildOrderHeader(order),
+                              const SizedBox(height: 10),
+                              _buildOrderDetails(order),
+                              const SizedBox(height: 10),
+                              _buildOrderFooter(order),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
                   ),
-                  elevation: 3,
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _buildOrderHeader(order),
-                        const SizedBox(height: 10),
-                        _buildOrderDetails(order),
-                        const SizedBox(height: 10),
-                        _buildOrderFooter(order),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            ),
           );
         },
       ),

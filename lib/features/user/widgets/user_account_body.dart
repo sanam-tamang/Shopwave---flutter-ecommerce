@@ -38,40 +38,44 @@ class _UserAccountBodyState extends State<UserAccountBody> {
         const Gap(24),
         SettingsList(),
         const Gap(40),
-        BlocListener<AuthBloc, AuthState>(
-          bloc: _authBloc,
-          listener: (context, state) {
-            state.whenOrNull(
-              loading: () => AppProgressIndicator.show(context),
-              failure: (failure) {
-                AppProgressIndicator.hide(context);
-                context.pop();
-                AppToast.error(context, failure.toString());
-              },
-              loaded: (_) {
-                AppProgressIndicator.hide(context);
-
-                context.pop();
-                context.goNamed(AppRouteName.signIn);
-                AppToast.success(context, "Logout successful");
-              },
-            );
-          },
-          child: Center(
-            child: TextButton(
-              onPressed: () => _logoutDialog(context),
-              child: Text(
-                "Logout",
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      color: secondarySeedColor,
-                    ),
-              ),
-            ),
-          ),
-        ),
+        _buildLogoutButton(context),
         const Gap(40),
       ],
     );
+  }
+
+  BlocListener<AuthBloc, AuthState> _buildLogoutButton(BuildContext context) {
+    return BlocListener<AuthBloc, AuthState>(
+        bloc: _authBloc,
+        listener: (context, state) {
+          state.whenOrNull(
+            loading: () => AppProgressIndicator.show(context),
+            failure: (failure) {
+              AppProgressIndicator.hide(context);
+              context.pop();
+              AppToast.error(context, failure.toString());
+            },
+            loaded: (_) {
+              AppProgressIndicator.hide(context);
+
+              context.pop();
+              context.goNamed(AppRouteName.signIn);
+              AppToast.success(context, "Logout successful");
+            },
+          );
+        },
+        child: Center(
+          child: TextButton(
+            onPressed: () => _logoutDialog(context),
+            child: Text(
+              "Logout",
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    color: secondarySeedColor,
+                  ),
+            ),
+          ),
+        ),
+      );
   }
 
   Future<dynamic> _logoutDialog(BuildContext context) {

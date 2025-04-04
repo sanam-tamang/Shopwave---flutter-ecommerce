@@ -6,8 +6,10 @@ import 'package:flutter_ecommerce/core/repositories/user_local_data_repository.d
 import 'package:flutter_ecommerce/dependency_injection.dart';
 import 'package:flutter_ecommerce/features/address/pages/address_form_page.dart';
 import 'package:flutter_ecommerce/features/address/pages/address_page.dart';
-import 'package:flutter_ecommerce/features/admin/pages/category_form_page.dart';
-import 'package:flutter_ecommerce/features/admin/pages/product_form.dart';
+import 'package:flutter_ecommerce/features/admin/pages/admin_page.dart';
+import 'package:flutter_ecommerce/features/category/pages/category_form_page.dart';
+import 'package:flutter_ecommerce/features/order/pages/order_management_page.dart';
+import 'package:flutter_ecommerce/features/product/pages/product_form.dart';
 import 'package:flutter_ecommerce/features/auth/pages/sign_in.dart';
 import 'package:flutter_ecommerce/features/auth/pages/sign_up.dart';
 import 'package:flutter_ecommerce/features/cart/pages/cart_page.dart';
@@ -19,6 +21,7 @@ import 'package:flutter_ecommerce/features/order/pages/order_success_page.dart';
 import 'package:flutter_ecommerce/features/product/models/product.dart';
 import 'package:flutter_ecommerce/features/product/pages/product_detail_page.dart';
 import 'package:flutter_ecommerce/features/user/pages/user_account.dart';
+import 'package:flutter_ecommerce/features/vendor/pages/vendor_page.dart';
 import 'package:go_router/go_router.dart';
 
 class AppRouteName {
@@ -35,7 +38,10 @@ class AppRouteName {
   static const String productDetailPage = "product";
   static const String orderSuccessPage = "order-confirm";
   static const String orders = "orders";
+  static const String orderManagement = "order-management";
   static const String address = "addresses";
+  static const String admin = "admin";
+  static const String vendor = "vendor";
   static const String authGuard = "grd";
 }
 
@@ -157,17 +163,41 @@ class AppRoute {
                       },
                     ),
                     GoRoute(
-                      parentNavigatorKey: rootNavigatorKey,
-                      path: AppRouteName.categoryForm.path,
-                      name: AppRouteName.categoryForm,
-                      builder: (context, state) => const CategoryFormPage(),
-                    ),
+                        parentNavigatorKey: rootNavigatorKey,
+                        path: AppRouteName.admin.path,
+                        name: AppRouteName.admin,
+                        builder: (context, state) => const AdminPage(),
+                        routes: [
+                          GoRoute(
+                            parentNavigatorKey: rootNavigatorKey,
+                            path: AppRouteName.categoryForm.path,
+                            name: AppRouteName.categoryForm,
+                            builder: (context, state) =>
+                                const CategoryFormPage(),
+                          ),
+                        ]),
                     GoRoute(
-                      parentNavigatorKey: rootNavigatorKey,
-                      path: AppRouteName.productForm.path,
-                      name: AppRouteName.productForm,
-                      builder: (context, state) => const ProductFormPage(),
-                    ),
+                        parentNavigatorKey: rootNavigatorKey,
+                        path: AppRouteName.vendor.path,
+                        name: AppRouteName.vendor,
+                        builder: (context, state) => const VendorPage(),
+                        routes: [
+                          GoRoute(
+                            parentNavigatorKey: rootNavigatorKey,
+                            path: AppRouteName.productForm.path,
+                            name: AppRouteName.productForm,
+                            builder: (context, state) =>
+                                const ProductFormPage(),
+                          ),
+                          GoRoute(
+                            parentNavigatorKey: rootNavigatorKey,
+                            path: AppRouteName.orderManagement.path,
+                            name: AppRouteName.orderManagement,
+                            builder: (context, state) {
+                              return OrderManagementPage();
+                            },
+                          ),
+                        ]),
                     GoRoute(
                       parentNavigatorKey: rootNavigatorKey,
                       path: AppRouteName.addressForm.path,
