@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ecommerce/common/utils/loading_dialog.dart';
 import 'package:flutter_ecommerce/common/utils/toast_msg.dart';
 import 'package:flutter_ecommerce/dependency_injection.dart';
-import 'package:flutter_ecommerce/features/admin/widgets/category_drop_down.dart';
+import 'package:flutter_ecommerce/features/category/widgets/category_drop_down.dart';
 import 'package:flutter_ecommerce/features/product/blocs/product_bloc/product_bloc.dart';
 import 'package:flutter_ecommerce/features/product/models/product_form.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';

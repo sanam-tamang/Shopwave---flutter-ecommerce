@@ -6,7 +6,7 @@ import 'package:flutter_ecommerce/core/repositories/user_local_data_repository.d
 import 'package:flutter_ecommerce/dependency_injection.dart';
 import 'package:flutter_ecommerce/features/address/pages/address_form_page.dart';
 import 'package:flutter_ecommerce/features/address/pages/address_page.dart';
-import 'package:flutter_ecommerce/features/admin/pages/admin_page.dart';
+import 'package:flutter_ecommerce/features/user/pages/admin_page.dart';
 import 'package:flutter_ecommerce/features/category/pages/category_form_page.dart';
 import 'package:flutter_ecommerce/features/order/pages/order_management_page.dart';
 import 'package:flutter_ecommerce/features/product/pages/product_form.dart';
@@ -21,7 +21,7 @@ import 'package:flutter_ecommerce/features/order/pages/order_success_page.dart';
 import 'package:flutter_ecommerce/features/product/models/product.dart';
 import 'package:flutter_ecommerce/features/product/pages/product_detail_page.dart';
 import 'package:flutter_ecommerce/features/user/pages/user_account.dart';
-import 'package:flutter_ecommerce/features/vendor/pages/vendor_page.dart';
+import 'package:flutter_ecommerce/features/user/pages/vendor_page.dart';
 import 'package:go_router/go_router.dart';
 
 class AppRouteName {
