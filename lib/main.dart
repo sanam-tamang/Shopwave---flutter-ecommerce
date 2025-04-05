@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_ecommerce/common/theme/app_theme.dart';
+import 'package:flutter_ecommerce/core/app/restart_widget.dart';
 import 'package:flutter_ecommerce/core/blocs/user_local_data/user_local_data_bloc.dart';
 import 'package:flutter_ecommerce/dependency_injection.dart';
 import 'package:flutter_ecommerce/features/address/blocs/address_bloc/address_bloc.dart';
@@ -32,7 +33,7 @@ Future<void> main() async {
   );
 
   await init();
-  runApp(const MyApp());
+  runApp(const RestartWidget(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -82,3 +83,4 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+

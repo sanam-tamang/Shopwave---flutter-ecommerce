@@ -7,8 +7,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 abstract interface class UserLocalDataRepository {
   FutureEither<UserModel> getData();
-  FutureEither<void> writeData(UserModel user);
-  FutureEither<void> deleteData();
+  Future<void> writeData(UserModel user);
+  Future<void> deleteData();
 }
 
 class UserLocalDataRepositoryI implements UserLocalDataRepository {
@@ -32,25 +32,25 @@ class UserLocalDataRepositoryI implements UserLocalDataRepository {
   }
 
   @override
-  FutureEither<void> writeData(UserModel user) async {
+  Future<void> writeData(UserModel user) async {
     try {
       final String jsonString = json.encode(user.toJson());
       final success = await _pref.setString(_userKey, jsonString);
-      if (!success) throw FailureWithMsg('Failed to save user data');
-      return const Right(null);
+      if (!success) throw 'Failed to save user data';
+      return;
     } catch (e) {
-      return Left(FailureWithMsg('Failed to save user data: $e'));
+      throw 'Failed to save user data: $e';
     }
   }
 
   @override
-  FutureEither<void> deleteData() async {
+  Future<void> deleteData() async {
     try {
       final success = await _pref.remove(_userKey);
-      if (!success) throw FailureWithMsg('Failed to delete user data');
-      return const Right(null);
+      if (!success) throw 'Failed to delete user data';
+      return;
     } catch (e) {
-      return Left(FailureWithMsg('Failed to delete user data: $e'));
+      throw 'Failed to delete user data: $e';
     }
   }
 }

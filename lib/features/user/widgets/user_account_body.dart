@@ -9,6 +9,7 @@ import 'package:flutter_ecommerce/features/auth/blocs/auth_bloc/auth_bloc.dart';
 import 'package:flutter_ecommerce/features/user/model/user.dart';
 import 'package:flutter_ecommerce/features/user/widgets/settings_list.dart';
 import 'package:flutter_ecommerce/features/user/widgets/user_information_card.dart';
+import 'package:flutter_ecommerce/main.dart';
 import 'package:flutter_ecommerce/routes.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
@@ -46,36 +47,38 @@ class _UserAccountBodyState extends State<UserAccountBody> {
 
   BlocListener<AuthBloc, AuthState> _buildLogoutButton(BuildContext context) {
     return BlocListener<AuthBloc, AuthState>(
-        bloc: _authBloc,
-        listener: (context, state) {
-          state.whenOrNull(
-            loading: () => AppProgressIndicator.show(context),
-            failure: (failure) {
-              AppProgressIndicator.hide(context);
-              context.pop();
-              AppToast.error(context, failure.toString());
-            },
-            loaded: (_) {
-              AppProgressIndicator.hide(context);
+      bloc: _authBloc,
+      listener: (context, state) {
+        state.whenOrNull(
+          loading: () => AppProgressIndicator.show(context),
+          failure: (failure) {
+            AppProgressIndicator.hide(context);
+            context.pop();
+            AppToast.error(context, failure.toString());
+          },
+          loaded: (_) async {
+            AppProgressIndicator.hide(context);
 
-              context.pop();
-              context.goNamed(AppRouteName.signIn);
-              AppToast.success(context, "Logout successful");
-            },
-          );
-        },
-        child: Center(
-          child: TextButton(
-            onPressed: () => _logoutDialog(context),
-            child: Text(
-              "Logout",
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    color: secondarySeedColor,
-                  ),
-            ),
+            // RestartWidget.restartApp(context);
+
+            context.pop();
+            context.goNamed(AppRouteName.signIn);
+            AppToast.success(context, "Logout successful");
+          },
+        );
+      },
+      child: Center(
+        child: TextButton(
+          onPressed: () => _logoutDialog(context),
+          child: Text(
+            "Logout",
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  color: secondarySeedColor,
+                ),
           ),
         ),
-      );
+      ),
+    );
   }
 
   Future<dynamic> _logoutDialog(BuildContext context) {

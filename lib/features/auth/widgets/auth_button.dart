@@ -1,6 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_ecommerce/core/app/restart_widget.dart';
+import 'package:flutter_ecommerce/core/blocs/user_local_data/user_local_data_bloc.dart';
+import 'package:flutter_ecommerce/dependency_injection.dart';
+import 'package:flutter_ecommerce/main.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:flutter_ecommerce/common/utils/toast_msg.dart';
@@ -25,6 +29,8 @@ class AuthButton extends StatelessWidget {
           bloc: authBloc,
           listener: (context, state) => state.maybeWhen(
               loaded: (data) {
+                RestartWidget.restartApp(context);
+                // sl<UserLocalDataBloc>().add(UserLocalDataEvent.get());
                 AppToast.success(context, data);
                 context.goNamed(AppRouteName.home);
                 return null;

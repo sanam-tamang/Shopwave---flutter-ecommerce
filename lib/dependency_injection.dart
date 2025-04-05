@@ -1,3 +1,4 @@
+import 'package:extended_image/extended_image.dart' as UserBlocEvent;
 import 'package:flutter_ecommerce/core/blocs/user_local_data/user_local_data_bloc.dart';
 import 'package:flutter_ecommerce/core/repositories/image_uploader_repository.dart';
 import 'package:flutter_ecommerce/core/repositories/user_local_data_repository.dart';
@@ -78,4 +79,9 @@ Future<void> init() async {
 
   sl.registerLazySingleton(() => pref);
   sl.registerLazySingleton<SupabaseClient>(() => Supabase.instance.client);
+}
+
+Future<void> reset() async {
+  await sl.reset();
+  await init();
 }

@@ -68,7 +68,8 @@ class AuthRepositoryI implements AuthRepository {
   @override
   FutureEither<String> signOut() async {
     return await handleApplicationException(() async {
-      await Future.wait([_client.auth.signOut(), _repo.deleteData()]);
+      await _client.auth.signOut();
+      await _repo.deleteData();
 
       return "User logged out successfully";
     });
