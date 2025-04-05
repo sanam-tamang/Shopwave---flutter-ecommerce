@@ -2,9 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ecommerce/core/app/restart_widget.dart';
-import 'package:flutter_ecommerce/core/blocs/user_local_data/user_local_data_bloc.dart';
-import 'package:flutter_ecommerce/dependency_injection.dart';
-import 'package:flutter_ecommerce/main.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:flutter_ecommerce/common/utils/toast_msg.dart';

@@ -9,7 +9,6 @@ import 'package:flutter_ecommerce/features/auth/blocs/auth_bloc/auth_bloc.dart';
 import 'package:flutter_ecommerce/features/user/model/user.dart';
 import 'package:flutter_ecommerce/features/user/widgets/settings_list.dart';
 import 'package:flutter_ecommerce/features/user/widgets/user_information_card.dart';
-import 'package:flutter_ecommerce/main.dart';
 import 'package:flutter_ecommerce/routes.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
