@@ -222,20 +222,33 @@ class AppRoute {
 
   static Future<String?> _redirect(
       BuildContext context, GoRouterState state) async {
-    final currentPath = state.uri.path;
-    debugPrint("**********");
-    debugPrint(currentPath);
-    final isAuthPath = currentPath == AppRouteName.signIn.path ||
-        currentPath == AppRouteName.signUp.path;
+    final path = state.uri.path;
 
-    final isAuthGuardingPath = currentPath == AppRouteName.userProfile.path ||
-        currentPath == AppRouteName.cart.path;
+    final isAuthPath =
+        path == AppRouteName.signIn.path || path == AppRouteName.signUp.path;
 
-    // await sl<UserLocalDataRepository>().deleteData();
+    final protectedPaths = [
+      AppRouteName.userProfile.path,
+      AppRouteName.cart.path,
+      AppRouteName.checkout.path,
+      AppRouteName.orders.path,
+      AppRouteName.address.path,
+      AppRouteName.addressForm.path,
+      AppRouteName.vendor.path,
+      AppRouteName.productForm.path,
+      AppRouteName.orderManagement.path,
+      AppRouteName.admin.path,
+      AppRouteName.categoryForm.path,
+      AppRouteName.orderSuccessPage.path,
+    ];
+
+    final needsAuth =
+        protectedPaths.any((protectedPath) => path.startsWith(protectedPath));
+
     final failureOrUser = await sl<UserLocalDataRepository>().getData();
     final currentUser = failureOrUser.fold((failure) => null, (user) => user);
 
-    if (isAuthGuardingPath && currentUser == null) {
+    if (needsAuth && currentUser == null) {
       return AppRouteName.authGuard.path;
     }
 
@@ -243,6 +256,6 @@ class AppRoute {
       return AppRouteName.home.rootPath;
     }
 
-    return null; // Allow access
+    return null;
   }
 }
