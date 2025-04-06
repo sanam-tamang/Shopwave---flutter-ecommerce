@@ -274,6 +274,7 @@ class _OrderCardState extends State<OrderCard> {
             context.pop();
 
             AppProgressIndicator.hide(context);
+            sl<GetVendorOrderBloc>().add(const GetVendorOrderEvent.get());
             AppToast.success(context, msg);
           },
         );
