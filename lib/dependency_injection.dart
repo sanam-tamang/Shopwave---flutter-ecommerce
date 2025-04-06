@@ -29,57 +29,76 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 GetIt sl = GetIt.instance;
 Future<void> init() async {
-  sl.registerFactory(() => AuthBloc(repo: sl()));
-  sl.registerLazySingleton(() => UserBloc(userRepo: sl()));
-  sl.registerLazySingleton(() => UserLocalDataBloc(repo: sl()));
-  sl.registerLazySingleton(() => CategoryBloc(repo: sl()));
-  sl.registerLazySingleton(() => GetCategoryBloc(repo: sl()));
-  sl.registerLazySingleton(() => ProductBloc(repo: sl()));
-  sl.registerLazySingleton(() => GetProductBloc(repo: sl()));
-  sl.registerFactory(() => CartBloc(repo: sl(), getCartBloc: sl()));
-  sl.registerLazySingleton(() => GetCartBloc(repo: sl()));
-  sl.registerLazySingleton(() => AddressBloc(repo: sl()));
-  sl.registerLazySingleton(() => GetAddressBloc(repo: sl()));
-  sl.registerLazySingleton(() => GetOrderBloc(repo: sl()));
-  sl.registerLazySingleton(() => GetVendorOrderBloc(repo: sl()));
-  sl.registerLazySingleton(() => OrderBloc(repo: sl(), bloc: sl()));
-  sl.registerLazySingleton(() => CurrentShippingAddressBloc());
-
-  sl.registerLazySingleton<OrderRepository>(
-      () => OrderRepositoryI(client: sl(), userRepo: sl()));
-
-  sl.registerLazySingleton<ProductRepository>(() => ProductRepositoryI(
-        client: sl(),
-        imageUploaderRepo: sl(),
-      ));
-
-  sl.registerLazySingleton<CategoryRepository>(() => CategoryRepositoryI(
-        client: sl(),
-        imageUploaderRepo: sl(),
-      ));
-  sl.registerLazySingleton<AuthRepository>(
-      () => AuthRepositoryI(client: sl(), repo: sl()));
-
-  sl.registerLazySingleton<AddressRepository>(
-      () => AddressRepositoryI(client: sl(), userRepo: sl()));
-
-  sl.registerLazySingleton<CartRepository>(
-      () => CartRepositoryI(client: sl(), userRepo: sl()));
-
-  sl.registerLazySingleton<UserLocalDataRepository>(
-      () => UserLocalDataRepositoryI(pref: sl()));
-
-  sl.registerLazySingleton<UserRepository>(
-      () => UserRepositoryI(repo: sl(), client: sl()));
-
-  sl.registerLazySingleton<ImageUploaderRepository>(
-      () => ImageUploaderRepositoryI(client: sl()));
-
-  SharedPreferences pref = await SharedPreferences.getInstance();
-
+  // === CORE / EXTERNAL ===
+  final SharedPreferences pref = await SharedPreferences.getInstance();
   sl.registerLazySingleton(() => pref);
   sl.registerLazySingleton<SupabaseClient>(() => Supabase.instance.client);
+
+  // === CORE REPOSITORIES ===
+  sl.registerLazySingleton<UserLocalDataRepository>(
+    () => UserLocalDataRepositoryI(pref: sl()),
+  );
+  sl.registerLazySingleton<ImageUploaderRepository>(
+    () => ImageUploaderRepositoryI(client: sl()),
+  );
+
+  // === FEATURE REPOSITORIES ===
+  sl.registerLazySingleton<AuthRepository>(
+    () => AuthRepositoryI(client: sl(), repo: sl()),
+  );
+  sl.registerLazySingleton<UserRepository>(
+    () => UserRepositoryI(repo: sl(), client: sl()),
+  );
+  sl.registerLazySingleton<CategoryRepository>(
+    () => CategoryRepositoryI(client: sl(), imageUploaderRepo: sl()),
+  );
+  sl.registerLazySingleton<ProductRepository>(
+    () => ProductRepositoryI(client: sl(), imageUploaderRepo: sl()),
+  );
+  sl.registerLazySingleton<CartRepository>(
+    () => CartRepositoryI(client: sl(), userRepo: sl()),
+  );
+  sl.registerLazySingleton<AddressRepository>(
+    () => AddressRepositoryI(client: sl(), userRepo: sl()),
+  );
+  sl.registerLazySingleton<OrderRepository>(
+    () => OrderRepositoryI(client: sl(), userRepo: sl()),
+  );
+
+  // === CORE BLOCS ===
+  sl.registerLazySingleton(() => UserLocalDataBloc(repo: sl()));
+
+  // === FEATURE BLOCS ===
+
+  // Auth
+  sl.registerFactory(() => AuthBloc(repo: sl()));
+
+  // User
+  sl.registerLazySingleton(() => UserBloc(userRepo: sl()));
+
+  // Category
+  sl.registerLazySingleton(() => CategoryBloc(repo: sl()));
+  sl.registerLazySingleton(() => GetCategoryBloc(repo: sl()));
+
+  // Product
+  sl.registerLazySingleton(() => ProductBloc(repo: sl()));
+  sl.registerLazySingleton(() => GetProductBloc(repo: sl()));
+
+  // Cart
+  sl.registerLazySingleton(() => GetCartBloc(repo: sl()));
+  sl.registerFactory(() => CartBloc(repo: sl(), getCartBloc: sl()));
+
+  // Address
+  sl.registerLazySingleton(() => AddressBloc(repo: sl()));
+  sl.registerLazySingleton(() => GetAddressBloc(repo: sl()));
+  sl.registerLazySingleton(() => CurrentShippingAddressBloc());
+
+  // Orders
+  sl.registerLazySingleton(() => GetOrderBloc(repo: sl()));
+  sl.registerLazySingleton(() => GetVendorOrderBloc(repo: sl()));
+  sl.registerFactory(() => OrderBloc(repo: sl(), bloc: sl()));
 }
+
 
 Future<void> reset() async {
   await sl.reset();

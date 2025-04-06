@@ -22,6 +22,8 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
       await event.when(
         placeCartOrder: (order) => _placeCartOrder(order, emit),
         buyNowOrder: (order) => _buyNowOrder(order, emit),
+        updateOrderStatus: (orderId, status) =>
+            _updateOrderStatus(orderId, status, emit),
       );
     });
   }
@@ -45,6 +47,17 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
     failureOrOrder.fold(
       (failure) => emit(OrderState.failure(failure)),
       (order) => emit(OrderState.loaded(order)),
+    );
+  }
+
+  Future<void> _updateOrderStatus(
+      String orderId, String status, Emitter<OrderState> emit) async {
+    emit(OrderState.loading());
+    final failureOrOrder =
+        await _orderRepo.updateOrderStatus(orderId: orderId, status: status);
+    failureOrOrder.fold(
+      (failure) => emit(OrderState.failure(failure)),
+      (_) => emit(OrderState.loaded("Order status updated successfully")),
     );
   }
 

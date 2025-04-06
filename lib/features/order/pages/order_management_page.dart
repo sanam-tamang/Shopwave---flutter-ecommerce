@@ -1,8 +1,14 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_ecommerce/common/utils/loading_dialog.dart';
+import 'package:flutter_ecommerce/common/utils/toast_msg.dart';
+
 import 'package:flutter_ecommerce/dependency_injection.dart';
 import 'package:flutter_ecommerce/features/order/blocs/get_vendor_order_bloc/get_vendor_order_bloc.dart';
+import 'package:flutter_ecommerce/features/order/blocs/order_bloc/order_bloc.dart';
 import 'package:flutter_ecommerce/features/order/models/order_model.dart';
+import 'package:go_router/go_router.dart';
 
 class OrderManagementPage extends StatefulWidget {
   const OrderManagementPage({super.key});
@@ -47,9 +53,19 @@ class _OrderManagementPageState extends State<OrderManagementPage> {
   }
 }
 
-class OrderCard extends StatelessWidget {
+class OrderCard extends StatefulWidget {
   final Order order;
-  const OrderCard({super.key, required this.order});
+  const OrderCard({
+    super.key,
+    required this.order,
+  });
+
+  @override
+  State<OrderCard> createState() => _OrderCardState();
+}
+
+class _OrderCardState extends State<OrderCard> {
+  final OrderBloc orderBloc = sl<OrderBloc>();
 
   Color _statusColor(String status) {
     switch (status.toLowerCase()) {
@@ -92,15 +108,10 @@ class OrderCard extends StatelessWidget {
                 children: [
                   Expanded(
                     child: ElevatedButton(
-                      onPressed: () {
-                        // sl<GetVendorOrderBloc>().add(
-                        //   // GetVendorOrderEvent.updateStatus(
-                        //   //   orderId: order.id,
-                        //   //   status: newStatus,
-                        //   // ),
-                        // );
-                        // Navigator.pop(context);
-                      },
+                      onPressed: () => orderBloc.add(
+                          OrderEvent.updateOrderStatus(
+                              orderId: widget.order.id,
+                              status: isAccept ? "confirmed" : "cancelled")),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: isAccept ? Colors.green : Colors.red,
                       ),
@@ -142,20 +153,21 @@ class OrderCard extends StatelessWidget {
               children: [
                 Expanded(
                   child: Text(
-                    "Order #${order.id}",
+                    "Order #${widget.order.id}",
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                 ),
                 Chip(
                   label: Text(
-                    order.status.toUpperCase(),
+                    widget.order.status.toUpperCase(),
                     style: TextStyle(
-                      color: _statusColor(order.status),
+                      color: _statusColor(widget.order.status),
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  backgroundColor: _statusColor(order.status).withAlpha(40),
+                  backgroundColor:
+                      _statusColor(widget.order.status).withAlpha(40),
                 )
               ],
             ),
@@ -163,42 +175,42 @@ class OrderCard extends StatelessWidget {
 
             /// Date
             Text(
-              "Placed on: ${order.createdAt.toString().split(' ')[0]}",
+              "Placed on: ${widget.order.createdAt.toString().split(' ')[0]}",
               style: Theme.of(context).textTheme.bodySmall,
             ),
             const Divider(height: 20),
 
             /// Shipping Address
-            if (order.shippingAddress != null) ...[
+            if (widget.order.shippingAddress != null) ...[
               Text("Shipping Address:",
                   style: Theme.of(context).textTheme.titleSmall),
               const SizedBox(height: 4),
-              Text(order.shippingAddress!.fullAddress,
+              Text(widget.order.shippingAddress!.fullAddress,
                   style: Theme.of(context).textTheme.bodyMedium),
             ],
             const SizedBox(height: 12),
 
             /// Items
-            if (order.orderItems?.isNotEmpty == true)
+            if (widget.order.orderItems?.isNotEmpty == true)
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text("Items:", style: Theme.of(context).textTheme.titleSmall),
                   const SizedBox(height: 6),
-                  ...order.orderItems!.take(2).map(
+                  ...widget.order.orderItems!.take(2).map(
                         (item) =>
                             Text("• ${item.product.name} ×${item.quantity}"),
                       ),
-                  if ((order.orderItems?.length ?? 0) > 2)
+                  if ((widget.order.orderItems?.length ?? 0) > 2)
                     Text(
-                      "+${order.orderItems!.length - 2} more",
+                      "+${widget.order.orderItems!.length - 2} more",
                       style: Theme.of(context).textTheme.bodySmall,
                     ),
                 ],
               ),
 
             /// Accept / Cancel Buttons (only for pending)
-            if (order.status.toLowerCase() == 'pending') ...[
+            if (widget.order.status.toLowerCase() == 'pending') ...[
               const SizedBox(height: 12),
               Row(
                 children: [
@@ -244,33 +256,52 @@ class OrderCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isPending = order.status.toLowerCase() == "pending";
+    final isPending = widget.order.status.toLowerCase() == "pending";
 
     if (!isPending) return _buildCardContent(context);
 
-    return Dismissible(
-      key: ValueKey(order.id),
-      background: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        alignment: Alignment.centerLeft,
-        color: Colors.green.withAlpha(255 ~/ 0.8),
-        child: const Icon(Icons.check, color: Colors.white),
-      ),
-      secondaryBackground: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        alignment: Alignment.centerRight,
-        color: Colors.red.withAlpha(255 ~/ 0.8),
-        child: const Icon(Icons.close, color: Colors.white),
-      ),
-      confirmDismiss: (direction) async {
-        if (direction == DismissDirection.startToEnd) {
-          _showActionSheet(context, "accepted");
-        } else {
-          _showActionSheet(context, "cancelled");
-        }
-        return false;
+    return BlocListener<OrderBloc, OrderState>(
+      bloc: orderBloc,
+      listener: (context, state) {
+        state.whenOrNull(
+          loading: () => AppProgressIndicator.show(context),
+          failure: (failure) {
+            context.pop();
+            AppProgressIndicator.hide(context);
+            AppToast.error(context, failure.toString());
+          },
+          loaded: (msg) {
+            context.pop();
+
+            AppProgressIndicator.hide(context);
+            AppToast.success(context, msg);
+          },
+        );
       },
-      child: _buildCardContent(context),
+      child: Dismissible(
+        key: ValueKey(widget.order.id),
+        background: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          alignment: Alignment.centerLeft,
+          color: Colors.green.withAlpha(255 ~/ 0.8),
+          child: const Icon(Icons.check, color: Colors.white),
+        ),
+        secondaryBackground: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          alignment: Alignment.centerRight,
+          color: Colors.red.withAlpha(255 ~/ 0.8),
+          child: const Icon(Icons.close, color: Colors.white),
+        ),
+        confirmDismiss: (direction) async {
+          if (direction == DismissDirection.startToEnd) {
+            _showActionSheet(context, "accepted");
+          } else {
+            _showActionSheet(context, "cancelled");
+          }
+          return false;
+        },
+        child: _buildCardContent(context),
+      ),
     );
   }
 }

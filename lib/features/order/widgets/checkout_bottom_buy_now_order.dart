@@ -8,7 +8,7 @@ import 'package:flutter_ecommerce/features/order/blocs/order_bloc/order_bloc.dar
 import 'package:flutter_ecommerce/features/order/models/buy_now_and_cart_order_models.dart';
 import 'package:flutter_ecommerce/routes.dart';
 
-class CheckoutBottomBuyNowOrder extends StatelessWidget {
+class CheckoutBottomBuyNowOrder extends StatefulWidget {
   const CheckoutBottomBuyNowOrder({
     super.key,
     required this.order,
@@ -16,6 +16,13 @@ class CheckoutBottomBuyNowOrder extends StatelessWidget {
   });
   final BuyNowOrderModel order;
   final bool isShippingAddressSelected;
+
+  @override
+  State<CheckoutBottomBuyNowOrder> createState() => _CheckoutBottomBuyNowOrderState();
+}
+
+class _CheckoutBottomBuyNowOrderState extends State<CheckoutBottomBuyNowOrder> {
+  final _orderBloc = sl<OrderBloc>();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -32,11 +39,12 @@ class CheckoutBottomBuyNowOrder extends StatelessWidget {
                   "Total",
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
-                Text("Rs. ${order.totalAmount}")
+                Text("Rs. ${widget.order.totalAmount}")
               ],
             ),
             Spacer(),
             BlocListener<OrderBloc, OrderState>(
+              bloc: _orderBloc,
               listener: (context, state) {
                 state.whenOrNull(
                     loading: () => AppProgressIndicator.show(context),
@@ -54,7 +62,7 @@ class CheckoutBottomBuyNowOrder extends StatelessWidget {
               },
               child: FilledButton(
                 onPressed:
-                    !isShippingAddressSelected ? null : _placeBuyNowOrder,
+                    !widget.isShippingAddressSelected ? null : _placeBuyNowOrder,
                 child: Text("Place order"),
               ),
             )
@@ -65,6 +73,6 @@ class CheckoutBottomBuyNowOrder extends StatelessWidget {
   }
 
   void _placeBuyNowOrder() {
-    sl<OrderBloc>().add(OrderEvent.buyNowOrder(order));
+    _orderBloc.add(OrderEvent.buyNowOrder(widget.order));
   }
 }

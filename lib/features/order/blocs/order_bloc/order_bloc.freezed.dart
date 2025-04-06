@@ -16,23 +16,25 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$OrderEvent {
-  BaseOrderModel get order => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(CartOrderModel order) placeCartOrder,
     required TResult Function(BuyNowOrderModel order) buyNowOrder,
+    required TResult Function(String orderId, String status) updateOrderStatus,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(CartOrderModel order)? placeCartOrder,
     TResult? Function(BuyNowOrderModel order)? buyNowOrder,
+    TResult? Function(String orderId, String status)? updateOrderStatus,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(CartOrderModel order)? placeCartOrder,
     TResult Function(BuyNowOrderModel order)? buyNowOrder,
+    TResult Function(String orderId, String status)? updateOrderStatus,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -40,18 +42,21 @@ mixin _$OrderEvent {
   TResult map<TResult extends Object?>({
     required TResult Function(_PlaceCartOrder value) placeCartOrder,
     required TResult Function(_BuyNowOrder value) buyNowOrder,
+    required TResult Function(_UpdateOrderStatus value) updateOrderStatus,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_PlaceCartOrder value)? placeCartOrder,
     TResult? Function(_BuyNowOrder value)? buyNowOrder,
+    TResult? Function(_UpdateOrderStatus value)? updateOrderStatus,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_PlaceCartOrder value)? placeCartOrder,
     TResult Function(_BuyNowOrder value)? buyNowOrder,
+    TResult Function(_UpdateOrderStatus value)? updateOrderStatus,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -149,6 +154,7 @@ class _$PlaceCartOrderImpl implements _PlaceCartOrder {
   TResult when<TResult extends Object?>({
     required TResult Function(CartOrderModel order) placeCartOrder,
     required TResult Function(BuyNowOrderModel order) buyNowOrder,
+    required TResult Function(String orderId, String status) updateOrderStatus,
   }) {
     return placeCartOrder(order);
   }
@@ -158,6 +164,7 @@ class _$PlaceCartOrderImpl implements _PlaceCartOrder {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(CartOrderModel order)? placeCartOrder,
     TResult? Function(BuyNowOrderModel order)? buyNowOrder,
+    TResult? Function(String orderId, String status)? updateOrderStatus,
   }) {
     return placeCartOrder?.call(order);
   }
@@ -167,6 +174,7 @@ class _$PlaceCartOrderImpl implements _PlaceCartOrder {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(CartOrderModel order)? placeCartOrder,
     TResult Function(BuyNowOrderModel order)? buyNowOrder,
+    TResult Function(String orderId, String status)? updateOrderStatus,
     required TResult orElse(),
   }) {
     if (placeCartOrder != null) {
@@ -180,6 +188,7 @@ class _$PlaceCartOrderImpl implements _PlaceCartOrder {
   TResult map<TResult extends Object?>({
     required TResult Function(_PlaceCartOrder value) placeCartOrder,
     required TResult Function(_BuyNowOrder value) buyNowOrder,
+    required TResult Function(_UpdateOrderStatus value) updateOrderStatus,
   }) {
     return placeCartOrder(this);
   }
@@ -189,6 +198,7 @@ class _$PlaceCartOrderImpl implements _PlaceCartOrder {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_PlaceCartOrder value)? placeCartOrder,
     TResult? Function(_BuyNowOrder value)? buyNowOrder,
+    TResult? Function(_UpdateOrderStatus value)? updateOrderStatus,
   }) {
     return placeCartOrder?.call(this);
   }
@@ -198,6 +208,7 @@ class _$PlaceCartOrderImpl implements _PlaceCartOrder {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_PlaceCartOrder value)? placeCartOrder,
     TResult Function(_BuyNowOrder value)? buyNowOrder,
+    TResult Function(_UpdateOrderStatus value)? updateOrderStatus,
     required TResult orElse(),
   }) {
     if (placeCartOrder != null) {
@@ -211,7 +222,6 @@ abstract class _PlaceCartOrder implements OrderEvent {
   const factory _PlaceCartOrder(final CartOrderModel order) =
       _$PlaceCartOrderImpl;
 
-  @override
   CartOrderModel get order;
 
   /// Create a copy of OrderEvent
@@ -291,6 +301,7 @@ class _$BuyNowOrderImpl implements _BuyNowOrder {
   TResult when<TResult extends Object?>({
     required TResult Function(CartOrderModel order) placeCartOrder,
     required TResult Function(BuyNowOrderModel order) buyNowOrder,
+    required TResult Function(String orderId, String status) updateOrderStatus,
   }) {
     return buyNowOrder(order);
   }
@@ -300,6 +311,7 @@ class _$BuyNowOrderImpl implements _BuyNowOrder {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(CartOrderModel order)? placeCartOrder,
     TResult? Function(BuyNowOrderModel order)? buyNowOrder,
+    TResult? Function(String orderId, String status)? updateOrderStatus,
   }) {
     return buyNowOrder?.call(order);
   }
@@ -309,6 +321,7 @@ class _$BuyNowOrderImpl implements _BuyNowOrder {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(CartOrderModel order)? placeCartOrder,
     TResult Function(BuyNowOrderModel order)? buyNowOrder,
+    TResult Function(String orderId, String status)? updateOrderStatus,
     required TResult orElse(),
   }) {
     if (buyNowOrder != null) {
@@ -322,6 +335,7 @@ class _$BuyNowOrderImpl implements _BuyNowOrder {
   TResult map<TResult extends Object?>({
     required TResult Function(_PlaceCartOrder value) placeCartOrder,
     required TResult Function(_BuyNowOrder value) buyNowOrder,
+    required TResult Function(_UpdateOrderStatus value) updateOrderStatus,
   }) {
     return buyNowOrder(this);
   }
@@ -331,6 +345,7 @@ class _$BuyNowOrderImpl implements _BuyNowOrder {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_PlaceCartOrder value)? placeCartOrder,
     TResult? Function(_BuyNowOrder value)? buyNowOrder,
+    TResult? Function(_UpdateOrderStatus value)? updateOrderStatus,
   }) {
     return buyNowOrder?.call(this);
   }
@@ -340,6 +355,7 @@ class _$BuyNowOrderImpl implements _BuyNowOrder {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_PlaceCartOrder value)? placeCartOrder,
     TResult Function(_BuyNowOrder value)? buyNowOrder,
+    TResult Function(_UpdateOrderStatus value)? updateOrderStatus,
     required TResult orElse(),
   }) {
     if (buyNowOrder != null) {
@@ -352,12 +368,169 @@ class _$BuyNowOrderImpl implements _BuyNowOrder {
 abstract class _BuyNowOrder implements OrderEvent {
   const factory _BuyNowOrder(final BuyNowOrderModel order) = _$BuyNowOrderImpl;
 
-  @override
   BuyNowOrderModel get order;
 
   /// Create a copy of OrderEvent
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$BuyNowOrderImplCopyWith<_$BuyNowOrderImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$UpdateOrderStatusImplCopyWith<$Res> {
+  factory _$$UpdateOrderStatusImplCopyWith(_$UpdateOrderStatusImpl value,
+          $Res Function(_$UpdateOrderStatusImpl) then) =
+      __$$UpdateOrderStatusImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String orderId, String status});
+}
+
+/// @nodoc
+class __$$UpdateOrderStatusImplCopyWithImpl<$Res>
+    extends _$OrderEventCopyWithImpl<$Res, _$UpdateOrderStatusImpl>
+    implements _$$UpdateOrderStatusImplCopyWith<$Res> {
+  __$$UpdateOrderStatusImplCopyWithImpl(_$UpdateOrderStatusImpl _value,
+      $Res Function(_$UpdateOrderStatusImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of OrderEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? orderId = null,
+    Object? status = null,
+  }) {
+    return _then(_$UpdateOrderStatusImpl(
+      orderId: null == orderId
+          ? _value.orderId
+          : orderId // ignore: cast_nullable_to_non_nullable
+              as String,
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$UpdateOrderStatusImpl implements _UpdateOrderStatus {
+  const _$UpdateOrderStatusImpl({required this.orderId, required this.status});
+
+  @override
+  final String orderId;
+  @override
+  final String status;
+
+  @override
+  String toString() {
+    return 'OrderEvent.updateOrderStatus(orderId: $orderId, status: $status)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$UpdateOrderStatusImpl &&
+            (identical(other.orderId, orderId) || other.orderId == orderId) &&
+            (identical(other.status, status) || other.status == status));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, orderId, status);
+
+  /// Create a copy of OrderEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$UpdateOrderStatusImplCopyWith<_$UpdateOrderStatusImpl> get copyWith =>
+      __$$UpdateOrderStatusImplCopyWithImpl<_$UpdateOrderStatusImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(CartOrderModel order) placeCartOrder,
+    required TResult Function(BuyNowOrderModel order) buyNowOrder,
+    required TResult Function(String orderId, String status) updateOrderStatus,
+  }) {
+    return updateOrderStatus(orderId, status);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(CartOrderModel order)? placeCartOrder,
+    TResult? Function(BuyNowOrderModel order)? buyNowOrder,
+    TResult? Function(String orderId, String status)? updateOrderStatus,
+  }) {
+    return updateOrderStatus?.call(orderId, status);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(CartOrderModel order)? placeCartOrder,
+    TResult Function(BuyNowOrderModel order)? buyNowOrder,
+    TResult Function(String orderId, String status)? updateOrderStatus,
+    required TResult orElse(),
+  }) {
+    if (updateOrderStatus != null) {
+      return updateOrderStatus(orderId, status);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_PlaceCartOrder value) placeCartOrder,
+    required TResult Function(_BuyNowOrder value) buyNowOrder,
+    required TResult Function(_UpdateOrderStatus value) updateOrderStatus,
+  }) {
+    return updateOrderStatus(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_PlaceCartOrder value)? placeCartOrder,
+    TResult? Function(_BuyNowOrder value)? buyNowOrder,
+    TResult? Function(_UpdateOrderStatus value)? updateOrderStatus,
+  }) {
+    return updateOrderStatus?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_PlaceCartOrder value)? placeCartOrder,
+    TResult Function(_BuyNowOrder value)? buyNowOrder,
+    TResult Function(_UpdateOrderStatus value)? updateOrderStatus,
+    required TResult orElse(),
+  }) {
+    if (updateOrderStatus != null) {
+      return updateOrderStatus(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _UpdateOrderStatus implements OrderEvent {
+  const factory _UpdateOrderStatus(
+      {required final String orderId,
+      required final String status}) = _$UpdateOrderStatusImpl;
+
+  String get orderId;
+  String get status;
+
+  /// Create a copy of OrderEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$UpdateOrderStatusImplCopyWith<_$UpdateOrderStatusImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

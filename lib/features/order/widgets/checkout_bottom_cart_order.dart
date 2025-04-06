@@ -12,11 +12,18 @@ import 'package:flutter_ecommerce/features/order/blocs/order_bloc/order_bloc.dar
 import 'package:flutter_ecommerce/features/order/models/buy_now_and_cart_order_models.dart';
 import 'package:flutter_ecommerce/routes.dart';
 
-class CheckoutBottomCartOrder extends StatelessWidget {
+class CheckoutBottomCartOrder extends StatefulWidget {
   const CheckoutBottomCartOrder({
     super.key, required this.isShippingAddressSelected,
   });
 final bool isShippingAddressSelected ;
+
+  @override
+  State<CheckoutBottomCartOrder> createState() => _CheckoutBottomCartOrderState();
+}
+
+class _CheckoutBottomCartOrderState extends State<CheckoutBottomCartOrder> {
+    final _orderBloc = sl<OrderBloc>();
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<GetCartBloc, GetCartState>(
@@ -42,6 +49,7 @@ final bool isShippingAddressSelected ;
                         ),
                         Spacer(),
                         BlocListener<OrderBloc, OrderState>(
+                          bloc: _orderBloc,
                           listener: (context, state) {
                             state.whenOrNull(
                                 loading: () =>
@@ -62,7 +70,7 @@ final bool isShippingAddressSelected ;
                           child: BlocBuilder<GetAddressBloc, GetAddressState>(
                             builder: (context, state) {
                               return FilledButton(
-                                onPressed: !isShippingAddressSelected? null:() {
+                                onPressed: !widget.isShippingAddressSelected? null:() {
                                  
                                   _placeCartOrder(CartOrderModel(
                                       carts: data.selectedCarts,
@@ -84,6 +92,6 @@ final bool isShippingAddressSelected ;
   }
 
   void _placeCartOrder(CartOrderModel order) {
-    sl<OrderBloc>().add(OrderEvent.placeCartOrder(order));
+  _orderBloc.add(OrderEvent.placeCartOrder(order));
   }
 }

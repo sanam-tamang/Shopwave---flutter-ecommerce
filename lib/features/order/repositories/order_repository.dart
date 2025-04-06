@@ -12,6 +12,7 @@ abstract interface class OrderRepository {
   FutureEither<String> createBuyNowOrder(BuyNowOrderModel order);
   FutureEither<List<Order>> getUserOrders();
   FutureEither<List<Order>> getVendorOrders();
+  FutureEither<void> updateOrderStatus({required String orderId,required String status});
 }
 
 class OrderRepositoryI implements OrderRepository {
@@ -117,6 +118,14 @@ class OrderRepositoryI implements OrderRepository {
       final List<Order> orders =
           List.from(listOfOrderMap).map((e) => Order.fromJson(e)).toList();
       return orders;
+    });
+  }
+
+  @override
+  FutureEither<void> updateOrderStatus({required String orderId,required String status}) async {
+    return await handleApplicationException(() async {
+      await _client.from('orders').update({'status': status}).eq('id', orderId);
+      return;
     });
   }
 }
