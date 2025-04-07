@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce/common/widgets/custom_cached_network_image.dart';
 import 'package:flutter_ecommerce/features/category/models/category.dart';
+import 'package:flutter_ecommerce/routes.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 
 class ProductCategories extends StatelessWidget {
   const ProductCategories({
@@ -17,11 +19,19 @@ class ProductCategories extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Gap(8),
-          Text(
-            "Categories",
-            style: TextTheme.of(context)
-                .titleMedium
-                ?.copyWith(fontWeight: FontWeight.bold),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Categories",
+                style: TextTheme.of(context)
+                    .titleMedium
+                    ?.copyWith(fontWeight: FontWeight.bold),
+              ),
+              TextButton(
+                  onPressed: () => context.pushNamed(AppRouteName.categories),
+                  child: Text("See All"))
+            ],
           ),
           Gap(12),
           LimitedBox(
