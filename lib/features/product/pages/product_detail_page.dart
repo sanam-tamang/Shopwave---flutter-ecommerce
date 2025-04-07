@@ -89,9 +89,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   child: BlocBuilder<GetAddressBloc, GetAddressState>(
                     builder: (context, state) {
                       return OutlinedButton(
-                        onPressed: () async =>
-                            await AuthUtil.checkAuthAndProceed(
-                                context, _onBuyNow),
+                        onPressed: _onBuyNow,
                         child: Text("Buy now"),
                       );
                     },

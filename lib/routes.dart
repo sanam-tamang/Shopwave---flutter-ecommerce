@@ -58,6 +58,7 @@ class AppRoute {
     debugLogDiagnostics: true,
     navigatorKey: rootNavigatorKey,
     initialLocation: "/",
+    redirect: _redirect,
     routes: [
       GoRoute(
         path: AppRouteName.signUp.path,
@@ -92,7 +93,7 @@ class AppRoute {
         builder: (context, state, navigationShell) {
           return LayoutScaffold(shell: navigationShell);
         },
-        redirect: _redirect,
+        // redirect: _redirect,
         branches: [
           StatefulShellBranch(
             navigatorKey: homeNavKey,
