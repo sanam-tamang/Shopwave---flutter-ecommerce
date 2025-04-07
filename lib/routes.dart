@@ -7,6 +7,7 @@ import 'package:flutter_ecommerce/dependency_injection.dart';
 import 'package:flutter_ecommerce/features/address/pages/address_form_page.dart';
 import 'package:flutter_ecommerce/features/address/pages/address_page.dart';
 import 'package:flutter_ecommerce/features/category/pages/category_page.dart';
+import 'package:flutter_ecommerce/features/product/pages/product_by_category_page.dart';
 import 'package:flutter_ecommerce/features/user/pages/admin_page.dart';
 import 'package:flutter_ecommerce/features/category/pages/category_form_page.dart';
 import 'package:flutter_ecommerce/features/order/pages/order_management_page.dart';
@@ -44,6 +45,7 @@ class AppRouteName {
   static const String admin = "admin";
   static const String vendor = "vendor";
   static const String categories = "categories";
+  static const String productByCategory = "product-by-category";
   static const String authGuard = "auth-guard";
 }
 
@@ -130,6 +132,19 @@ class AppRoute {
                       builder: (context, state) {
                         return CategoryPage();
                       },
+
+                      routes: [
+                        GoRoute(
+                      parentNavigatorKey: rootNavigatorKey,
+                      path: ":id",
+                      name: AppRouteName.productByCategory,
+                      builder: (context, state) {
+                        final id = state.pathParameters['id']!;
+                        final categoryName = state.uri.queryParameters['name'];
+                        return ProductByCategoryPage(categoryId: id,categoryName: categoryName,);
+                      },)
+
+                      ]
                     ),
                   ]),
             ],

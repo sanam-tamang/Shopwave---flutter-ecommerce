@@ -18,6 +18,7 @@ import 'package:flutter_ecommerce/features/order/blocs/get_vendor_order_bloc/get
 import 'package:flutter_ecommerce/features/order/blocs/order_bloc/order_bloc.dart';
 import 'package:flutter_ecommerce/features/product/blocs/get_product_bloc/get_product_bloc.dart';
 import 'package:flutter_ecommerce/features/product/blocs/product_bloc/product_bloc.dart';
+import 'package:flutter_ecommerce/features/product/blocs/product_by_category_bloc/product_by_category_bloc.dart';
 import 'package:flutter_ecommerce/features/user/blocs/user_bloc/user_bloc.dart';
 import 'package:flutter_ecommerce/routes.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -50,6 +51,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => sl<AddressBloc>()),
         BlocProvider(create: (context) => sl<OrderBloc>()),
         BlocProvider(create: (context) => sl<CurrentShippingAddressBloc>()),
+        BlocProvider(create: (context) => sl<ProductByCategoryBloc>()),
         BlocProvider(
             create: (context) =>
                 sl<GetVendorOrderBloc>()..add(GetVendorOrderEvent.get())),

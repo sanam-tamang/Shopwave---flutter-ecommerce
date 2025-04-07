@@ -20,6 +20,7 @@ import 'package:flutter_ecommerce/features/order/blocs/order_bloc/order_bloc.dar
 import 'package:flutter_ecommerce/features/order/repositories/order_repository.dart';
 import 'package:flutter_ecommerce/features/product/blocs/get_product_bloc/get_product_bloc.dart';
 import 'package:flutter_ecommerce/features/product/blocs/product_bloc/product_bloc.dart';
+import 'package:flutter_ecommerce/features/product/blocs/product_by_category_bloc/product_by_category_bloc.dart';
 import 'package:flutter_ecommerce/features/product/repositories/product_repository.dart';
 import 'package:flutter_ecommerce/features/user/blocs/user_bloc/user_bloc.dart';
 import 'package:flutter_ecommerce/features/user/repositories/user_repository.dart';
@@ -83,6 +84,7 @@ Future<void> init() async {
   // Product
   sl.registerLazySingleton(() => ProductBloc(repo: sl()));
   sl.registerLazySingleton(() => GetProductBloc(repo: sl()));
+  sl.registerLazySingleton(() => ProductByCategoryBloc(repo: sl()));
 
   // Cart
   sl.registerLazySingleton(() => GetCartBloc(repo: sl()));

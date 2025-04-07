@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ecommerce/common/widgets/custom_cached_network_image.dart';
 import 'package:flutter_ecommerce/features/category/blocs/get_category_bloc/get_category_bloc.dart';
+import 'package:flutter_ecommerce/features/category/models/category.dart';
+import 'package:flutter_ecommerce/routes.dart';
+import 'package:go_router/go_router.dart';
 
 class CategoryPage extends StatelessWidget {
   const CategoryPage({super.key});
@@ -29,7 +32,7 @@ class CategoryPage extends StatelessWidget {
             BlocBuilder<GetCategoryBloc, GetCategoryState>(
               builder: (context, state) {
                 return state.maybeWhen(
-                    loaded: (data) => SliverList.builder(
+                    loaded: (categories) => SliverList.builder(
                           itemBuilder: (context, index) => Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 12)
                                 .copyWith(bottom: 8),
@@ -38,18 +41,20 @@ class CategoryPage extends StatelessWidget {
                                   ColorScheme.of(context).surfaceContainerLow,
                               elevation: 0,
                               child: ListTile(
+                                onTap: () => _navigateToProductByCategoryPage(
+                                    context, categories, index),
                                 minTileHeight: 70,
-                                title: Text(data[index].name),
+                                title: Text(categories[index].name),
                                 leading: SizedBox(
                                   width: 60,
                                   height: double.maxFinite,
                                   child: AppCachedNetworkImage(
-                                      imageUrl: data[index].imageUrl),
+                                      imageUrl: categories[index].imageUrl),
                                 ),
                               ),
                             ),
                           ),
-                          itemCount: data.length,
+                          itemCount: categories.length,
                         ),
                     orElse: () => SizedBox());
               },
@@ -58,5 +63,12 @@ class CategoryPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<Object?> _navigateToProductByCategoryPage(
+      BuildContext context, List<Category> categories, int index) {
+    return context.pushNamed(AppRouteName.productByCategory,
+        queryParameters: {"name": categories[index].name},
+        pathParameters: {"id": categories[index].id.toString()});
   }
 }

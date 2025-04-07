@@ -41,6 +41,11 @@ class ProductCategories extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
                 return GestureDetector(
+                  onTap: () => _navigateToProductByCategoryPage(
+                    context,
+                    categories,
+                    index,
+                  ),
                   child: Container(
                     width: 100,
                     padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -80,5 +85,12 @@ class ProductCategories extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Future<Object?> _navigateToProductByCategoryPage(
+      BuildContext context, List<Category> categories, int index) {
+    return context.pushNamed(AppRouteName.productByCategory,
+        queryParameters: {"name": categories[index].name},
+        pathParameters: {"id": categories[index].id.toString()});
   }
 }

@@ -8,6 +8,7 @@ import 'package:uuid/uuid.dart';
 
 abstract interface class ProductRepository {
   FutureEither<List<Product>> getProducts();
+  FutureEither<List<Product>> getProductsByCategory(String categoryId);
   FutureEither<String> addProduct(ProductForm product);
   FutureEither<String> updateProduct(ProductForm product);
 }
@@ -70,6 +71,19 @@ class ProductRepositoryI implements ProductRepository {
     return await handleApplicationException(() async {
       final productsMap =
           await _client.from('products').select('*, images:product_images(*)');
+      final products =
+          List.from(productsMap).map((e) => Product.fromJson(e)).toList();
+      return products;
+    });
+  }
+
+  @override
+  FutureEither<List<Product>> getProductsByCategory(String categoryId) async {
+    return await handleApplicationException(() async {
+      final productsMap = await _client
+          .from('products')
+          .select('*, images:product_images(*)')
+          .eq('category_id', categoryId);
       final products =
           List.from(productsMap).map((e) => Product.fromJson(e)).toList();
       return products;
