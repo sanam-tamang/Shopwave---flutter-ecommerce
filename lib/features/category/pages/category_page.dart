@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ecommerce/common/widgets/custom_cached_network_image.dart';
-import 'package:flutter_ecommerce/features/cart/blocs/get_cart_bloc/get_cart_bloc.dart';
 import 'package:flutter_ecommerce/features/category/blocs/get_category_bloc/get_category_bloc.dart';
 
 class CategoryPage extends StatelessWidget {
@@ -13,8 +12,19 @@ class CategoryPage extends StatelessWidget {
       body: SafeArea(
         child: CustomScrollView(
           slivers: [
-            SliverAppBar(
-              title: const Text("Categories"),
+            SliverAppBar(),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                ).copyWith(bottom: 12, top: 4),
+                child: Text(
+                  "Shop by Categories",
+                  style: TextTheme.of(context)
+                      .titleLarge
+                      ?.copyWith(fontWeight: FontWeight.bold),
+                ),
+              ),
             ),
             BlocBuilder<GetCategoryBloc, GetCategoryState>(
               builder: (context, state) {

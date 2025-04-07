@@ -37,7 +37,7 @@ class HomePage extends StatelessWidget {
 
   SliverPadding _buildProductList() {
     return SliverPadding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
       sliver: BlocBuilder<GetProductBloc, GetProductState>(
         builder: (context, state) {
           return state.maybeWhen(
@@ -78,10 +78,12 @@ class HomePage extends StatelessWidget {
   SliverToBoxAdapter _buildProductHeader(BuildContext context) {
     return SliverToBoxAdapter(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        padding: const EdgeInsets.symmetric(horizontal: 12),
         child: Text(
           "Products",
-          style: Theme.of(context).textTheme.titleLarge,
+          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
         ),
       ),
     );
