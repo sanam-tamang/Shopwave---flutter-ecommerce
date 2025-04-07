@@ -1,13 +1,12 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_ecommerce/common/widgets/custom_cached_network_image.dart';
+import 'package:flutter_ecommerce/features/category/widgets/category_list.dart';
+import 'package:flutter_ecommerce/features/product/widgets/product_grid.dart';
+import 'package:flutter_ecommerce/common/widgets/app_loading.dart';
 import 'package:flutter_ecommerce/features/category/blocs/get_category_bloc/get_category_bloc.dart';
 import 'package:flutter_ecommerce/features/product/blocs/get_product_bloc/get_product_bloc.dart';
-import 'package:flutter_ecommerce/features/product/widgets/product_card.dart';
 import 'package:flutter_ecommerce/features/search/widgets/app_search_box.dart';
-import 'package:flutter_ecommerce/routes.dart';
-import 'package:gap/gap.dart';
-import 'package:go_router/go_router.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -17,28 +16,21 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: NestedScrollView(
-            headerSliverBuilder: (context, innerBoxIsScrolled) {
-              return [
-                SliverAppBar(
-                  title: Text(
-                    "Ecommerce",
-                  ),
+          headerSliverBuilder: (context, innerBoxIsScrolled) {
+            return [
+              SliverAppBar(
+                title: Text(
+                  "Ecommerce",
                 ),
-                SliverAppBar(
-                  pinned: true,
-                  flexibleSpace: AppSearchBoxUI(),
-                ),
-              ];
-            },
-            body: CustomScrollView(
-              slivers: [
-                SliverToBoxAdapter(
-                  child: _buildCategoryTabs(),
-                ),
-                _BuildProductHeader(),
-                _buildProductList(),
-              ],
-            )),
+              ),
+              SliverAppBar(
+                pinned: true,
+                flexibleSpace: AppSearchBoxUI(),
+              ),
+            ];
+          },
+          body: _buildBody(),
+        ),
       ),
     );
   }
@@ -49,21 +41,8 @@ class HomePage extends StatelessWidget {
       sliver: BlocBuilder<GetProductBloc, GetProductState>(
         builder: (context, state) {
           return state.maybeWhen(
-              loaded: (products) => SliverGrid.builder(
-                    itemCount: products.length,
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                          onTap: () => context.pushNamed(
-                              AppRouteName.productDetailPage,
-                              pathParameters: {'id': products[index].id},
-                              extra: products[index]),
-                          child: ProductCard(product: products[index]));
-                    },
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        mainAxisExtent: 250,
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 8,
-                        mainAxisSpacing: 8),
+              loaded: (products) => BuildProductGrid(
+                    products: products,
                   ),
               orElse: () => SliverToBoxAdapter());
         },
@@ -71,72 +50,23 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  BlocBuilder<GetCategoryBloc, GetCategoryState> _buildCategoryTabs() {
+  BlocBuilder<GetCategoryBloc, GetCategoryState> _buildBody() {
     return BlocBuilder<GetCategoryBloc, GetCategoryState>(
       builder: (context, state) {
         return state.maybeWhen(
           orElse: () => SizedBox(),
-          // loading: () => AppLoading.center(),
+          loading: () => AppLoading.center(),
           loaded: (categories) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Gap(8),
-                  Text(
-                    "Categories",
-                    style: TextTheme.of(context)
-                        .titleMedium
-                        ?.copyWith(fontWeight: FontWeight.bold),
+            return CustomScrollView(
+              slivers: [
+                SliverToBoxAdapter(
+                  child: ProductCategories(
+                    categories: categories,
                   ),
-                  Gap(12),
-                  LimitedBox(
-                    maxHeight: 140,
-                    child: ListView.builder(
-                      itemCount: categories.length,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          child: Container(
-                            width: 100,
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 8, vertical: 4),
-                            // margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Expanded(
-                                    child: SizedBox(
-                                  width: double.maxFinite,
-                                  child: AppCachedNetworkImage(
-                                    imageUrl: categories[index].imageUrl,
-                                    fit: BoxFit.cover,
-                                  ),
-                                )),
-                                Gap(8),
-                                Center(
-                                  child: Text(
-                                    categories[index].name,
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextTheme.of(context).labelMedium,
-                                  ),
-                                ),
-                                Gap(8),
-                              ],
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                ],
-              ),
+                ),
+                _buildProductHeader(context),
+                _buildProductList(),
+              ],
             );
           },
           failure: (failure) => Text(failure.toString()),
@@ -144,21 +74,14 @@ class HomePage extends StatelessWidget {
       },
     );
   }
-}
 
-class _BuildProductHeader extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return SliverPadding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 16,
-      ).copyWith(top: 8),
-      sliver: SliverToBoxAdapter(
+  SliverToBoxAdapter _buildProductHeader(BuildContext context) {
+    return SliverToBoxAdapter(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         child: Text(
           "Products",
-          style: TextTheme.of(context)
-              .titleMedium
-              ?.copyWith(fontWeight: FontWeight.bold),
+          style: Theme.of(context).textTheme.titleLarge,
         ),
       ),
     );
