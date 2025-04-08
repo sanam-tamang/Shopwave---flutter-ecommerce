@@ -3,12 +3,13 @@ import 'package:flutter_ecommerce/core/exception.dart';
 import 'package:flutter_ecommerce/core/repositories/image_uploader_repository.dart';
 import 'package:flutter_ecommerce/features/product/models/product.dart';
 import 'package:flutter_ecommerce/features/product/models/product_form.dart';
+import 'package:flutter_ecommerce/features/search/models/product_search_params.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
 
 abstract interface class ProductRepository {
   FutureEither<List<Product>> getProducts();
-  FutureEither<List<Product>> getProductsByCategory(String categoryId);
+  FutureEither<List<Product>> searchProducts(ProductSearchParams params);
   FutureEither<String> addProduct(ProductForm product);
   FutureEither<String> updateProduct(ProductForm product);
 }
@@ -78,12 +79,33 @@ class ProductRepositoryI implements ProductRepository {
   }
 
   @override
-  FutureEither<List<Product>> getProductsByCategory(String categoryId) async {
+  FutureEither<List<Product>> searchProducts(ProductSearchParams params) async {
     return await handleApplicationException(() async {
-      final productsMap = await _client
-          .from('products')
-          .select('*, images:product_images(*)')
-          .eq('category_id', categoryId);
+      var query =
+          _client.from('products').select('*, images:product_images(*)');
+
+      if (params.categoryId != null) {
+        query = query.eq('category_id', params.categoryId!);
+      }
+
+      if (params.minPrice != null && params.minPrice! > 0) {
+        query = query.gte('price', params.minPrice!);
+      }
+
+      if (params.maxPrice != null && params.maxPrice! > 0) {
+        query = query.lte('price', params.maxPrice!);
+      }
+
+      if (params.hasDiscount == true) {
+        query = query.gt('discount_price', 0);
+      }
+
+      if (params.query != null && params.query!.isNotEmpty) {
+        query = query.or(
+            'name.ilike.%${params.query}%,description.ilike.%${params.query}%');
+      }
+
+      final productsMap = await query;
       final products =
           List.from(productsMap).map((e) => Product.fromJson(e)).toList();
       return products;

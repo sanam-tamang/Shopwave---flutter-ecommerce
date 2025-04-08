@@ -8,6 +8,7 @@ import 'package:flutter_ecommerce/features/address/pages/address_form_page.dart'
 import 'package:flutter_ecommerce/features/address/pages/address_page.dart';
 import 'package:flutter_ecommerce/features/category/pages/category_page.dart';
 import 'package:flutter_ecommerce/features/product/pages/product_by_category_page.dart';
+import 'package:flutter_ecommerce/features/search/pages/search_page.dart';
 import 'package:flutter_ecommerce/features/user/pages/admin_page.dart';
 import 'package:flutter_ecommerce/features/category/pages/category_form_page.dart';
 import 'package:flutter_ecommerce/features/order/pages/order_management_page.dart';
@@ -126,26 +127,28 @@ class AppRoute {
                       },
                     ),
                     GoRoute(
-                      parentNavigatorKey: rootNavigatorKey,
-                      path: AppRouteName.categories.path,
-                      name: AppRouteName.categories,
-                      builder: (context, state) {
-                        return CategoryPage();
-                      },
-
-                      routes: [
-                        GoRoute(
-                      parentNavigatorKey: rootNavigatorKey,
-                      path: ":id",
-                      name: AppRouteName.productByCategory,
-                      builder: (context, state) {
-                        final id = state.pathParameters['id']!;
-                        final categoryName = state.uri.queryParameters['name'];
-                        return ProductByCategoryPage(categoryId: id,categoryName: categoryName,);
-                      },)
-
-                      ]
-                    ),
+                        parentNavigatorKey: rootNavigatorKey,
+                        path: AppRouteName.categories.path,
+                        name: AppRouteName.categories,
+                        builder: (context, state) {
+                          return CategoryPage();
+                        },
+                        routes: [
+                          GoRoute(
+                            parentNavigatorKey: rootNavigatorKey,
+                            path: ":id",
+                            name: AppRouteName.productByCategory,
+                            builder: (context, state) {
+                              final id = state.pathParameters['id']!;
+                              final categoryName =
+                                  state.uri.queryParameters['name'];
+                              return ProductByCategoryPage(
+                                categoryId: id,
+                                categoryName: categoryName,
+                              );
+                            },
+                          )
+                        ]),
                   ]),
             ],
           ),
@@ -155,7 +158,7 @@ class AppRoute {
               GoRoute(
                 path: AppRouteName.search.path,
                 name: AppRouteName.search,
-                builder: (context, state) => const UserAccountPage(),
+                builder: (context, state) => const SearchPage(),
               ),
             ],
           ),

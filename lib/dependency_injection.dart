@@ -1,4 +1,3 @@
-
 import 'package:flutter_ecommerce/core/blocs/user_local_data/user_local_data_bloc.dart';
 import 'package:flutter_ecommerce/core/repositories/image_uploader_repository.dart';
 import 'package:flutter_ecommerce/core/repositories/user_local_data_repository.dart';
@@ -22,6 +21,7 @@ import 'package:flutter_ecommerce/features/product/blocs/get_product_bloc/get_pr
 import 'package:flutter_ecommerce/features/product/blocs/product_bloc/product_bloc.dart';
 import 'package:flutter_ecommerce/features/product/blocs/product_by_category_bloc/product_by_category_bloc.dart';
 import 'package:flutter_ecommerce/features/product/repositories/product_repository.dart';
+import 'package:flutter_ecommerce/features/search/blocs/search_bloc/search_bloc.dart';
 import 'package:flutter_ecommerce/features/user/blocs/user_bloc/user_bloc.dart';
 import 'package:flutter_ecommerce/features/user/repositories/user_repository.dart';
 import 'package:get_it/get_it.dart';
@@ -99,8 +99,10 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetOrderBloc(repo: sl()));
   sl.registerLazySingleton(() => GetVendorOrderBloc(repo: sl()));
   sl.registerFactory(() => OrderBloc(repo: sl(), bloc: sl()));
-}
 
+  //
+  sl.registerCachedFactory(() => SearchBloc(repo: sl()));
+}
 
 Future<void> reset() async {
   await sl.reset();
