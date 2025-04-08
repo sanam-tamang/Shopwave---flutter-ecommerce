@@ -17,22 +17,52 @@ class CartPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("My cart"),
+        title: const Text(
+          "Shopping Cart",
+          style: TextStyle(fontWeight: FontWeight.w600),
+        ),
+        surfaceTintColor: Colors.transparent,
       ),
       body: BlocBuilder<GetCartBloc, GetCartState>(
         builder: (context, state) {
           return state.when(
-              initial: () => SizedBox(),
-              loading: () => AppLoading.center(),
-              loaded: (data) => _BuildCarts(
+            initial: () => const SizedBox(),
+            loading: () => AppLoading.center(),
+            loaded: (data) => CustomScrollView(
+              slivers: [
+                SliverPadding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  sliver: _BuildCarts(
                     carts: data.carts,
                   ),
-              failure: (failure) => Center(
-                    child: Text(failure.toString()),
-                  ));
+                ),
+              ],
+            ),
+            failure: (failure) => Center(
+              child: Text(
+                failure.toString(),
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      color: Theme.of(context).colorScheme.error,
+                    ),
+              ),
+            ),
+          );
         },
       ),
-      bottomNavigationBar: _BottomSheet(),
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.surface,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withAlpha(5),
+              blurRadius: 8,
+              offset: const Offset(0, -2),
+            ),
+          ],
+        ),
+        child: _BottomSheet(),
+      ),
     );
   }
 }
@@ -95,8 +125,7 @@ class _BuildCarts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      padding: const EdgeInsets.symmetric(vertical: 4),
+    return SliverList.builder(
       itemCount: carts.length,
       itemBuilder: (context, index) {
         final cart = carts[index];
