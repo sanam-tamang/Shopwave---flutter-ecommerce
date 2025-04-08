@@ -38,7 +38,7 @@ class AppRouteName {
   static const String categoryForm = "category-form";
   static const String productForm = "product-form";
   static const String addressForm = "address-form";
-  static const String productDetailPage = "product";
+  static const String productDetailPage = "products";
   static const String orderSuccessPage = "order-confirm";
   static const String orders = "orders";
   static const String orderManagement = "order-management";

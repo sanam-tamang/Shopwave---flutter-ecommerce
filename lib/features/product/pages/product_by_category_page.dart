@@ -6,6 +6,8 @@ import 'package:flutter_ecommerce/dependency_injection.dart';
 import 'package:flutter_ecommerce/features/product/blocs/product_by_category_bloc/product_by_category_bloc.dart';
 import 'package:flutter_ecommerce/features/product/widgets/no_product_found.dart';
 import 'package:flutter_ecommerce/features/product/widgets/product_card.dart';
+import 'package:flutter_ecommerce/routes.dart';
+import 'package:go_router/go_router.dart';
 
 class ProductByCategoryPage extends StatefulWidget {
   const ProductByCategoryPage({
@@ -50,8 +52,16 @@ class _ProductByCategoryPageState extends State<ProductByCategoryPage> {
                                   mainAxisExtent: 250,
                                   mainAxisSpacing: 12,
                                   crossAxisSpacing: 8),
-                          itemBuilder: (context, index) => ProductCard(
-                                product: products[index],
+                          itemBuilder: (context, index) => GestureDetector(
+                                onTap: () => context.pushNamed(
+                                    AppRouteName.productDetailPage,
+                                    pathParameters: {
+                                      "id": products[index].id.toString()
+                                    },
+                                    extra: products[index]),
+                                child: ProductCard(
+                                  product: products[index],
+                                ),
                               )),
                   failure: (failure) => Center(
                     child: Text(failure.toString()),

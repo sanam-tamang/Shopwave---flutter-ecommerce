@@ -7,7 +7,9 @@ import 'package:flutter_ecommerce/features/product/widgets/product_card.dart';
 import 'package:flutter_ecommerce/features/search/blocs/search_bloc/search_bloc.dart';
 import 'package:flutter_ecommerce/features/search/widgets/search_field.dart';
 import 'package:flutter_ecommerce/features/search/widgets/search_filters.dart';
+import 'package:flutter_ecommerce/routes.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -87,6 +89,7 @@ class _SearchPageState extends State<SearchPage> {
   SliverAppBar _buildSearchField(BuildContext context) {
     return SliverAppBar(
       pinned: true,
+      automaticallyImplyLeading: false,
       backgroundColor: Theme.of(context).colorScheme.surface,
       elevation: 0,
       scrolledUnderElevation: 0.0,
@@ -172,15 +175,21 @@ class _SearchPageState extends State<SearchPage> {
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
-                      childAspectRatio: 0.85,
+                      childAspectRatio: 1 / 1.7,
                       crossAxisSpacing: 16,
                       mainAxisSpacing: 16,
                     ),
                     delegate: SliverChildBuilderDelegate(
                       (context, index) {
                         final product = products[index];
-                        return ProductCard(
-                          product: product,
+                        return GestureDetector(
+                          onTap: () => context.pushNamed(
+                              AppRouteName.productDetailPage,
+                              pathParameters: {"id": product.id.toString()},
+                              extra: product),
+                          child: ProductCard(
+                            product: product,
+                          ),
                         );
                       },
                       childCount: products.length,
