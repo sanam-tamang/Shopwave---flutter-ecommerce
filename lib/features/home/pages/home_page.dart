@@ -18,11 +18,11 @@ class HomePage extends StatelessWidget {
         child: NestedScrollView(
           headerSliverBuilder: (context, innerBoxIsScrolled) {
             return [
-              SliverAppBar(
-                title: Text(
-                  "Ecommerce",
-                ),
-              ),
+              // SliverAppBar(
+              //   title: Text(
+              //     "ShopWave",
+              //   ),
+              // ),
               SliverAppBar(
                 pinned: true,
                 flexibleSpace: AppSearchBoxUI(),

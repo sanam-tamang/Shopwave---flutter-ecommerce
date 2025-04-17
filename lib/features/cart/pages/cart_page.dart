@@ -9,6 +9,7 @@ import 'package:flutter_ecommerce/features/cart/widgets/empty_cart.dart';
 import 'package:flutter_ecommerce/routes.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 class CartPage extends StatelessWidget {
   const CartPage({super.key});
@@ -22,6 +23,7 @@ class CartPage extends StatelessWidget {
           style: TextStyle(fontWeight: FontWeight.w600),
         ),
         surfaceTintColor: Colors.transparent,
+        elevation: 0,
       ),
       body: BlocBuilder<GetCartBloc, GetCartState>(
         builder: (context, state) {
@@ -38,7 +40,7 @@ class CartPage extends StatelessWidget {
                   ),
                 ),
               ],
-            ),
+            ).animate().fadeIn(duration: const Duration(milliseconds: 300)),
             failure: (failure) => Center(
               child: Text(
                 failure.toString(),
@@ -55,9 +57,10 @@ class CartPage extends StatelessWidget {
           color: Theme.of(context).colorScheme.surface,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withAlpha(5),
-              blurRadius: 8,
-              offset: const Offset(0, -2),
+              color: Colors.black.withAlpha((0.05 * 255).toInt()),
+              blurRadius: 10,
+              offset: const Offset(0, -3),
+              spreadRadius: 1,
             ),
           ],
         ),
@@ -77,40 +80,81 @@ class _BottomSheet extends StatelessWidget {
                 ? EmptyCartWidget()
                 : Container(
                     color: ColorScheme.of(context).surfaceContainerLow,
-                    padding: const EdgeInsets.symmetric(vertical: 20)
-                        .copyWith(right: 12),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 16),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Row(children: [
-                          SizedBox(
-                            child: Row(
-                              children: [
-                                Checkbox(
+                        Directionality(
+                          textDirection: TextDirection.ltr,
+                          child: Row(
+                            children: [
+                              // Select all checkbox
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Checkbox(
                                     value: data.isAllCartSelected,
                                     onChanged: (value) => sl<GetCartBloc>()
-                                        .add(GetCartEvent.selectAllCarts())),
-                                Text("All"),
-                              ],
-                            ),
-                          ),
-                          Spacer(),
-                          Column(
-                            children: [
-                              Text("Subtotal Rs. ${data.subTotal}"),
+                                        .add(GetCartEvent.selectAllCarts()),
+                                    activeColor:
+                                        Theme.of(context).colorScheme.primary,
+                                  ),
+                                  Text(
+                                    "Select All",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.w500),
+                                  ),
+                                ],
+                              ),
+                              Spacer(),
+                              // Subtotal
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    "Subtotal",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall
+                                        ?.copyWith(
+                                          color: Colors.grey[600],
+                                        ),
+                                  ),
+                                  Text(
+                                    "Rs. ${data.subTotal.toStringAsFixed(2)}",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium
+                                        ?.copyWith(
+                                          fontWeight: FontWeight.bold,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                        ),
+                                  ),
+                                ],
+                              ),
+                              Gap(16),
+                              // Checkout button
+                              FilledButton.icon(
+                                onPressed: data.selectedCarts.isEmpty
+                                    ? null
+                                    : () => context
+                                        .pushNamed(AppRouteName.checkout),
+                                icon: Icon(Icons.shopping_cart_checkout),
+                                label: Text("Checkout"),
+                                style: FilledButton.styleFrom(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 16, vertical: 12),
+                                ),
+                              ),
                             ],
                           ),
-                          Gap(12),
-                          FilledButton(
-                              onPressed: data.selectedCarts.isEmpty
-                                  ? null
-                                  : () =>
-                                      context.pushNamed(AppRouteName.checkout),
-                              child: Text("Checkout"))
-                        ]),
+                        ),
                       ],
                     ),
-                  ),
+                  ).animate().slideX(duration: 200.ms),
             orElse: () => SizedBox());
       },
     );
@@ -129,7 +173,13 @@ class _BuildCarts extends StatelessWidget {
       itemCount: carts.length,
       itemBuilder: (context, index) {
         final cart = carts[index];
-        return CartCard(cart: cart);
+        return CartCard(cart: cart)
+            .animate(delay: Duration(milliseconds: 50 * index))
+            .fadeIn(duration: const Duration(milliseconds: 300))
+            .slideX(
+                begin: 0.1,
+                end: 0,
+                duration: const Duration(milliseconds: 300));
       },
     );
   }

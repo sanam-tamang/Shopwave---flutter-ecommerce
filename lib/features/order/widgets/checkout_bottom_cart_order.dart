@@ -14,16 +14,18 @@ import 'package:flutter_ecommerce/routes.dart';
 
 class CheckoutBottomCartOrder extends StatefulWidget {
   const CheckoutBottomCartOrder({
-    super.key, required this.isShippingAddressSelected,
+    super.key,
+    required this.isShippingAddressSelected,
   });
-final bool isShippingAddressSelected ;
+  final bool isShippingAddressSelected;
 
   @override
-  State<CheckoutBottomCartOrder> createState() => _CheckoutBottomCartOrderState();
+  State<CheckoutBottomCartOrder> createState() =>
+      _CheckoutBottomCartOrderState();
 }
 
 class _CheckoutBottomCartOrderState extends State<CheckoutBottomCartOrder> {
-    final _orderBloc = sl<OrderBloc>();
+  final _orderBloc = sl<OrderBloc>();
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<GetCartBloc, GetCartState>(
@@ -70,13 +72,14 @@ class _CheckoutBottomCartOrderState extends State<CheckoutBottomCartOrder> {
                           child: BlocBuilder<GetAddressBloc, GetAddressState>(
                             builder: (context, state) {
                               return FilledButton(
-                                onPressed: !widget.isShippingAddressSelected? null:() {
-                                 
-                                  _placeCartOrder(CartOrderModel(
-                                      carts: data.selectedCarts,
-                                      totalAmount: data.subTotal,
-                                    ));
-                                },
+                                onPressed: !widget.isShippingAddressSelected
+                                    ? null
+                                    : () {
+                                        _placeCartOrder(CartOrderModel(
+                                          carts: data.selectedCarts,
+                                          totalAmount: data.subTotal,
+                                        ));
+                                      },
                                 child: Text("Place order"),
                               );
                             },
@@ -92,6 +95,6 @@ class _CheckoutBottomCartOrderState extends State<CheckoutBottomCartOrder> {
   }
 
   void _placeCartOrder(CartOrderModel order) {
-  _orderBloc.add(OrderEvent.placeCartOrder(order));
+    _orderBloc.add(OrderEvent.placeCartOrder(order));
   }
 }

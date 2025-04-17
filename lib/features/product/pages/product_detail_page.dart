@@ -12,7 +12,6 @@ import 'package:flutter_ecommerce/features/order/models/buy_now_and_cart_order_m
 import 'package:flutter_ecommerce/features/product/widgets/item_quantity_controller.dart';
 import 'package:flutter_ecommerce/routes.dart';
 import 'package:gap/gap.dart';
-import 'package:flutter_ecommerce/common/widgets/app_read_more.dart';
 import 'package:flutter_ecommerce/common/widgets/custom_cached_network_image.dart';
 import 'package:flutter_ecommerce/features/product/models/product.dart';
 import 'package:flutter_ecommerce/features/product/widgets/product_price.dart';
@@ -34,6 +33,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   Product? product;
   int _quantity = 1;
   late final CartBloc _cartBloc;
+
   @override
   void initState() {
     product = widget.product;
@@ -45,23 +45,39 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   Widget build(BuildContext context) {
     return product != null
         ? Scaffold(
+            backgroundColor: ColorScheme.of(context).surface,
             appBar: AppBar(
-              title: Text(product!.name),
+              title: Text(
+                product!.name,
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 18,
+                ),
+              ),
+              actions: [
+                IconButton(
+                  icon: Icon(Icons.share_outlined),
+                  onPressed: () {},
+                ),
+                IconButton(
+                  icon: Icon(Icons.favorite_border_outlined),
+                  onPressed: () {},
+                ),
+              ],
             ),
-            bottomNavigationBar: _bottomSheet(),
+            bottomNavigationBar: SafeArea(child: _bottomSheet()),
             body: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _buildImageCarousel(),
                   _buildProductDetail(),
+                  _buildSpecifications(),
                 ],
               ),
             ),
           )
-        : Material(
-            child: Center(child: Text("No Product found ")),
-          );
+        : const Center(child: CircularProgressIndicator());
   }
 
   Widget _bottomSheet() {
@@ -115,67 +131,165 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     );
   }
 
-  Padding _buildProductDetail() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+  Widget _buildImageCarousel() {
+    return Stack(
+      children: [
+        CarouselSlider(
+          items: product!.images.map((image) {
+            return Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: ColorScheme.of(context).surfaceContainerLowest,
+              ),
+              child: AppCachedNetworkImage(
+                imageUrl: image.url,
+                fit: BoxFit.contain,
+              ),
+            );
+          }).toList(),
+          options: CarouselOptions(
+            aspectRatio: 1,
+            viewportFraction: 1,
+            onPageChanged: (index, reason) {
+              setState(() {
+                currentImageIndex = index.toDouble();
+              });
+            },
+          ),
+        ),
+        Positioned(
+          bottom: 16,
+          left: 0,
+          right: 0,
+          child: Center(
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              decoration: BoxDecoration(
+                color: Colors.black.withAlpha((0.6*255).toInt()),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: _buildPageIndicator(
+                currentImageIndex,
+                product!.images.length,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildProductDetail() {
+    return Container(
+      padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      product!.name,
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                    ),
+                    Gap(8),
+                    ProductPrice(product: product!),
+                  ],
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                decoration: BoxDecoration(
+                  color: ColorScheme.of(context).primaryContainer,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Text(
+                  '${product!.stockQuantity} in stock',
+                  style: TextStyle(
+                    color: ColorScheme.of(context).onPrimaryContainer,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Gap(16),
           Text(
-            product!.name,
-            style: TextTheme.of(context)
-                .titleLarge
-                ?.copyWith(fontWeight: FontWeight.bold),
+            'Description',
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
           ),
           Gap(8),
-          ProductPrice(product: product!),
-          Gap(8),
-          AppReadMore(
+          Text(
             product!.description,
-            trimLines: 12,
-            style: TextTheme.of(context)
-                .labelLarge
-                ?.copyWith(color: Colors.black54),
+            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  color: ColorScheme.of(context).onSurfaceVariant,
+                  height: 1.5,
+                ),
           ),
-          Gap(8),
         ],
       ),
     );
   }
 
-  Widget _buildImageCarousel() {
-    return SizedBox(
-      height: 200,
-      child: Stack(
+  Widget _buildSpecifications() {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Positioned.fill(
-            child: CarouselSlider.builder(
-              itemCount: product!.images.length,
-              itemBuilder: (context, index, realIndex) {
-                return SizedBox.expand(
-                  child: AppCachedNetworkImage(
-                    imageUrl: product!.images[index].url,
-                    fit: BoxFit.cover,
-                  ),
-                );
-              },
-              options: CarouselOptions(
-                enlargeCenterPage: true,
-                reverse: false,
-                onPageChanged: (index, reason) {
-                  setState(() {
-                    currentImageIndex = index.toDouble();
-                  });
-                },
-              ),
+          Text(
+            'Specifications',
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+          ),
+          Gap(12),
+          // _buildSpecificationItem('Brand', 'ShopWave Original'),
+          _buildSpecificationItem('Category', 'Electronics'),
+          if (product!.discountPercentage != null)
+            _buildSpecificationItem(
+              'Discount',
+              '${product!.discountPercentage!.toStringAsFixed(0)}% OFF',
+            ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSpecificationItem(String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8),
+      child: Row(
+        children: [
+          Text(
+            label,
+            style: TextStyle(
+              color: ColorScheme.of(context).onSurfaceVariant,
+              fontWeight: FontWeight.w500,
             ),
           ),
-          Positioned(
-              left: 0,
-              right: 0,
-              bottom: 12,
-              child: _buildPageIndicator(
-                  currentImageIndex, product!.images.length))
+          Gap(8),
+          Text(
+            ': ',
+            style: TextStyle(
+              color: ColorScheme.of(context).onSurfaceVariant,
+            ),
+          ),
+          Text(
+            value,
+            style: TextStyle(
+              color: ColorScheme.of(context).onSurface,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
         ],
       ),
     );
@@ -186,10 +300,13 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
       dotsCount: totalLength,
       position: currentIndex,
       decorator: DotsDecorator(
-        size: const Size.square(9.0),
-        activeSize: const Size(18.0, 9.0),
-        activeShape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+        activeColor: Colors.white,
+        color: Colors.white.withAlpha((0.5*255).toInt()),
+        size: const Size(8, 8),
+        activeSize: const Size(24, 8),
+        activeShape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(4),
+        ),
       ),
     );
   }

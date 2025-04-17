@@ -24,90 +24,117 @@ class CartCard extends StatelessWidget {
         bottom: 16,
       ),
       child: Card(
-        // margin: EdgeInsets.zero,
+        elevation: 2,
+        shadowColor: Colors.black.withAlpha((255 * 0.1).toInt() ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         color: Theme.of(context).colorScheme.surfaceContainerLow,
-        child: LimitedBox(
-          maxHeight: 140,
-          child: Row(
-            children: [
-              _buildCheckBox(),
-              Gap(4),
-              _buildProductImage(),
-              _buildProductDetail(context)
-            ],
+        child: InkWell(
+          borderRadius: BorderRadius.circular(12),
+          onTap: () {},
+          child: LimitedBox(
+            maxHeight: 158,
+            child: Row(
+              children: [
+                _buildCheckBox(),
+                _buildProductImage(),
+                Gap(8),
+                _buildProductDetail(context)
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  Checkbox _buildCheckBox() {
-    return Checkbox.adaptive(
-        value: cart.isSelected,
-        onChanged: (value) =>
-            sl<GetCartBloc>().add(GetCartEvent.changeSelection(cart)));
+  Widget _buildCheckBox() {
+    return Checkbox(
+      value: cart.isSelected,
+      onChanged: (value) =>
+          sl<GetCartBloc>().add(GetCartEvent.changeSelection(cart)),
+    );
   }
 
-  Expanded _buildProductImage() {
-    return Expanded(
-        child: ConstrainedBox(
-      constraints: BoxConstraints(
-        minHeight: 120,
-        maxHeight: 140,
-      ),
-      child: AppCachedNetworkImage(
-        imageUrl: cart.product.images.firstOrNull?.url,
-        fit: BoxFit.cover,
-      ),
-    ));
-  }
-
-  Expanded _buildProductDetail(BuildContext context) {
-    return Expanded(
-        flex: 2,
+  Widget _buildProductImage() {
+    return LayoutBuilder(builder: (context, constrainsts) {
+      return SizedBox(
+        width: 116,
+        height: constrainsts.maxHeight * 0.7,
         child: Container(
-            padding: const EdgeInsets.all(12),
-            child: Column(
-                spacing: 4,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    cart.product.name,
-                    style: Theme.of(context)
-                        .textTheme
-                        .labelLarge
-                        ?.copyWith(fontWeight: FontWeight.bold),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      FittedBox(
-                          child: ProductPrice(
-                              direction: Axis.vertical, product: cart.product)),
-                      Spacer(),
-                      _cartQuantity(),
-                    ],
-                  ),
-                ])));
+          // margin: EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withAlpha((255 * 0.05).toInt()),
+                blurRadius: 4,
+                offset: Offset(0, 2),
+              ),
+            ],
+          ),
+          child: AppCachedNetworkImage(
+            imageUrl: cart.product.images.firstOrNull?.url,
+            fit: BoxFit.cover,
+          ),
+        ),
+      );
+    });
+  }
+
+  Widget _buildProductDetail(BuildContext context) {
+    return Expanded(
+      flex: 3,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 12),
+        child: Column(
+          // spacing: 8,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              cart.product.name,
+              style: Theme.of(context)
+                  .textTheme
+                  .titleMedium
+                  ?.copyWith(fontWeight: FontWeight.bold),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+            Gap(4),
+            Transform.scale(
+                scale: 0.8,
+                alignment: Alignment.centerLeft,
+                child: ProductPrice(
+                    direction: Axis.horizontal, product: cart.product)),
+            _cartQuantity(),
+            Gap(4),
+          ],
+        ),
+      ),
+    );
   }
 
   CartBlocListener _cartQuantity() {
     return CartBlocListener(
       bloc: _cartBloc,
-      child: ItemQuantityController(
-        getQuantity: (quantity) {},
-        initialQuantity: cart.quantity,
-        onDecrementQuantity: () => _cartBloc.add(CartEvent.update(
-            id: cart.id, updatedTotalQuantity: cart.quantity - 1)),
-        onIncrementQuantity: () => _cartBloc.add(
-          CartEvent.update(
-              id: cart.id, updatedTotalQuantity: cart.quantity + 1),
-        ),
-      ),
+      child: Builder(builder: (context) {
+        return Container(
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.surfaceContainerHighest,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: ItemQuantityController(
+            getQuantity: (quantity) {},
+            initialQuantity: cart.quantity,
+            onDecrementQuantity: () => _cartBloc.add(CartEvent.update(
+                id: cart.id, updatedTotalQuantity: cart.quantity - 1)),
+            onIncrementQuantity: () => _cartBloc.add(
+              CartEvent.update(
+                  id: cart.id, updatedTotalQuantity: cart.quantity + 1),
+            ),
+          ),
+        );
+      }),
     );
   }
 }

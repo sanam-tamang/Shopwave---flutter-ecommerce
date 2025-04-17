@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_ecommerce/common/widgets/custom_cached_network_image.dart';
 import 'package:flutter_ecommerce/features/category/blocs/get_category_bloc/get_category_bloc.dart';
 import 'package:flutter_ecommerce/features/category/models/category.dart';
+import 'package:flutter_ecommerce/features/category/widgets/category_card.dart';
 import 'package:flutter_ecommerce/routes.dart';
 import 'package:go_router/go_router.dart';
 
@@ -15,7 +15,9 @@ class CategoryPage extends StatelessWidget {
       body: SafeArea(
         child: CustomScrollView(
           slivers: [
-            SliverAppBar(),
+            SliverAppBar(
+              backgroundColor: Colors.transparent,
+            ),
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.symmetric(
@@ -36,22 +38,10 @@ class CategoryPage extends StatelessWidget {
                           itemBuilder: (context, index) => Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 12)
                                 .copyWith(bottom: 8),
-                            child: Card(
-                              color:
-                                  ColorScheme.of(context).surfaceContainerLow,
-                              elevation: 0,
-                              child: ListTile(
-                                onTap: () => _navigateToProductByCategoryPage(
-                                    context, categories, index),
-                                minTileHeight: 70,
-                                title: Text(categories[index].name),
-                                leading: SizedBox(
-                                  width: 60,
-                                  height: double.maxFinite,
-                                  child: AppCachedNetworkImage(
-                                      imageUrl: categories[index].imageUrl),
-                                ),
-                              ),
+                            child: CategoryCard(
+                              onTap: () => _navigateToProductByCategoryPage(
+                                  context, categories, index),
+                              category: categories[index],
                             ),
                           ),
                           itemCount: categories.length,

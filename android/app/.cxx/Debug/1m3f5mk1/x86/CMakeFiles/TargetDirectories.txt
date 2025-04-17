@@ -1,0 +1,2 @@
+/media/sanam/Prolifa/1_projects/flutter/flutter_ecommerce/android/app/.cxx/Debug/1m3f5mk1/x86/CMakeFiles/edit_cache.dir
+/media/sanam/Prolifa/1_projects/flutter/flutter_ecommerce/android/app/.cxx/Debug/1m3f5mk1/x86/CMakeFiles/rebuild_cache.dir

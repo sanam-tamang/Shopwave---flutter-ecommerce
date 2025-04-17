@@ -56,19 +56,21 @@ class CheckOutPage extends StatelessWidget {
             ],
           ),
         ),
-        bottomNavigationBar: BlocBuilder<CurrentShippingAddressBloc,
-            CurrentShippingAddressState>(
-          builder: (context, state) {
-            bool isShippingAddressSelected =
-                state.maybeWhen(loaded: (address) => true, orElse: () => false);
-            return order == null
-                ? CheckoutBottomCartOrder(
-                    isShippingAddressSelected: isShippingAddressSelected)
-                : CheckoutBottomBuyNowOrder(
-                    order: order!,
-                    isShippingAddressSelected: isShippingAddressSelected,
-                  );
-          },
+        bottomNavigationBar: SafeArea(
+          child: BlocBuilder<CurrentShippingAddressBloc,
+              CurrentShippingAddressState>(
+            builder: (context, state) {
+              bool isShippingAddressSelected = state.maybeWhen(
+                  loaded: (address) => true, orElse: () => false);
+              return order == null
+                  ? CheckoutBottomCartOrder(
+                      isShippingAddressSelected: isShippingAddressSelected)
+                  : CheckoutBottomBuyNowOrder(
+                      order: order!,
+                      isShippingAddressSelected: isShippingAddressSelected,
+                    );
+            },
+          ),
         ));
   }
 }

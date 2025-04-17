@@ -55,6 +55,7 @@ class _ProductQuantityCounterState extends State<ItemQuantityController> {
 
   Row _buildQuantityCounter() {
     return Row(
+      mainAxisSize: MainAxisSize.min,
       children: [
         IconButton(
             onPressed: counter == 1

@@ -12,77 +12,81 @@ class ProductCategories extends StatelessWidget {
   });
   final List<Category> categories;
   @override
+
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Gap(8),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Categories",
-                style: TextTheme.of(context)
-                    .titleMedium
-                    ?.copyWith(fontWeight: FontWeight.bold),
-              ),
-              TextButton(
-                  onPressed: () => context.pushNamed(AppRouteName.categories),
-                  child: Text("See All"))
-            ],
-          ),
-          Gap(12),
-          LimitedBox(
-            maxHeight: 140,
-            child: ListView.builder(
-              itemCount: categories.length,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) {
-                return GestureDetector(
-                  onTap: () => _navigateToProductByCategoryPage(
-                    context,
-                    categories,
-                    index,
-                  ),
-                  child: Container(
-                    width: 100,
-                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    // margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                            child: SizedBox(
-                          width: double.maxFinite,
-                          child: AppCachedNetworkImage(
-                            imageUrl: categories[index].imageUrl,
-                            fit: BoxFit.cover,
-                          ),
-                        )),
-                        Gap(8),
-                        Center(
-                          child: Text(
-                            categories[index].name,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextTheme.of(context).labelMedium,
-                          ),
-                        ),
-                        Gap(8),
-                      ],
-                    ),
-                  ),
-                );
-              },
+    return Container(
+      color: ColorScheme.of(context).surfaceContainerLowest,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Gap(8),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Categories",
+                  style: TextTheme.of(context)
+                      .titleMedium
+                      ?.copyWith(fontWeight: FontWeight.bold),
+                ),
+                TextButton(
+                    onPressed: () => context.pushNamed(AppRouteName.categories),
+                    child: Text("See All"))
+              ],
             ),
-          ),
-        ],
+            // Gap(12),
+            LimitedBox(
+              maxHeight: 140,
+              child: ListView.builder(
+                itemCount: categories.length,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) {
+                  return GestureDetector(
+                    onTap: () => _navigateToProductByCategoryPage(
+                      context,
+                      categories,
+                      index,
+                    ),
+                    child: Container(
+                      width: 100,
+                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      // margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                              child: SizedBox(
+                            width: double.maxFinite,
+                            child: AppCachedNetworkImage(
+                              imageUrl: categories[index].imageUrl,
+                              fit: BoxFit.cover,
+                            ),
+                          )),
+                          Gap(8),
+                          Center(
+                            child: Text(
+                              categories[index].name,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextTheme.of(context).labelMedium,
+                            ),
+                          ),
+                          Gap(8),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

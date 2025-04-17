@@ -75,7 +75,7 @@ class _AddressFormPageState extends State<AddressFormPage> {
           ),
         ),
       ),
-      bottomSheet: _buildSaveButton(),
+      bottomNavigationBar: SafeArea(child: _buildSaveButton()),
     );
   }
 

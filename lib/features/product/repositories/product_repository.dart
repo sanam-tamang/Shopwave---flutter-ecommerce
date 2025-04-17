@@ -1,6 +1,7 @@
 import 'package:flutter_ecommerce/common/utils/typedef.dart';
 import 'package:flutter_ecommerce/core/exception.dart';
 import 'package:flutter_ecommerce/core/repositories/image_uploader_repository.dart';
+import 'package:flutter_ecommerce/core/repositories/user_local_data_repository.dart';
 import 'package:flutter_ecommerce/features/product/models/product.dart';
 import 'package:flutter_ecommerce/features/product/models/product_form.dart';
 import 'package:flutter_ecommerce/features/search/models/product_search_params.dart';
@@ -17,11 +18,14 @@ abstract interface class ProductRepository {
 class ProductRepositoryI implements ProductRepository {
   final SupabaseClient _client;
   final ImageUploaderRepository _imageUploaderRepository;
+  final UserLocalDataRepository _userRepository;
   ProductRepositoryI(
       {required SupabaseClient client,
-      required ImageUploaderRepository imageUploaderRepo})
+      required ImageUploaderRepository imageUploaderRepo,
+      required UserLocalDataRepository userRepository})
       : _client = client,
-        _imageUploaderRepository = imageUploaderRepo;
+        _imageUploaderRepository = imageUploaderRepo,
+        _userRepository = userRepository;
 
   @override
   FutureEither<String> addProduct(ProductForm product) async {
@@ -35,6 +39,7 @@ class ProductRepositoryI implements ProductRepository {
         'category_id': product.categoryId,
         'quantity': product.quantity,
         'discount_price': product.discountPrice,
+        'vendor_id': await _getUserId()
       });
 
       // Logger().d(response.toString());
@@ -110,5 +115,10 @@ class ProductRepositoryI implements ProductRepository {
           List.from(productsMap).map((e) => Product.fromJson(e)).toList();
       return products;
     });
+  }
+
+  Future<String> _getUserId() async {
+    final failureOrUser = await _userRepository.getData();
+    return failureOrUser.fold((failure) => throw failure, (user) => user.id);
   }
 }

@@ -79,7 +79,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
-        title: "Flutter Ecommerce",
+        title: "ShopWave",
         routerConfig: AppRoute.route,
         theme: lightTheme(context),
         // darkTheme: darkTheme(context),

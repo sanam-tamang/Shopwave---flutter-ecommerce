@@ -54,7 +54,8 @@ Future<void> init() async {
     () => CategoryRepositoryI(client: sl(), imageUploaderRepo: sl()),
   );
   sl.registerLazySingleton<ProductRepository>(
-    () => ProductRepositoryI(client: sl(), imageUploaderRepo: sl()),
+    () => ProductRepositoryI(
+        client: sl(), imageUploaderRepo: sl(), userRepository: sl()),
   );
   sl.registerLazySingleton<CartRepository>(
     () => CartRepositoryI(client: sl(), userRepo: sl()),

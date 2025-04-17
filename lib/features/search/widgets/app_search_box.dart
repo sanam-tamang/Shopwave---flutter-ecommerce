@@ -19,15 +19,21 @@ class AppSearchBoxUI extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           width: double.maxFinite,
           decoration: BoxDecoration(
-            color: ColorScheme.of(context).surfaceContainerLow,
-            borderRadius: BorderRadius.circular(12),
-          ),
+              color: ColorScheme.of(context).surfaceContainerLow,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
+                color: ColorScheme.of(context).primary,
+              )),
           child: Row(
             children: [
-              Icon(CupertinoIcons.search),
+              Icon(
+                CupertinoIcons.search,
+                color: ColorScheme.of(context).primary,
+              ),
               Gap(16),
               Text(
                 "Search",
+                style: TextStyle(color: Colors.grey),
               ),
             ],
           ),

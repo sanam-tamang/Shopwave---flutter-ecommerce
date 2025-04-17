@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_ecommerce/dependency_injection.dart';
+import 'package:flutter_ecommerce/features/address/blocs/current_shipping_address_bloc/current_shipping_address_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_ecommerce/common/widgets/app_loading.dart';
 import 'package:flutter_ecommerce/features/address/blocs/get_address_bloc/get_address_bloc.dart';
@@ -18,7 +20,17 @@ class AddressPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Address"),
       ),
-      body: BlocBuilder<GetAddressBloc, GetAddressState>(
+      body: BlocConsumer<GetAddressBloc, GetAddressState>(
+        listener: (context, state) => state.whenOrNull(
+          loaded: (addresses) {
+            if (addresses.isEmpty) {
+              sl<CurrentShippingAddressBloc>().add(
+                  CurrentShippingAddressEvent.initializeShippingAddress(
+                      addresses.first));
+            }
+            return null;
+          },
+        ),
         builder: (context, state) {
           return state.when(
             initial: () => const SizedBox(),

@@ -20,7 +20,9 @@ class ProductPrice extends StatelessWidget {
     return Flex(
       direction: direction,
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
       textBaseline: TextBaseline.alphabetic,
+      mainAxisSize: MainAxisSize.min,
       children: [
         if (product.discountPrice != null) ...[
           ProductPriceText(
@@ -41,6 +43,7 @@ class ProductPrice extends StatelessWidget {
 
   Row _buildOriginalPrice(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Text(
           'Rs.${product.price.formatPrice}',
