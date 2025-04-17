@@ -8,12 +8,16 @@ ShopWave is a feature-rich e-commerce mobile application built with Flutter and 
 
 <div style="display: flex; flex-wrap: wrap; justify-content: center;">
   <img src="screenshots/home.png" alt="Home Screen" width="200" style="margin: 10px;"/>
-  <img src="screenshots/category.png" alt="Categories" width="200" style="margin: 10px;"/>
   <img src="screenshots/search.png" alt="Search" width="200" style="margin: 10px;"/>
   <img src="screenshots/cart.png" alt="Shopping Cart" width="200" style="margin: 10px;"/>
-  <img src="screenshots/myorders.png" alt="My Orders" width="200" style="margin: 10px;"/>
-  <img src="screenshots/order_confirmed.png" alt="Order Confirmation" width="200" style="margin: 10px;"/>
   <img src="screenshots/normal_user_account.png" alt="User Account" width="200" style="margin: 10px;"/>
+  <img src="screenshots/category.png" alt="category page" width="200" style="margin: 10px;"/>
+  <img src="screenshots/detail_page.png" alt="detail page" width="200" style="margin: 10px;"/>
+  <img src="screenshots/checkout.png" alt="Checkout " width="200" style="margin: 10px;"/>
+  <img src="screenshots/order_confirmed.png" alt="Order Confirmation" width="200" style="margin: 10px;"/>
+
+  <!-- <img src="screenshots/myorders.png" alt="My Orders" width="200" style="margin: 10px;"/> -->
+  
 </div>
 
 ### Authentication
@@ -171,10 +175,6 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 3. Commit your changes (`git commit -m 'Add some amazing feature'`)
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## 📞 Contact
 
