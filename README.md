@@ -1,6 +1,6 @@
-# ShopWave - Modern E-Commerce Platform
+# ShopWave - E-Commerce Platform
 
-ShopWave is a feature-rich e-commerce mobile application built with Flutter and Supabase. It offers a seamless shopping experience with a modern UI, robust features, and a responsive design. The platform supports multiple user roles (Customer, Vendor, Admin) with role-specific functionalities.
+ShopWave is an e-commerce mobile application built with Flutter and Supabase. It offers a shopping experience with a clean UI and essential e-commerce features. The platform supports multiple user roles (Customer, Vendor, Admin) with role-specific functionalities.
 
 ## 📱 Screenshots
 
@@ -17,7 +17,7 @@ ShopWave is a feature-rich e-commerce mobile application built with Flutter and 
   <img src="screenshots/order_confirmed.png" alt="Order Confirmation" width="200" style="margin: 10px;"/>
 
   <!-- <img src="screenshots/myorders.png" alt="My Orders" width="200" style="margin: 10px;"/> -->
-  
+
 </div>
 
 ### Authentication
@@ -39,25 +39,22 @@ ShopWave is a feature-rich e-commerce mobile application built with Flutter and 
 ## ✨ Features
 
 ### For Customers
-- **User Authentication** - Secure sign-up, sign-in, and profile management
-- **Product Browsing** - Browse products by categories with smooth navigation
-- **Search Functionality** - Find products quickly with search filters
-- **Shopping Cart** - Add, remove, and manage products in your cart
-- **Order Management** - Track and manage your orders
-- **Address Management** - Save and manage multiple shipping addresses
-- **Responsive Design** - Works seamlessly on various device sizes
+- **User Authentication** - Sign-up and sign-in functionality
+- **Product Browsing** - Browse products by categories
+- **Search Functionality** - Find products by name
+- **Shopping Cart** - Add products in your cart
+- **Order Placement** - Place orders with shipping address
+- **Order History** - View past orders and their status
+- **Address Management** - Save and manage shipping addresses
 
 ### For Vendors
-- **Product Management** - Add, edit, and remove products
-- **Order Fulfillment** - View and manage orders for their products
-- **Sales Analytics** - Track sales performance
+- **Basic Product Management** - Add products with details
+- **Order Management** - View orders for their products
 
 ### For Administrators
-- **Complete Platform Management** - Oversee all aspects of the platform
-- **User Management** - Manage user accounts and roles
-- **Category Management** - Create and manage product categories
-- **Order Oversight** - Monitor and manage all orders
-- **Content Moderation** - Ensure product listings meet guidelines
+- **Category Management** - Create product categories with images
+- **Product Management** - Add products to the platform
+- **Order Oversight** - View all orders in the system
 
 ## 🛠️ Tech Stack
 
@@ -69,7 +66,7 @@ ShopWave is a feature-rich e-commerce mobile application built with Flutter and 
 - **Storage**: Supabase Storage
 - **Routing**: Go Router
 - **UI Components**: Material Design
-- **Animation**: Flutter's built-in animation system
+
 
 ## 🗄️ Database Structure
 
@@ -80,8 +77,8 @@ The application uses Supabase (PostgreSQL) as its database with the following st
 The system supports three user roles, defined in the `users` table:
 
 - **Customer** - Default role for regular users who can browse products and make purchases
-- **Vendor** - Can manage their own products and fulfill orders
-- **Admin** - Has full access to manage the platform, including categories, all products, and user management
+- **Vendor** - Can add products and view their orders
+- **Admin** - Can manage categories, products, and view all orders
 
 ### Key Tables
 
@@ -90,6 +87,9 @@ The system supports three user roles, defined in the `users` table:
 - **categories** - Stores product categories
 - **carts** - Manages shopping cart items for users
 - **orders** - Tracks order information including status and payment details
+  - Order statuses: pending, confirmed, delivered, cancelled
+  - Payment statuses: paid, unpaid, refunded
+  - Payment method: cash_on_delivery
 - **order_items** - Contains individual items within an order
 - **addresses** - Stores shipping addresses for users
 - **product_images** - Contains images associated with products
@@ -175,6 +175,20 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 3. Commit your changes (`git commit -m 'Add some amazing feature'`)
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
+
+## 📝 Features to be Added
+
+The following features still need to be implemented:
+
+- **User Profile Editing** - Allow users to edit their profile information
+- **Enhanced Product Management** - More comprehensive product editing capabilities
+- **Payment Gateway Integration** - Currently only cash on delivery is supported
+- **Order Status Management** - Allow vendors/admins to update order status
+- **User Management** - Admin functionality to manage users
+- **Product Reviews** - Allow customers to rate and review products
+- **UI Enhancements** - Improve the user interface and add animations
+- **Wishlist** - Allow users to save products for later
+- **Advanced Search** - Implement filters and sorting options
 
 ## 📞 Contact
 
