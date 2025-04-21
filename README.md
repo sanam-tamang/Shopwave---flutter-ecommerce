@@ -190,8 +190,4 @@ The following features still need to be implemented:
 - **Wishlist** - Allow users to save products for later
 - **Advanced Search** - Implement filters and sorting options
 
-## 📞 Contact
 
-Sanam Tamang
-
-Project Link: [https://github.com/sanam-tamang/flutter_ecommerce](https://github.com/sanam-tamang/flutter_ecommerce)
